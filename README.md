@@ -1,11 +1,8 @@
 
 # Introduction to programming with R
 
-This repository covers the tutorial material for a basic introduction to programming
-using the programming language R. It is used to help students without any programming
-experience to get into algorithmic thinking and provides an overview on general 
-programming elements. In the end, students will know essentials to master problems
-related to data manipulation and visualization with R.
+This repository holds an R package, which covers tutorials for a basic introduction to programming and data processing with R.
+It can be and is used both as self-study material or for tutored e-learning courses.
 
 # Requirements and local installation of tutorials
 
@@ -20,7 +17,7 @@ In order to run the tutorials you need to
 Installing both the required packages as well as our tutorial package from 
 github can be done using the following code.
 
-```{R}
+```R
 # install dependencies
 install.packages( c("devtools","learnr","tidyverse") )
 # load packages
@@ -34,7 +31,7 @@ devtools::install_github("Dr-Eberle-Zentrum/Introduction-to-programming-with-R")
 
 Before running the tutorials, you have to load the required packages.
 
-```{R}
+```R
 library(learnr) # to run the tutorials
 library(deztutr) # our package that contains the tutorials
 library(tidyverse) # the topic the tutorials are about
@@ -42,13 +39,15 @@ library(tidyverse) # the topic the tutorials are about
 
 Afterwards, you can list the available tutorials via 
 
-```{R}
+```R
 available_tutorials("deztutr")
 ```
 
 or run a specific tutorial using
 
-```{R}
+```R
 learnr::run_tutorial("algo", package = "deztutr")
 ```
 
+Since the tutorial is started within your web browser, you might have to stop the R session when you are done with studying the tutorial. 
+This can be done either using the red (STOP)-button in the RStudio "Console" (upper right corner) or via the menu "Session" > "Interrupt R".
