@@ -3,6 +3,7 @@ title: "Algorithmic thinking"
 tutorial:
   id: "de.uni-tuebingen.dezfdk.tutorials.r-algorithmic-thinking"
   version: 1.0
+  author: Martin Raden
 output: 
   learnr::tutorial:
     progressive: true
@@ -12,6 +13,7 @@ output:
     includes:
       in_header: "../dez-style.html"
       before_body: "../logo-header.html"
+      after_body: "../footer.html"
 runtime: shiny_prerendered
 ---
   
