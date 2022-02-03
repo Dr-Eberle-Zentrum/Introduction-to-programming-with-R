@@ -5,12 +5,12 @@ tutorial:
   version: 1.0
 output: 
   learnr::tutorial:
-    progressive: false
+    progressive: true
     allow_skip: true
     theme: "sandstone"
     language: "en"
     includes:
-      in_header: header.html
+      in_header: ../header.html
 runtime: shiny_prerendered
 ---
   
@@ -18,7 +18,7 @@ runtime: shiny_prerendered
 library(learnr)
 ```
 
-## Algorithmic thinking 
+## Mindset
 
 Before we start to get deeper into any programming or data processing, we first have to train our mind set
 
