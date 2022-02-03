@@ -1,9 +1,16 @@
 ---
-title: "Hello, Tutorial!"
+title: "Algorithmic thinking"
 tutorial:
   id: "de.uni-tuebingen.dezfdk.tutorials.r-algorithmic-thinking"
   version: 1.0
-output: learnr::tutorial
+output: 
+  learnr::tutorial:
+    progressive: false
+    allow_skip: true
+    theme: "sandstone"
+    language: "en"
+    includes:
+      in_header: header.html
 runtime: shiny_prerendered
 ---
   
@@ -11,9 +18,17 @@ runtime: shiny_prerendered
 library(learnr)
 ```
 
-This code computes the answer to one plus one,
-change it so it computes two plus two:
-  
-```{r addition, exercise=TRUE}
-1 + 1
-```
+## Algorithmic thinking 
+
+Before we start to get deeper into any programming or data processing, we first have to train our mind set
+
+### Summary
+
+bla bla
+
+### Videos
+
+![](https://youtu.be/_TWsmF8l418)
+
+## Test next section
+
