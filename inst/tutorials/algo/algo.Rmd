@@ -10,7 +10,7 @@ output:
     theme: "sandstone"
     language: "en"
     includes:
-      in_header: ../header.html
+      before_body: ../logo-header.html
 runtime: shiny_prerendered
 ---
   
