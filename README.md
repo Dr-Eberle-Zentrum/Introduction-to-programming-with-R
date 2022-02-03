@@ -1,14 +1,5 @@
 Shield: [![CC BY-SA 4.0][cc-by-sa-shield]][cc-by-sa]
 
-This work is licensed under a
-[Creative Commons Attribution-ShareAlike 4.0 International License][cc-by-sa].
-
-[![CC BY-SA 4.0][cc-by-sa-image]][cc-by-sa]
-
-[cc-by-sa]: http://creativecommons.org/licenses/by-sa/4.0/
-[cc-by-sa-image]: https://licensebuttons.net/l/by-sa/4.0/88x31.png
-[cc-by-sa-shield]: https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg
-
 # Introduction to programming with R
 
 This repository holds an R package, which covers tutorials for a basic introduction to programming and data processing with R.
@@ -61,3 +52,16 @@ learnr::run_tutorial("algo", package = "deztutr")
 
 Since the tutorial is started within your web browser, you might have to stop the R session when you are done with studying the tutorial. 
 This can be done either using the red (STOP)-button in the RStudio "Console" (upper right corner) or via the menu "Session" > "Interrupt R".
+
+# License
+
+This work is licensed under a
+[Creative Commons Attribution-ShareAlike 4.0 International License][cc-by-sa].
+
+[![CC BY-SA 4.0][cc-by-sa-image]][cc-by-sa]
+
+[cc-by-sa]: http://creativecommons.org/licenses/by-sa/4.0/
+[cc-by-sa-image]: https://licensebuttons.net/l/by-sa/4.0/88x31.png
+[cc-by-sa-shield]: https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg
+
+You are more than welcome to contribute and extend!
