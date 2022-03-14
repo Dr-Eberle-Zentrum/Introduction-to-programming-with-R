@@ -14,19 +14,22 @@ In order to run the tutorials you need to
   - `devtools` - for local tutorial installation of our package from github
   - `learnr` - to run the tutorials
   - `tidyverse` - for the packages the tutorials are about
+  - e.g. using `install.packages( c("devtools","learnr","tidyverse") )`
   
-Installing both the required packages as well as our tutorial package from 
-github can be done using the following code.
+Afterwards, you can **install or update** our tutorial package from 
+github via the following code.
 
 ```R
-# install dependencies
-install.packages( c("devtools","learnr","tidyverse") )
 # load packages
 library(devtools)
 library(learnr)
 # install package from source
 devtools::install_github("Dr-Eberle-Zentrum/Introduction-to-programming-with-R")
 ```
+
+Using `packageVersion("deztutr")`, you can check the installed version, which is in YEAR-MONTH-DAY format. The recent version is listed in the [DESCRIPTION](DESCRIPTION) file.
+
+
 
 # Running the tutorials
 
