@@ -6,9 +6,10 @@ tutorial:
   author: Martin Raden
 output: 
   learnr::tutorial:
-    progressive: true
+    progressive: false
     allow_skip: true
     theme: "sandstone"
+    highlight: haddock
     language: "en"
     includes:
       in_header: "../dez-style.html"
@@ -21,17 +22,44 @@ runtime: shiny_prerendered
 library(learnr)
 ```
 
-## Mindset
+```{css echo=FALSE}
+```
 
-Before we start to get deeper into any programming or data processing, we first have to train our mind set
+```{js print2pdf1, context="server", echo=FALSE}
+// the following 2 chunks print the completed sections of the tutorial to PDF
+// uses "css/print2pdf.css"
+$(document).on('shiny:inputchanged', function(event) {
+  if (event.name === 'print2pdf') {
+    window.print();
+  }
+});
+```
 
-### Summary
+## How to start?
 
-bla bla
+Most of the major initial questions of programming novices are *Where do I start? How to begin? How to tackle the problem?*
 
-### Videos
+Thus, before we start to get deeper into any programming or data processing, we first have to train our mind set for *algorithmic problem solving*. This is also known as *algorithmic* or *computational thinking*, which is briefly introduced in the following [video](https://youtu.be/_TWsmF8l418).
 
 ![](https://youtu.be/_TWsmF8l418)
 
-## Test next section
 
+https://therenegadecoder.com/code/algorithmic-thinking-for-python-beginners/
+
+## General remarks
+
+When given a task to be solved via programming, the following general remarks might be helpful!
+
+- FIRST, make A PLAN! That is, you have to make written notes to identify individual MAJOR steps/parts. 
+- Once you have the first plan: RESTART DECOMPOSITION, i.e. revise your steps whether they can be SPLIT INTO DETAILED steps. 
+
+## Print
+
+You can print (e.g. to PDF file) your current processing state of this tutorial, i.e. all the already visited topics, using the button from below.
+
+```{r print2pdf2, echo=FALSE}
+# button can be placed anywhere in the tutorial
+actionButton("print2pdf", "Print processed tutorial parts", style="opacity: .7; color: #000;")
+```
+
+To this end, you have to open the tutorial within a standard web browser like Firefox, Chrome, Safari, Edge, ... When you are running the tutorial within RStudio, you can use the `Open in Browser` button in the upper left corner of the window that shows the tutorial.

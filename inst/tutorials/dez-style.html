@@ -23,13 +23,45 @@
 }
 
 #foot-section {
-    position:absolute;
-    bottom: 0;
+/*    position:absolute;
+    bottom: 0;*/
     width: 100%;
     background-color: white;
     color: gray;
     min-height: 32px;
     text-align: center;
+}
+
+
+@media print {
+  .topicsContainer,
+  .topicActions,
+  .logo-link,
+  .exerciseActions .skip {
+    display: none;
+  }
+  #foot-section {
+    position:static;
+  }
+  .topics .tutorialTitle,
+  .topics .section.level2,
+  .topics .section.level3:not(.hide) {
+    display: block;
+  }
+  .topics {
+    width: 100%;
+  }
+  .tutorial-exercise, .tutorial-question {
+    page-break-inside: avoid;
+  }
+  .section.level3.done h3 {
+    padding-left: 0;
+    background-image: none;
+  }
+  .topics .showSkip .exerciseActions::before {
+    content: "Topic not yet completed...";
+    font-style: italic;
+  }
 }
 
 </style>
