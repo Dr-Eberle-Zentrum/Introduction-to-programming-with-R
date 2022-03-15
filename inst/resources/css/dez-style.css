@@ -38,10 +38,6 @@
     margin: 20px auto;
 }
 
-.topics {
-  padding-bottom: 0;
-}
-
 
 @media print {
   .topicsContainer,
@@ -59,7 +55,6 @@
   .topics {
     width: 100%;
     margin: 0;
-    padding: 0;
     min-width: 100%;
   }
   .tutorial-exercise, .tutorial-question {
