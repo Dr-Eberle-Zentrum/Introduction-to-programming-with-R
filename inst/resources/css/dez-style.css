@@ -22,10 +22,11 @@
 
 #printing-info {
   font-size: 80%;
-  max-width: 1200px;
+  max-width: 1000px;
   text-align: justify;
   width: 75%;
   margin: 0 auto;
+  padding-bottom: 30px;
 }
 
 #foot-section {
@@ -49,7 +50,8 @@
   .topicsContainer,
   .topicActions,
   .logo-link,
-  .exerciseActions .skip {
+  .exerciseActions .skip,
+  #printing-info {
     display: none;
   }
   #foot-section {
