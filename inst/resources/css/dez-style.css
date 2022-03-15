@@ -30,15 +30,12 @@
 }
 
 #foot-section {
-/*
-    position:absolute;
-    bottom: 0;
-*/
     width: 100%;
     background-color: white;
     color: gray;
     min-height: 32px;
     text-align: center;
+    margin: 20px auto;
 }
 
 .topics {
@@ -53,9 +50,6 @@
   .exerciseActions .skip,
   #printing-info {
     display: none;
-  }
-  #foot-section {
-    position:static;
   }
   .topics .tutorialTitle,
   .topics .section.level2,
