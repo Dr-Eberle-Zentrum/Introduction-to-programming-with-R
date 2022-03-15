@@ -20,11 +20,12 @@
   font-size:2em;
 }
 
-#printing-info, #printing-info h3 {
+#printing-info {
   font-size: 80%;
   max-width: 1200px;
   text-align: justify;
   width: 75%;
+  margin: 0 auto;
 }
 
 #foot-section {
