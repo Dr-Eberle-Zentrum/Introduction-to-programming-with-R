@@ -13,8 +13,8 @@ output:
     language: "en"
     css: "css/dez-style.css"
     includes:
-      before_body: "../resources/logo-header.html"
-      after_body: "../resources/footer.html"
+      before_body: "../../resources/logo-header.html"
+      after_body: "../../resources/footer.html"
 runtime: shiny_prerendered
 ---
   
@@ -28,8 +28,6 @@ shiny::addResourcePath("css",
                        package = "deztutr"))
 ```
 
-```{css echo=FALSE}
-```
 
 ## Table data everywhere
 

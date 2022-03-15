@@ -11,18 +11,23 @@ output:
     theme: "sandstone"
     highlight: haddock
     language: "en"
+    css: "css/dez-style.css"
     includes:
-      before_body: "../logo-header.html"
-      after_body: "../footer.html"
+      before_body: "../../resources/logo-header.html"
+      after_body: "../../resources/footer.html"
 runtime: shiny_prerendered
 ---
   
 ```{r setup, include=FALSE}
 library(learnr)
+# disable warnings
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+# Link to static resources in Shiny's web server
+shiny::addResourcePath("css",
+                       system.file("resources","css",
+                       package = "deztutr"))
 ```
 
-```{css echo=FALSE}
-```
 
 ## How to start?
 
