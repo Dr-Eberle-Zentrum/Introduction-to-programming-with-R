@@ -93,7 +93,7 @@ A typical data processing workflow, which we will learn within this course, is t
 This is exemplified in the following.
 You don't have to understand the details right now, just see the general structure and major workflow steps.
 
-```{r}
+```{r example-workflow}
 # load needed packages
 library(tidyverse)
 
