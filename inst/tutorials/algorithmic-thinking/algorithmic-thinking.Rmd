@@ -12,7 +12,6 @@ output:
     highlight: haddock
     language: "en"
     includes:
-      in_header: "../dez-style.html"
       before_body: "../logo-header.html"
       after_body: "../footer.html"
 runtime: shiny_prerendered
@@ -23,16 +22,6 @@ library(learnr)
 ```
 
 ```{css echo=FALSE}
-```
-
-```{js print2pdf1, context="server", echo=FALSE}
-// the following 2 chunks print the completed sections of the tutorial to PDF
-// uses "css/print2pdf.css"
-$(document).on('shiny:inputchanged', function(event) {
-  if (event.name === 'print2pdf') {
-    window.print();
-  }
-});
 ```
 
 ## How to start?
@@ -53,13 +42,3 @@ When given a task to be solved via programming, the following general remarks mi
 - FIRST, make A PLAN! That is, you have to make written notes to identify individual MAJOR steps/parts. 
 - Once you have the first plan: RESTART DECOMPOSITION, i.e. revise your steps whether they can be SPLIT INTO DETAILED steps. 
 
-## Print
-
-You can print (e.g. to PDF file) your current processing state of this tutorial, i.e. all the already visited topics, using the button from below.
-
-```{r print2pdf2, echo=FALSE}
-# button can be placed anywhere in the tutorial
-actionButton("print2pdf", "Print processed tutorial parts", style="opacity: .7; color: #000;")
-```
-
-To this end, you have to open the tutorial within a standard web browser like Firefox, Chrome, Safari, Edge, ... When you are running the tutorial within RStudio, you can use the `Open in Browser` button in the upper left corner of the window that shows the tutorial.

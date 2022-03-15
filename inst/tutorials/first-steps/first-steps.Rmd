@@ -2,19 +2,19 @@
 title: "First steps"
 tutorial:
   id: "de.uni-tuebingen.dezfdk.tutorials.r-first-steps"
-  version: 1.0
+  version: 2022.03.15
   author: Martin Raden
 output: 
   learnr::tutorial:
-    progressive: false
+    progressive: true
     allow_skip: true
     theme: "sandstone"
-    highlight: haddock
+    highlight: "haddock"
     language: "en"
+    css: "css/dez-style.css"
     includes:
-      in_header: "../dez-style.html"
-      before_body: "../logo-header.html"
-      after_body: "../footer.html"
+      before_body: "../resources/logo-header.html"
+      after_body: "../resources/footer.html"
 runtime: shiny_prerendered
 ---
   
@@ -22,19 +22,13 @@ runtime: shiny_prerendered
 library(learnr)
 # disable warnings
 knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+# Link to static resources in Shiny's web server
+shiny::addResourcePath("css",
+                       system.file("resources","css",
+                       package = "deztutr"))
 ```
 
 ```{css echo=FALSE}
-```
-
-```{js print2pdf1, context="server", echo=FALSE}
-// the following 2 chunks print the completed sections of the tutorial to PDF
-// uses "css/print2pdf.css"
-$(document).on('shiny:inputchanged', function(event) {
-  if (event.name === 'print2pdf') {
-    window.print();
-  }
-});
 ```
 
 ## Table data everywhere
@@ -46,7 +40,13 @@ An example of a tabular data set is given below.
 
 ![](images/data.frame.example.png){width=20%}
 
-It is important to know the R requires data to be organized such that
+In R, you can store such data sets in containers called
+- `data.frame` (the basic representation)
+- `tibble` (the tidyverse extension)
+- `data.table` (another variant for laaaarge data sets)
+which will be discussed in detail within the course.
+
+It is important to know that R and the above mentioned data structures require data to be organized such that
 
 - **each row** represents a **single observation**, i.e. **one "data unit"** (here a description of a single character) and
 - **each column** describes a single feature/characteristic/attribute/measurement/**variable** of each observation.
@@ -55,9 +55,31 @@ Thus, it follows:
 
 - all columns have the **same length** (one entry per observation = row)
 - all columns represent the same **type** of data (e.g. the "size" column from above contains only numbers)
-- different columns can represent different type of data (e.g. "name" vs. "size")
+- **different columns** can represent **different type** of data (e.g. "name" vs. "size")
 
 Before we can start with any data processing, we therefore have to ensure that the data is formatted correctly.
+
+```{r q-excel-sheet-vs-matrix, echo=FALSE}
+question("What representation is closest to a well formatted tabular data set described above?",
+  answer("a mathematical matrix", message="Since made of numbers only, better use a dedicated data structure suited for mathematical operations."),
+  answer("an MS Excel sheet", correct =T ),
+  answer("an MS Word document", message="This covers more than the data table."),
+  answer("an HTML webpage table", message="While possible, an html table poses not all constraints from above.")
+)
+```
+
+
+```{r q-data-formats, echo=FALSE}
+question("What file formats do you know that you think suited to store such data?",
+  answer("CSV = comma-separated values", correct = T, message="CSV: Well suited and compact format. Separator can also be a semicolon etc."),
+  answer("XLSX = XML-based Excel sheet", correct =T, message="XLSX: Typically good for final data to show your supervisor but not as an intermediate data storage."),
+  answer("DOC = an MS Word document", message = "DOC: This is made for formatted text."),
+  answer("HTML = an HTML webpage", message = "HTML: Better suited for any kind of information but not best for tabular data."),
+  answer("TSV = tab-separated values", correct = T, message="TSV: Same as CSV."),
+  answer("PDF = portable document format", message="PDF: This is for final presentation/printing, not data storage."),
+  answer("TXT = plain text file", message="TXT: Without formatting rules it will be hard to read the data again.")
+)
+```
 
 
 ## Data processing workflow
@@ -67,7 +89,7 @@ A typical data processing workflow, which we will learn within this course, is t
 
 1. loading data (e.g from file or creating it via some computation)
 2. reformatting data (into a correct format, see above)
-3. processing the data (using magic verbs like 'filter', 'mutate', 'arrange', ...)
+3. processing the data (using magic verbs like `filter`, `mutate`, `arrange`, ...)
 4. storing data to file (or visualize it as an image).
 
 This is exemplified in the following.
@@ -81,14 +103,14 @@ library(tidyverse)
 rawData <- data.frame(
             name = c("Mickey", "Fritz", "Ashley", "Clark", "Faust"),
             size = c( 56, 182, 167, 192, 173),
-            real = c( T, F, F, T, T )
+            real = c( F, T, T, F, F )
           )
 # let's print it for inspection
 print(rawData)
 
-# (2) no reformatting needed, already in correct table format
+# (2) no reformatting needed, "rawData" already in correct table format
 
-# (3) add another "character" colum based on "real"
+# (3) add another "character" colum based on "real" column
 # and store in a new variable
 myData <- mutate( rawData, character = ifelse(real, "real", "fictional") )
 
@@ -101,16 +123,23 @@ ggplot( myData, aes(x = name, y = size, col = character ) ) + # '+' adds the nex
 
 ```
 
+Within the course, we will learn how to plan and do each of the four steps from above for different data sets and problems.
 
 
-
-## Print
-
-You can print (e.g. to PDF file) your current processing state of this tutorial, i.e. all the already visited topics, using the button from below.
-
-```{r print2pdf2, echo=FALSE}
-# button can be placed anywhere in the tutorial
-actionButton("print2pdf", "Print processed tutorial parts", style="opacity: .7; color: #000;")
+```{r q-ready-to-continue, echo=FALSE}
+question("Are you ready to continue?",
+  answer("Huuhh... looks all so weird!", message="Don't panic! All will be good! ;)"),
+  answer("Yeah, let's rock!", correct =T)
+)
 ```
 
-To this end, you have to open the tutorial within a standard web browser like Firefox, Chrome, Safari, Edge, ... When you are running the tutorial within RStudio, you can use the `Open in Browser` button in the upper left corner of the window that shows the tutorial.
+
+
+## Wrap up
+
+But before we continue, think about the following questions, which can be answered with the current material.
+
+- What is represented by a row in a well formatted data table? How is it called?
+- What are constraints on a well formatted table column concerning data types and length? How is it called?
+
+
