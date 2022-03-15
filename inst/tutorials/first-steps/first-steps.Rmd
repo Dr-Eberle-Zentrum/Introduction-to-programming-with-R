@@ -5,11 +5,10 @@ tutorial:
   version: 2022.03.15
   author: Martin Raden
 output: 
-  learnr::tutorial:
+  learnr::tutorial :
     progressive: true
     allow_skip: true
     theme: "sandstone"
-    highlight: "haddock"
     language: "en"
     css: "css/dez-style.css"
     includes:
@@ -133,7 +132,7 @@ question("Are you ready to continue?",
 
 
 
-## Wrap up
+## Wrap-up
 
 But before we continue, think about the following questions, which can be answered with the current material.
 

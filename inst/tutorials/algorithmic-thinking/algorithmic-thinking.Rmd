@@ -9,7 +9,6 @@ output:
     progressive: false
     allow_skip: true
     theme: "sandstone"
-    highlight: haddock
     language: "en"
     css: "css/dez-style.css"
     includes:
