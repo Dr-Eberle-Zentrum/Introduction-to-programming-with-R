@@ -36,7 +36,7 @@ Using `packageVersion("deztutr")`, you can check the installed version, which is
 Before running the tutorials, you have to load the required packages.
 
 ```R
-library(learnr) # to run the tutorials
+library(learnr) # needed to run the tutorials
 library(deztutr) # our package that contains the tutorials
 library(tidyverse) # the topic the tutorials are about
 ```
@@ -50,7 +50,7 @@ available_tutorials("deztutr")
 or run a specific tutorial using
 
 ```R
-learnr::run_tutorial("algo", package = "deztutr")
+learnr::run_tutorial("first-steps", package = "deztutr")
 ```
 
 Since the tutorial is started within your web browser, you might have to stop the R session when you are done with studying the tutorial. 

@@ -1,0 +1,400 @@
+---
+title: "First ggplot"
+tutorial:
+  id: "de.uni-tuebingen.dezfdk.tutorials.r-first-ggplot"
+  version: 2022.03.16
+  author: Martin Raden
+output:
+  learnr::tutorial :
+    progressive: true
+    allow_skip: true
+    theme: "sandstone"
+    language: "en"
+    css: "css/dez-style.css"
+    includes:
+      before_body: "../../resources/logo-header.html"
+      after_body: "../../resources/footer.html"
+runtime: shiny_prerendered
+---
+  
+```{r setup, include=FALSE}
+library(learnr)
+# disable warnings
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+# Link to static resources in Shiny's web server
+shiny::addResourcePath("css",
+                       system.file("resources","css",
+                       package = "deztutr"))
+```
+
+
+## Some data first
+
+Within this tutorial, we want to do some first data visualization using the `ggplot2` package.
+But before we can visualize, we need some data and need to know its structure and content.
+
+To this end, we will have a look at the `mpg` data set that is directly available in R once the `ggplot2` package is installed and loaded.
+
+### Help pages in R
+
+When you want to use something new in R, i.e. a data set, a function, whatever, it is a good idea to start looking into its documentation!
+RStudio comes with a dedicated view pane "Help" for that, within you can search or browse information.
+The following video (*Get Help in R - Get Help Strategically | R-Tutorials.com* [18 min]) gives you a first introduction how to use it and how to get help in and for R.
+
+![Get Help in R - Get Help Strategically | R-Tutorials.com [18 min]](https://youtu.be/vySGuusQI3Y){width="50%"}
+
+Given the video, search for an open the vignette "Aesthetic specifications" from the `ggplot2` package within RStudio.
+To this end:
+
+- Open the "Packages" view
+- Select the "ggplot2" package
+- Follow the link to the vignettes
+- Open and (briefly) browse the "Aesthetic specifications" vignette
+
+
+### The `mpg` data set
+
+As introduced in the video, help content can also be opened from the command line, either by
+
+- using `help(WHATEVER)` or
+- using the shortcut `?WHATEVER`, i.e. the `?`-prefix.
+
+Let's try! Open within the following interactive R terminal the help page for `ggplot2::mpg`, i.e. the `mpg` data set that is part of the `ggplot2` package.
+
+```{r help-mpg, exercise=TRUE}
+# Write the command to open the help page for the ggplot2::mpg data set
+# and hit the "Run Code" button in the upper right.
+
+
+
+```
+
+```{r help-mpg-solution}
+# using the shortcut and specifying both package (ggplot2) and data set (mpg)
+# the double-colon notation says "mpg belongs to the ggplot2 package"
+?ggplot2::mpg
+
+# or doing it explicitely with the help function
+help(topic="mpg", package=ggplot2)
+
+# if you loaded the ggplot library already, you can directly ask for the data set
+library(ggplot2)
+?mpg       # using the shortcut
+help(mpg)  # using the help function explicitely
+```
+
+When all went fine, this should open an new browser window that displays the data set's help page.
+
+Have a closer look and answer the following question.
+
+```{r mpg-help-, echo=FALSE}
+question("How many observations does the `mpg` data set cover?",
+  answer("11", message="No, that's the number of variables, i.e. columns."),
+  answer("42", message="No, this is the 'ultimate answer' it doesn't fit here."),
+  answer("243", correct=T)
+)
+```
+
+
+### Glimpse the data
+
+To have a first look at the data, we can use the `head()` function, which provides us with the first rows of a the table.
+So the output of `head(mpg)` looks like this:
+
+
+```{r mpg-head-out, echo=FALSE}
+library(ggplot2)
+head(mpg)
+```
+
+But why is the code below not working? 
+Try to correct it!
+
+
+```{r prepare-mpg-head, echo=F}
+detach("package:ggplot2", unload = T)
+```
+
+```{r mpg-head, exercise=TRUE}
+head(mpg)
+```
+
+
+```{r mpg-head-hint-1}
+# You need to remember the discussion of "classic problems" when using packages from one of the previous tutorials.
+```
+
+```{r mpg-head-hint-2}
+# Is the `mpg` data set is part of the `ggplot2` library... Did you tell R about it?
+```
+
+```{r mpg-head-solution}
+# The mpg data set is part of the ggplot2 library.
+# Thus, we first have to LOAD THE LIBRARY before we can use the data!
+
+library(ggplot2)
+
+# Afterwards, the initial command is working!
+head(mpg)
+
+```
+
+
+Another way to inspect (tabular) data is via the `glimpse()` function, which is part of the `dplyr` package for data manipulation. In contrast to `head()` is provides a 'variable-centered' view of the data, i.e. one output row per variable column, as shown below:
+
+```{r glimpse-mpg}
+library(dplyr)
+library(ggplot2)
+glimpse(mpg)
+```
+
+This shows 
+
+- the dimensions of the table (rows and columns)
+- for each variable column
+  - name
+  - data type
+  - the first elements up to a limited output line width
+
+
+
+## Let's visualize!
+
+In the following, you will study the first parts of the [Data visualisation](https://r4ds.had.co.nz/data-visualisation.html) chapter of the [R for Data Science](https://r4ds.had.co.nz/index.html) online tutorial of the book by Hadley Wickham and Garret Grolemund.
+
+Since the online book tutorial is not interactive, you are encouraged to use the following interactive R consoles to
+
+- repeat and follow the code examples of the tutorial
+- solve the exercises of the tutorial (which we recreated below)
+
+So let's start! 
+
+In the following, we link (via the following section captions) the specific chapters and provide respective interactive consoles and additional information for each.
+
+### [3.1 Introduction](https://r4ds.had.co.nz/data-visualisation.html#introduction-1)
+
+**NOTE:** Within the rest of this tutorial, the **packages** from the `tidyverse`, i.e. `ggplot2`, `dplyr`, etc., are **already preloaded**, such that you can **directly use their functions and data** within the following consoles.
+
+### [3.2 First steps](https://r4ds.had.co.nz/data-visualisation.html#first-steps)
+
+
+```{r hadley-first-steps, exercise=TRUE}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy))
+```
+
+
+
+Run ggplot(data = mpg). What do you see?
+
+```{r hadley-first-steps-e, exercise=TRUE}
+ggplot(data = mpg)
+```
+
+```{r hadley-first-steps-e-solution}
+# prints only an empty canvas since we did not specify what geometry we are interested in!
+```
+
+Make a scatterplot of `hwy` vs `cyl`.
+
+```{r hadley-first-steps-ee, exercise=TRUE}
+
+```
+
+```{r hadley-first-steps-ee-solution}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = hwy, y = cyl))
+```
+
+What happens if you make a scatterplot of `class` vs `drv`? Why is the plot not useful?
+
+```{r hadley-first-steps-eee, exercise=TRUE}
+
+```
+
+```{r hadley-first-steps-eee-solution}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = class, y = drv))
+
+# Since "drv" is a categoric variable, multiple points are drawn on top of each other.
+# Thus, the number of data points per spot etc. cannot be inferred from this plot,
+# which renders it useless.
+```
+
+
+
+
+
+### [3.3 Aesthetic mappings](https://r4ds.had.co.nz/data-visualisation.html#aesthetic-mappings)
+
+Coloring by `class`.
+
+```{r hadley-aes-map, exercise=TRUE}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class))
+
+# - alter the code from above to connect the point size aesthetic to 'class'
+# - same for shape or alpha-level of points
+# - set a color for all points (not dependent on any variable)
+```
+
+```{r hadley-aes-map-solution}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, class = class))
+```
+
+
+
+
+What’s gone wrong with this code? Why are the points not blue?
+
+```{r hadley-aes-map-e, exercise=TRUE}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+```
+
+```{r hadley-aes-map-e-solution}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
+
+# The general color specification has to be done OUTSIDE of the 'mapping' via the 'aes()' function.
+# Both are used to map variables (columns) of the input data (here the 'mpg' table) onto aesthetics.
+# Since we want to color independently of variables (all points the same), the color specification 
+# has to be done separately.
+```
+
+
+Which variables in `mpg` are categorical? Which variables are continuous? (Hint: check the data types of the variables via `glimpse(mpg)`.)
+
+
+```{r hadley-aes-map-ee, exercise=TRUE}
+glimpse(mpg)
+```
+
+```{r hadley-aes-map-ee-solution}
+# all variables of type <chr>, i.e. 'character' = text variables, are categorical.
+# <int> (integer) and <dbl> (double floating point) are numeric and thus continuous.
+```
+
+Map a continuous variable to `color`, `size`, and `shape`. How do these aesthetics behave differently for categorical vs. continuous variables?
+
+
+```{r hadley-aes-map-eee, exercise=TRUE}
+# extend the following call
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy ))
+```
+
+```{r hadley-aes-map-eee-solution}
+# trying this with categorical variables
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, col = model, shape= manufacturer, size= trans))
+# shows that 
+# - distinct colors are used for each category (color palette defines how well they can be distinguished)
+# - only up to 6 shapes are supported (only first 6 categories get a data point symbol)
+# - size uses lexicographical order of the categories to define the point sizes
+
+# trying this with continuous (numeric) variables
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, col = year, size= cty))
+# shows that
+# - color uses a continuous color scale (default using blue to black)
+# - shape can ONLY be used with categorical variables (so remove to see result)
+# - size scales point sizes linearly in the value range of the variable (from min to max value)
+```
+
+
+What happens if you map the same variable to multiple aesthetics?
+
+
+```{r hadley-aes-map-eeee, exercise=TRUE}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = displ, col = displ, size=displ))
+```
+
+```{r hadley-aes-map-eeee-solution}
+# works without problems
+# - result depends on whether it is a categorical or continuous variable
+```
+
+
+
+What happens if you map an aesthetic to something other than a variable name, like `aes(colour = displ < 5)`?
+
+```{r hadley-aes-map-eeeee, exercise=TRUE}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, colour = displ < 5))
+```
+
+```{r hadley-aes-map-eeeee-solution}
+# the expression/formula/function (here "displ < 5") gets evaluated
+# here the result will be a boolean information for each point whether it is below 5 (TRUE) or not (FALSE)
+# the information is subsequently used as values for the specified aesthetic (see legend in the image)
+```
+
+
+### [3.4 Common problems](https://r4ds.had.co.nz/data-visualisation.html#common-problems)
+
+Get the following code working, i.e. drawing a scatterplot.
+
+```{r hadley-com-prob, exercise=TRUE}
+ggplot(data = mpg) 
++ geom_point(mapping = aes(x = displ, y = hwy))
+```
+
+```{r hadley-com-prob-solution}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy))
+
+# (at least) the "+" symbol has to be in the same line as the closing bracket of the "ggplot()" part
+
+```
+
+**WHY?** R continues to combine **lines into one "block of work"** until it assumes the block at an end.
+Empty lines inbetween are ignored.
+
+R keeps **adding lines while** at the end of a line it finds
+
+- **arithmetic or processing symbols** like `+`, `-`, `==`, `%>%`, ...
+```{r r-readalong-arithmetic, eval=FALSE}
+3 +
+  4
+```
+
+- **missing closing brackets**
+```{r r-readalong-bracket, eval=FALSE}
+help( 
+  mpg
+      )
+```
+
+- **assignment symbols** "<-" (or "=" for parameters within "()" brackets)
+
+```{r r-readalong-assignment, eval=FALSE}
+myVariable <-
+  4
+```
+
+
+That way, you can spread complex function call over multiple lines to enhance readability.
+
+```{r r-multiline, eval=FALSE}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(
+    x = displ, 
+    y = hwy, 
+    color = class
+  ))
+```
+
+## Wrap-up
+
+But before we continue, think about the following questions, which can be answered with the current material.
+
+- How do you get help for a function within R?
+- What function(s) can you use to have a first look at (large) data tables?
+- What is the central difference when using categorical vs continuous variables for aesthetics like `color`?
+- What do we get when we call `ggplot()` without any geometry function and why?
+- Can we distribute a single command over multiple consecutive lines? What do we have to have in mind?
+
+
