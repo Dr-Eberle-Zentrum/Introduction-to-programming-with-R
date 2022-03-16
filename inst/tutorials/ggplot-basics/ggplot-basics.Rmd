@@ -65,8 +65,6 @@ Let's try! Open within the following interactive R terminal the help page for `g
 # Write the command to open the help page for the ggplot2::mpg data set
 # and hit the "Run Code" button in the upper right.
 
-
-
 ```
 
 ```{r help-mpg-solution}
@@ -387,14 +385,189 @@ ggplot(data = mpg) +
   ))
 ```
 
+
+### [3.6 Geometric objects](https://r4ds.had.co.nz/data-visualisation.html#geometric-objects)
+
+```{r hadley-geom-first-vis}
+# left
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy))
+
+# right
+ggplot(data = mpg) + 
+  geom_smooth(mapping = aes(x = displ, y = hwy))
+```
+
+Within the following console you can start playing and repeating the examples via Copy-and-Paste or your own ideas.
+
+```{r hadley-geom-add-color, exercise=TRUE}
+ggplot(data = mpg) + 
+  geom_smooth(mapping = aes(x = displ, y = hwy, linetype = drv))
+```
+
+Given the following code:
+```{r shared-mapping-code, eval=F}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point(mapping = aes(color = class)) + 
+  geom_smooth()
+```
+
+```{r q-shared-mapping, echo=FALSE}
+question("Why don't we have to provide an aesthetics mapping for `geom_smooth()` in the code from above?",
+  answer("No idea...", message="Mhh.. better recheck the tutorial, it's all in there! ;)"),
+  answer("The mapping within 'ggplot()' is shared among all geometries", correct =T, message="Note, this means that the mapping can be extended or even overwritten within individual geometries (as it is done within 'geom_point()' within the example)."),
+  answer("The mapping is taken/inherited from the geometry preceeding it and so on", message="No, this would accumulate aesthetics, which might cause conflicts, and some aesthetics are only applicable to specific geometries. Please reread the material!")
+)
+```
+
+
+What geom (just find the function name) would you use to draw... 
+
+```{r hadley-geom-geom-name, exercise=TRUE}
+# ... a line chart? 
+# ... a boxplot? 
+# ... a histogram? 
+# ... an area chart?
+```
+
+
+```{r hadley-geom-geom-name-hint}
+# check out the ggplot2 cheatsheet at https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-visualization.pdf
+```
+
+```{r hadley-geom-geom-name-solution}
+# eventually quite obvious:
+# ... a line chart  = geom_line()
+# ... a boxplot     = geom_boxplot()
+# ... a histogram   = geom_histogram()
+# ... an area chart = geom_area()
+
+# the ggplot2 cheat sheet lists respective aesthetics for each geometry
+# https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-visualization.pdf
+```
+
+
+Run this code in your head and predict what the output will look like. Then, run the code in R and check your predictions.
+
+```{r hadley-geom-e, exercise=TRUE}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
+  geom_point() + 
+  geom_smooth(se = FALSE)
+```
+
+What does `show.legend = FALSE` do? What happens if you remove it?
+Why do you think it was used earlier in the chapter?
+
+```{r hadley-geom-ee, exercise=TRUE}
+ggplot(data = mpg) +
+  geom_smooth(
+    mapping = aes(x = displ, y = hwy, color = drv),
+    show.legend = FALSE
+  )
+```
+
+```{r hadley-geom-ee-solution}
+# "show.legend = FALSE" suppresses legend generation but keeps the respective aesthetic mapping.
+# Thus, it was possible to create the same grouping as when using "group" but still using the data mapping for the aesthetics.
+```
+
+
+```{r q-hadley-geom-se, echo=FALSE}
+question("What does the `se` argument to `geom_smooth()` do?",
+  answer("Switches to the 'simple edition' of the geometry"),
+  answer("Defines if the 'statistical error' is displayed", correct =T, message="Yes, confidence intervals mark the estimated statistical error of the trend (line) with respect to the data. The wider the worse is the fit, i.e. fewer points are close to the line."),
+  answer("Activates the 'search engine' to speed up computation")
+)
+```
+
+Will these two graphs look different? Why/why not?
+
+```{r hadley-geom-eee, exercise=TRUE}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point() + 
+  geom_smooth()
+
+ggplot() + 
+  geom_point(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_smooth(data = mpg, mapping = aes(x = displ, y = hwy))
+```
+
+```{r hadley-geom-eee-solution}
+# There is no difference in the outcome, since
+# the first version shares the aesthetics mapping among the geometries, while
+# the second version uses explicit individual mappings that are the same for both.
+```
+
+
+Recreate the R code(s) necessary to generate the following graphs, while ignoring 
+
+- point size
+- line width
+
+since they are not in relation to the plot area's dimensions (which is larger here compared to the images).
+
+![hadley 3.6 exercise example graphs](images/hadley-3.6-ex-example.png){width=60%}
+
+```{r hadley-geom-eeee, exercise=TRUE}
+
+```
+
+```{r hadley-geom-eeee-solution}
+# top left
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point() + 
+  geom_smooth( se=FALSE )
+
+# top right
+# Note: points are ON TOP of the lines! Thus, have to be drawn later...
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_smooth( mapping=aes(group=drv), se=FALSE) +
+  geom_point()
+
+# middle left
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, col=drv)) + 
+  geom_point() +
+  geom_smooth( se=FALSE )
+
+# middle right
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point( mapping= aes(col=drv)) +
+  geom_smooth( se=FALSE )
+
+# bottom left
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point( mapping= aes(col=drv) ) +
+  geom_smooth( mapping = aes(lty=drv), se=FALSE)
+
+# middle right
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point( size=5, col="white") +
+  geom_point( mapping = aes(col=drv) )
+
+# or using a different (filled) point symbol (=shape) with an enlarged border (=stroke)
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, fill=drv)) + 
+  geom_point( size=5, col="white", shape = 21, stroke=3 )
+
+# For the last alternative, we had to check out the "Aesthetics vignette" of the ggplot2 package
+# https://ggplot2.tidyverse.org/articles/ggplot2-specs.html
+# Do you remember seeing it before? ;)
+
+```
+
+
+
+
+
 ## Wrap-up
 
 But before we continue, think about the following questions, which can be answered with the current material.
 
 - How do you get help for a function within R?
 - What function(s) can you use to have a first look at (large) data tables?
+- Can we distribute a single command over multiple consecutive lines? What do we have to have in mind?
 - What is the central difference when using categorical vs continuous variables for aesthetics like `color`?
 - What do we get when we call `ggplot()` without any geometry function and why?
-- Can we distribute a single command over multiple consecutive lines? What do we have to have in mind?
+- How do we share aesthetic mappings among multiple geometries of the same plot?
+- Is the order of the geometries important for plotting?
 
 
