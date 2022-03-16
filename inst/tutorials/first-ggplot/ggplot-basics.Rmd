@@ -1,7 +1,7 @@
 ---
-title: "First ggplot"
+title: "ggplot basics"
 tutorial:
-  id: "de.uni-tuebingen.dezfdk.tutorials.r-first-ggplot"
+  id: "de.uni-tuebingen.dezfdk.tutorials.r-ggplot-basics"
   version: 2022.03.16
   author: Martin Raden
 output:
