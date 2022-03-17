@@ -2,7 +2,7 @@
 title: "First steps"
 tutorial:
   id: "de.uni-tuebingen.dezfdk.tutorials.r-first-steps"
-  version: 2022.03.15
+  version: 2022.03.17
   author: Martin Raden
 output: 
   learnr::tutorial :

@@ -2,7 +2,7 @@
 title: "ggplot basics"
 tutorial:
   id: "de.uni-tuebingen.dezfdk.tutorials.r-ggplot-basics"
-  version: 2022.03.16
+  version: 2022.03.17
   author: Martin Raden
 output:
   learnr::tutorial :
