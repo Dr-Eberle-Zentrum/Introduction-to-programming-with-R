@@ -54,7 +54,7 @@ Thus, it follows:
 - all columns represent the same **type** of data (e.g. the "size" column from above contains only numbers)
 - **different columns** can represent **different type** of data (e.g. "name" vs. "size")
 
-Before we can start with any data processing, we therefore have to ensure that the data is formatted correctly.
+Before we can start with any data processing, we therefore have to ensure that the data is formatted correctly, which is also referred to as "*tidy*" data.
 
 ```{r q-excel-sheet-vs-matrix, echo=FALSE}
 question("What representation is closest to a well formatted tabular data set described above?",
@@ -85,7 +85,7 @@ question("What file formats do you know that you think suited to store such data
 A typical data processing workflow, which we will learn within this course, is therefore composed of the following steps:
 
 1. loading data (e.g from file or creating it via some computation)
-2. reformatting data (into a correct format, see above)
+2. reformatting data (into a tidy format, see above)
 3. processing the data (using magic verbs like `filter`, `mutate`, `arrange`, ...)
 4. storing data to file (or visualize it as an image).
 
@@ -105,7 +105,7 @@ rawData <- data.frame(
 # let's print it for inspection
 print(rawData)
 
-# (2) no reformatting needed, "rawData" already in correct table format
+# (2) no reformatting needed, "rawData" already in tidy table format
 
 # (3) add another "character" colum based on "real" column
 # and store in a new variable
