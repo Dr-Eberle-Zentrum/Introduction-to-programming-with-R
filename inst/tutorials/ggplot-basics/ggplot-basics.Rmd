@@ -155,6 +155,57 @@ This shows
   - the first elements up to a limited output line width
 
 
+From [Introduction to Data Science (Chapter 4)](https://rafalab.github.io/dsbook/tidyverse.html#exercises-8) we borrowed the following exercises.
+You can solve them using the already introduced functions `help()` (or `?`), `print()` and `glimpse()`.
+
+Examine the built-in dataset `co2`. 
+
+```{r irizzary-e, exercise=TRUE}
+
+```
+
+```{r irizzary-e-question, echo=FALSE}
+question("Which of the following is true?",
+  answer("`co2` is tidy data: it has one year for each row."),
+  answer("`co2 is not tidy: we need at least one column with a character vector."),
+  answer("`co2 is not tidy: it is a matrix instead of a data frame."),
+  answer("`co2 is not tidy: to be tidy we would have to wrangle it to have three columns (year, month and value), then each co2 observation would have a row.", correct=TRUE)
+)
+```
+
+Examine the built-in dataset `ChickWeight`.
+
+```{r irizzary-ee, exercise=TRUE}
+
+```
+
+```{r irizzary-ee-question, echo=FALSE}
+question(" Which of the following is true?",
+      answer("`ChickWeight is not tidy: each chick has more than one row."),
+      answer("`ChickWeight is not tidy: we are missing the year column."),
+      answer("`ChickWeight is tidy: it is stored in a data frame."),
+      answer("`ChickWeight is tidy: each observation (a weight) is represented by one row. The chick from which this measurement came is one of the variables.", correct=TRUE)
+)
+```
+
+Examine the built-in dataset `BOD`. 
+
+```{r irizzary-eee, exercise=TRUE}
+
+```
+
+```{r irizzary-eee-question, echo=FALSE}
+question(" Which of the following is true?",
+    answer("`BOD is not tidy: it only has six rows."),
+    answer("`BOD is not tidy: the first column is just an index."),
+    answer("`BOD is tidy: each row is an observation with two values (time and demand)", correct=TRUE),
+    answer("`BOD is tidy: all small datasets are tidy by definition.")
+)
+```
+
+
+
+
 
 ## Let's visualize!
 
