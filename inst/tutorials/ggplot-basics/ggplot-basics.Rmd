@@ -19,6 +19,7 @@ runtime: shiny_prerendered
   
 ```{r setup, include=FALSE}
 library(learnr)
+library(tidyverse)
 # disable warnings
 knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
 # Link to static resources in Shiny's web server

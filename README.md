@@ -29,6 +29,15 @@ devtools::install_github("Dr-Eberle-Zentrum/Introduction-to-programming-with-R")
 
 Using `packageVersion("deztutr")`, you can check the installed version, which is in YEAR-MONTH-DAY format. The recent version is listed in the [DESCRIPTION](DESCRIPTION) file.
 
+Note, some tutorials are based on additional data sets, so you better also install the following packages
+
+- `nycflights13`
+
+by simply copying the following code into your console.
+
+```R
+install.packages("nycflights13")
+```
 
 
 # Running the tutorials
@@ -53,8 +62,8 @@ or run a specific tutorial using
 learnr::run_tutorial("first-steps", package = "deztutr")
 ```
 
-Since the tutorial is started within your web browser, you might have to stop the R session when you are done with studying the tutorial. 
-This can be done either using the red (STOP)-button in the RStudio "Console" (upper right corner) or via the menu "Session" > "Interrupt R".
+Since the tutorial is started within your web browser, you might have to stop the session when you are done with studying the tutorial. 
+This can be done with the red (STOP)-button in the RStudio "R Markdown" pane (upper right corner).
 
 # License
 

@@ -1,0 +1,392 @@
+---
+title: "dplyr::filter"
+tutorial:
+  id: "de.uni-tuebingen.dezfdk.tutorials.r-dplyr-filter"
+  version: 2022.03.17
+  author: Martin Raden
+output:
+  learnr::tutorial :
+    progressive: true
+    allow_skip: true
+    theme: "sandstone"
+    language: "en"
+    css: "css/dez-style.css"
+    includes:
+      before_body: "../../resources/logo-header.html"
+      after_body: "../../resources/footer.html"
+runtime: shiny_prerendered
+---
+  
+```{r setup, include=FALSE}
+library(learnr)
+library(nycflights13)
+library(tidyverse)
+# disable warnings
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+# Link to static resources in Shiny's web server
+shiny::addResourcePath("css",
+                       system.file("resources","css",
+                       package = "deztutr"))
+```
+
+
+## The `dplyr` package
+
+![](images/dplyr-logo.png){width=10%}
+
+The [`dplyr` package](https://dplyr.tidyverse.org/) provides the central functions for data transformation within the `tidyverse` universe.
+Common tasks of data transformation are typically made of a serious of steps that can be implemented by the following *verbs* of dplyr: 
+
+- *filter*, 
+- *mutate*, 
+- *arrange*, 
+- *select* and 
+- *summarize*.
+
+Within this tutorial, we focus on the **filter** verb and programming aspects related to it.
+
+
+## filter @R4DS
+
+In the following, you will study the first parts of the [Data transformation](https://r4ds.had.co.nz/transform.html) chapter of the [R for Data Science](https://r4ds.had.co.nz/index.html) online tutorial of the book by Hadley Wickham and Garret Grolemund.
+
+Since the online book tutorial is not interactive, you are encouraged to use the following interactive R consoles to
+
+- repeat and follow the code examples of the tutorial
+- solve the exercises of the tutorial (which we recreated below)
+
+So let's start! 
+
+In the following, we link (via the following section captions) the specific chapters and provide respective interactive consoles and additional information for each.
+
+### [5.1 Introduction](https://r4ds.had.co.nz/transform.html#introduction-2)
+
+Note, both the `nycflights13` and `tidyverse` package are already loaded and ready within this tutorial.
+
+```{r hadley-transform-flights, exercise=TRUE}
+head(flights)
+```
+
+
+### [5.2 Filter rows with `filter()`](https://r4ds.had.co.nz/transform.html#filter-rows-with-filter)
+
+```{r hadley-filter-flights, exercise=TRUE}
+filter(flights, month == 1, day == 1)
+```
+
+
+**5.2.1 Comparisons**
+
+Correct the following code, such that all flights with `month` equal to 1 are selected.
+
+
+```{r hadley-filter-flights-bug, exercise=TRUE}
+filter(flights, month = 1)
+```
+
+```{r hadley-filter-flights-solution}
+filter(flights, month == 1)
+# i.e. we need to use the comparison operator "==" rather than the assignment operator "="
+```
+
+
+Test the floating point precision issue yourself:
+
+```{r hadley-float-point-problem, exercise=TRUE}
+sqrt(2) ^ 2 == 2
+1 / 49 * 49 == 1
+```
+
+
+**Exercise:** Find all flights that had an arrival delay `arr_delay` of two or more hours.
+
+```{r hadley-filter-flights-delay, exercise=TRUE}
+filter(flights, )
+```
+
+```{r hadley-filter-flights-delay-solution}
+filter(flights, arr_delay >= 120)
+# since the variable is in "minutes" we have to check for 120 minutes or above
+```
+
+
+### [5.2.2 Logical operators](https://r4ds.had.co.nz/transform.html#logical-operators)
+
+Alter the following selection such that November and December are excluded.
+
+Also try the `%in%` operator. The latter requires the `c()` function, which **concatenates** values into a **vector** (similar to a column in a data table).
+
+```{r hadley-filter-flights-or, exercise=TRUE}
+filter(flights, month == 11 | month == 12)
+```
+
+```{r hadley-filter-flights-or-solution}
+# you can either NEGATE (with "!") the selection of Nov or Dec
+filter(flights, !(month == 11 | month == 12) )
+# or list all months of interest in a specific vector
+filter(flights, month %in% c(1,2,3,4,5,6,7,8,9,10) )
+# or use negation with '%in%'
+filter(flights, !(month %in% c(11,12) ) )
+```
+
+*NOTE*: Negation often requires brackets to be precise what to negate!
+
+
+Try the following and explain the outcome
+
+```{r hadley-filter-flights-and, exercise=TRUE}
+filter(flights, day == 1 & day == 2)
+```
+
+```{r hadley-filter-flights-and-solution}
+# the call selects ROWS where the day variable shows BOTH values 1 AND 2, which is not possible.
+
+# thus, no row fulfills the criteria...
+```
+
+
+**Exercise:** Find all flights that flew to Houston (IAH or HOU).
+
+```{r hadley-filter-flights-houston, exercise=TRUE}
+filter(flights, )
+```
+
+```{r hadley-filter-flights-houston-hint}
+# 'dest' is a character string variable, i.e. the values have to be quoted for checking
+# like "IAH" or "HOU"
+```
+
+```{r hadley-filter-flights-houston-solution}
+filter(flights, dest == "IAH" | dest == "HOU")
+# or
+filter(flights, dest %in% c("IAH","HOU") )
+```
+
+
+**Exercise:** Find all flights that departed in summer (July, August, and September).
+
+```{r hadley-filter-flights-summer, exercise=TRUE}
+filter(flights, )
+```
+
+```{r hadley-filter-flights-summer-hint}
+# 'dest' is a character string variable, i.e. the values have to be quoted for checking
+# like "IAH" or "HOU"
+```
+
+```{r hadley-filter-flights-summer-solution}
+# since it is numeric, we can check boundaries
+filter(flights, month >= 7, month <= 9)
+# or explicit values
+filter(flights, month == 7 | month == 8 | month == 9)
+# or vector of values
+filter(flights, month %in% c(7,8,9) )
+```
+
+
+Another useful dplyr filtering helper is `between()`. **What does it do?** 
+
+**Exercise:** Can you use it to simplify the code needed to answer the last challenge?
+
+```{r hadley-filter-flights-between, exercise=TRUE}
+# check
+?between
+
+filter(flights, )
+```
+
+```{r hadley-filter-flights-between-solution}
+# since it is numeric, we can check via range boundaries
+filter(flights, between(month, 7, 9) )
+```
+
+
+**Exercise:** Find all flights that are more than two hours late, but didn’t leave late.
+
+```{r hadley-filter-flights-late, exercise=TRUE}
+filter(flights, )
+```
+
+```{r hadley-filter-flights-late-solution}
+filter(flights, arr_delay > 120 & dep_delay <= 0)
+# Note, delays can be negative (early start).
+
+# you can also encode "AND" compositions via multiple filter calls (comma separated)
+filter(flights, arr_delay > 120, dep_delay <= 0)
+```
+
+
+**Exercise:** Find all flights that were delayed by at least an hour, but made up over 30 minutes in flight.
+
+```{r hadley-filter-flights-multilate, exercise=TRUE}
+filter(flights, )
+```
+
+```{r hadley-filter-flights-multilate-solution}
+filter(flights, dep_delay >= 60, dep_delay - arr_delay > 30)
+# If the flight didn’t make up any time in the air, then its arrival would be delayed by the same amount as its departure, meaning dep_delay == arr_delay, or alternatively, dep_delay - arr_delay == 0. 
+# If it makes up over 30 minutes in the air, then the arrival delay must be at least 30 minutes less than the departure delay, which is stated as dep_delay - arr_delay > 30.
+```
+
+
+
+### [5.2.3 Missing values](https://r4ds.had.co.nz/transform.html#missing-values)
+
+Identify all flights where the departing time `dep_time` is unknown (`NA`). How many are there?
+
+```{r hadley-filter-flights-NA, exercise=TRUE}
+filter(flights, )
+```
+
+```{r hadley-filter-flights-NA-solution}
+filter(flights, is.na(dep_time))
+# yields 8255 rows
+```
+
+
+
+The output of the function `summary()` includes the number of missing values for all non-character variables.
+
+```{r flights-summary}
+summary(flights)
+```
+
+
+
+## filter @ModernDive
+
+
+The book *Statistical Inference via Data Science - A ModernDive into R and the Tidyverse* by Chester Ismay and Albert Y. Kim also provides a similar but much shorter introduction to `filter()` in Chapter [3 Data Wrangling](https://moderndive.com/3-wrangling.html).
+
+In contrast to R4DS, this introduction already focuses on the combination of different data transformation steps using the **pipe** operator `%>%`, which is directly introduced before detailing `filter()`.
+
+We thus recommend the study of this (short) chapter, to
+
+- learn about *piping* using `%>%`
+- revisit `filter()` and respective notations
+- double check your understanding
+
+
+### [3.1 Piping](https://moderndive.com/3-wrangling.html#piping)
+
+
+**A central concept** to do efficient data processing in general is to *decompose* the overall processing task *into* small, well-defined *steps* like filtering, sorting, grouping, etc.
+The overall workflow is then the step-wise execution of these tasks.
+
+For instance, to identify the mean value of the top-10 elements, we have to
+
+1. sort the list
+2. take the the top-10 elements
+3. compute the mean
+
+That is, each step operates on the result from the previous step and produces the starting point for the next.
+
+The "pipe" concept (intruced in the [`magrittr` package](https://magrittr.tidyverse.org/)) is a powerful tool to create readable and maintable data processing workflows as the one above.
+
+To pick up the example from above, a respective workflow could look like this:
+
+```{r r-example-code, eval=FALSE}
+mydata %>%
+  arrange(someVariable) %>%
+  sclice_head(n=10) %>%
+  summarize( avgValue = mean(somOtherVariable) )
+```
+
+**The idea** is simple: the output of one function (left of the `%>%` operator) becomes the first input argument of the next function (right of the `%>%` operator).
+
+**Note:** there is no explicit (first) input value to all functions on the right side of `%>%`! This is automagically filled by the pipe operator with the result from the left side of the operator!
+
+**Note further:** When distributing the workflow (multiple functions connected by pipes) over multiple lines, you have to ensure either the pipe operator is at the end of the line, or a bracket etc. is still open at line end.
+Otherwise, R will not recognize that all lines form one workflow.
+
+```{r broken pipe, eval=FALSE}
+# the following is a "broken" pipe, where the lines are treated independently
+mydata  # command ends here since no open bracket nor an "open operator" (will cause printing of mydata)
+ %>% filter( mvar == 2 ) # will cause an error, since the left-side of the pipe is not defined
+```
+
+
+**Exercise:** Write the following code as a pipe using the `%>%` operator.
+
+```{r piping-flights, exercise=TRUE}
+filter(flights, carrier == "AS")
+```
+
+```{r piping-flights-solution, exercise=TRUE}
+flights %>%
+  filter(carrier == "AS")
+# or in one row
+flights %>% filter(carrier == "AS")
+```
+
+
+### [3.2 `filter` rows](https://moderndive.com/3-wrangling.html#filter)
+
+Note, the `View()` calls used within the ModernDive examples can be replaced via a `print()` in the interactive console of this tutorial.
+
+```{r md-filter-pipe, exercise=TRUE}
+portland_flights <- flights %>% 
+  filter(dest == "PDX")
+# viewing via print
+print(portland_flights)
+```
+
+
+
+
+
+## Wrap-up
+
+But before we continue, think about the following questions, which can be answered with the current material.
+
+
+```{r dplyr-table-arg-pos, echo=FALSE}
+question("All dplyr functions take the input table as ..",
+  answer(".. first argument", correct=TRUE),
+  answer(".. last argument"),
+  answer("Both is possible.")
+)
+```
+
+
+
+```{r filter-cond-sep, echo=FALSE}
+question("Multiple conditions that have to be fulfilled are separated by",
+  answer("`;`"),
+  answer("`,`", correct=TRUE),
+  answer("`&`", correct=TRUE),
+  answer("`|`"),
+  answer("`>`"),
+  answer("`%>%`")
+)
+```
+
+- What is done by the `!` operator?
+- What is missing in the following conditional statement? `1 %in% (1,2,3,4)`
+- Do you remember how to use the `between()` function?
+- Why do we need the `is.na()` function and cannot test via `myVariable == NA`?
+- Any idea about piping and how to connect function calls?
+
+
+
+
+
+## Cheatsheet
+
+- vector creation via `c()` (*concatenate*)
+- conditional statements/functions
+  - `==`, `!=`, `>`, `<`, `<=`, `>=`
+  - `&`, `|`, `xor()`
+  - `!`
+  - `%in%` vector (or counterpart `%notin%`)
+  - `between()` (dplyr)
+  - `near()` better for floating point number comparison than `==`
+- `filter()`
+  - multiple sequential filter steps separated by comma or `&`
+  - direct use of variable (column) names in filter criteria
+  - brackets in conditional statements are often important!
+- `%>%` piping for connection of data transformation steps
+  - (first) input argument of subsequent function automatically set (with result of last)
+- `summary()` statistical overview of values in data structure
+
+
