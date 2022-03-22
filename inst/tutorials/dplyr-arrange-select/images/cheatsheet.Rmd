@@ -1,0 +1,22 @@
+
+
+
+## Cheatsheet "dplyr-arrange-select"
+
+- `arrange()` changes the order of rows
+  - multiple (comma-separated) variable names define a sorting hierarchy (left-to-right) that is used for tie breaking
+  - default = *ascending order*
+  - `desc()` around a variable triggers *descending* sorting w.r.t. the variable's values
+  - `NA` is always last
+- `select()` reduces the columns to variables of interest
+  - comma-separated variable list or vector notation
+    - `:` generates a vector of ascendingly increasing elements (`from:to`) including the boundaries
+    - specified order = new order of columns (can be used for reordering)
+      - `everything()` : all variables not named so far (useful for reordering of columns)
+      - duplicated names are ignored
+  - `-` negation removes the specified variables (also works for vectors via `c()` or `:`)
+  - selection can be specified via names (quoted and unquoted) as well as numbers
+  - `starts_with()`, `ends_with()`, `contains()` : parts of variable names
+  - `matches()` : regular expression on names (discussed later)
+  - `num_range()` : combines strings and number vectors to full names like `x1`, `x2`, ...
+  - `any_of()` : listed variable names not necessarily present in data table (useful for negative selection without errors/warnings)

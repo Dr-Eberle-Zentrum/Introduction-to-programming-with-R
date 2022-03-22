@@ -33,11 +33,13 @@ In the following, the cheatsheets of the tutorials are aggregated.
 ```{r child = 'inst/tutorials/first-steps/images/cheatsheet.Rmd'}
 ```
 
-
-
 ```{r child = 'inst/tutorials/ggplot-basics/images/cheatsheet.Rmd'}
 ```
 
-
 ```{r child = 'inst/tutorials/dplyr-filter/images/cheatsheet.Rmd'}
 ```
+
+```{r child = 'inst/tutorials/dplyr-arrange-select/images/cheatsheet.Rmd'}
+```
+
+

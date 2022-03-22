@@ -1,0 +1,265 @@
+---
+title: "dplyr::arrange+select"
+tutorial:
+  id: "de.uni-tuebingen.dezfdk.tutorials.r-dplyr-arrange-select"
+  version: 2022.03.17
+  author: Martin Raden
+output:
+  learnr::tutorial :
+    progressive: true
+    allow_skip: true
+    theme: "sandstone"
+    language: "en"
+    css: "css/dez-style.css"
+    includes:
+      before_body: "../../resources/logo-header.html"
+      after_body: "../../resources/footer.html"
+runtime: shiny_prerendered
+---
+  
+```{r setup, include=FALSE}
+library(learnr)
+library(nycflights13)
+library(tidyverse)
+# disable warnings
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+# Link to static resources in Shiny's web server
+shiny::addResourcePath("css",
+                       system.file("resources","css",
+                       package = "deztutr"))
+```
+
+
+## The `dplyr` package
+
+![](images/dplyr-logo.png){width=10%}
+
+The [`dplyr` package](https://dplyr.tidyverse.org/) provides the central functions for data transformation within the `tidyverse` universe.
+Common tasks of data transformation are typically made of a serious of steps that can be implemented by the following *verbs* of dplyr: 
+
+- *filter*, 
+- *mutate*, 
+- *arrange*, 
+- *select* and 
+- *summarize*.
+
+Within this tutorial, we focus on the **arrange** and **select** verbs and programming aspects related to them.
+
+
+## Arrange
+
+In the following, you will study the first parts of the [Data transformation](https://r4ds.had.co.nz/transform.html) chapter of the [R for Data Science](https://r4ds.had.co.nz/index.html) online tutorial of the book by Hadley Wickham and Garret Grolemund.
+
+Since the online book tutorial is not interactive, you are encouraged to use the following interactive R consoles to
+
+- repeat and follow the code examples of the tutorial
+- solve the exercises of the tutorial (which we recreated below)
+
+So let's start! 
+
+In the following, we link (via the following section captions) the specific chapters and provide respective interactive consoles and additional information for each.
+
+
+### [5.3 Arrange rows with `arrange()`](https://r4ds.had.co.nz/transform.html#arrange-rows-with-arrange)
+
+Note, both the `nycflights13` and `tidyverse` package are already loaded and ready within this tutorial.
+
+```{r hadley-arrange-flights, exercise=TRUE}
+arrange(flights, year, month, day)
+```
+
+
+**Exercise:** Sort flights to find the most delayed flights. Find the flights that left earliest.
+
+```{r hadley-arrange-delayed, exercise=TRUE}
+arrange(flights, )
+```
+
+```{r hadley-arrange-delayed-solution}
+# most delayed
+arrange(flights, desc(dep_delay))
+# left earliest (lowest negative department delay)
+arrange(flights, dep_delay)
+```
+
+
+**Exercise:** Which flights travelled the farthest? Which travelled the shortest? (in terms of miles)
+
+```{r hadley-arrange-farthest, exercise=TRUE}
+arrange(flights, )
+```
+
+```{r hadley-arrange-farthest-solution}
+# longest distance first
+arrange(flights, desc(distance))
+# shortest distance first
+arrange(flights, distance)
+```
+
+
+**Exercise:** Sort flights to find the fastest (highest speed) flights.
+
+```{r hadley-arrange-fastest, exercise=TRUE}
+arrange(flights, )
+```
+
+```{r hadley-arrange-fastest-solution}
+# interpreted as "shortest air time"
+arrange(flights, air_time)
+# interpreted as "ground speed" = distance/airtime
+arrange(flights, desc( distance / air_time ))
+```
+
+
+**Exercise:** How could you use `arrange()` to sort all missing values of `dep_delay` to the start? (Hint: use `is.na()`).
+
+```{r hadley-arrange-na-start, exercise=TRUE}
+arrange(flights, )
+```
+
+```{r hadley-arrange-na-start-solution}
+# since NA is pushed to the end, we have to "compute" a feature to put it first
+# to this end, we can sort 'is.na()', which produces TRUE/FALSE values
+# since TRUE is considered > than FALSE (== 0), we have to use descending order
+arrange(flights, desc( is.na( dep_delay ) ) )
+# if we want to keep the order of the remaining rows, we can use tie breaking
+# i.e. we apply a second sorting directive independently for all TRUE and FALSE values from the first sorting
+arrange(flights, desc( is.na( dep_delay ) ), desc(dep_delay) )
+# now all NA are on top, followed by the descendingly sorted list of rows w.r.t dep_delay
+```
+
+
+**Exercise:** We know already that we can combine multiple functions via piping! Please check the following code and explain the different output!
+
+
+```{r arrange-tie-break, exercise=TRUE}
+myTable <- data.frame(
+  A = c(2,2,1,1),
+  B = c(3,4,3,4)
+)
+# sorting 1
+arrange(myTable, A, B )
+# sorting 2
+arrange(myTable, A ) %>% arrange( B )
+```
+
+```{r arrange-tie-break-solution}
+# sorting 1 uses column B only for tie-breaking, 
+# i.e. for sorting groups of rows that have the same value in A
+arrange(myTable, A, B )
+# sorting 2 first sorts by A and than resorts by B
+# i.e. no tie-breaking is done but the first sorting is somewhat maintained in the second
+arrange(myTable, A ) %>% arrange( B )
+```
+
+
+## Select
+
+### [5.4 Select columns with `select()`](https://r4ds.had.co.nz/transform.html#select)
+
+
+```{r hadley-select-flights, exercise=TRUE}
+select(flights, year, month, day)
+```
+
+
+
+**Exercise:** Brainstorm as many ways as possible to select `dep_time`, `dep_delay`, `arr_time`, and `arr_delay` from `flights`.
+
+```{r hadley-select-ways, exercise=TRUE}
+select(flights, )
+```
+
+```{r hadley-select-ways-solution}
+# unquoted list of names
+select(flights, dep_time, dep_delay, arr_time, arr_delay)
+# quoted names
+select(flights, "dep_time", "dep_delay", "arr_time", "arr_delay")
+# via numbers
+select(flights, 4, 6, 7, 9) # !! don't do !! :D
+# starts_with()
+select(flights, starts_with("dep_"), starts_with("arr_"))
+# ends_with() not working since it also matches other variable names!
+
+# see full list at
+# https://jrnold.github.io/r4ds-exercise-solutions/transform.html#exercise-5.4.1
+```
+
+
+**Exercise:** What happens if you include the name of a variable multiple times in a `select()` call?
+
+```{r hadley-select-duplicates, exercise=TRUE}
+select(flights, )
+```
+
+```{r hadley-select-duplicates-solution}
+# duplicates are ignored
+select(flights, year, month, year, year)
+```
+
+
+**Exercise:** What does the `any_of()` function do? Why might it be helpful in conjunction with this vector?
+
+```{r ex-anyof, eval=FALSE}
+```{r hadley-select-any-of, exercise=TRUE}
+vars <- c("year", "month", "day", "dep_delay", "arr_delay")
+
+select(flights, )
+```
+
+```{r hadley-select-any-of-solution}
+# allows to specify variable names that are NOT PRESENT in the data table
+# without warning/error! (in contrast to 'all_of()')
+select(flights, any_of(vars))
+# see 
+# https://jrnold.github.io/r4ds-exercise-solutions/transform.html#exercise-5.4.3
+```
+
+**Exercise:** Does the result of running the following code surprise you?
+
+```{r select-ignore-case, exercise=TRUE}
+select(flights, contains("TIME"))
+```
+
+```{r select-ignore-case-solution}
+# per default, 'contains' ignores case, ie. matches lower and upper case letters
+# this can be disabled setting the 'ignore.case' argument to FALSE
+select(flights, contains("TIME", ignore.case = FALSE))
+```
+
+How do the select helpers deal with case by default? How can you change that default? (Hint: check out their help page!)
+
+
+
+## Wrap-up
+
+But before we continue, think about the following questions, which can be answered with the current material.
+
+
+```{r select-default-order, echo=FALSE}
+question("The default order of `arrange()` is",
+  answer(".. ascending", correct=TRUE),
+  answer(".. descening"),
+  answer(".. undefined (has to be chosen)")
+)
+```
+
+```{r select-NA-handling, echo=FALSE}
+question("`NA` values are",
+  answer(".. ignored"),
+  answer(".. pushed to the end", correct=TRUE),
+  answer(".. removed"),
+  answer(".. replaced by minimal values")
+)
+```
+
+
+- What is done by `desc()` and why is there not `asc()` counterpart?
+- What is tie-breaking and how to do?
+- How to remove a specific column from the table?
+- How to make a specific column the first? (i.e. keeping all columns)
+
+
+
+```{r child = 'images/cheatsheet.Rmd'}
+```
