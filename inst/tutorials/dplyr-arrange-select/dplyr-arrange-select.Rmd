@@ -2,7 +2,7 @@
 title: "dplyr::arrange+select"
 tutorial:
   id: "de.uni-tuebingen.dezfdk.tutorials.r-dplyr-arrange-select"
-  version: 2022.03.17
+  version: 2022.03.22
   author: Martin Raden
 output:
   learnr::tutorial :
