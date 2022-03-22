@@ -48,7 +48,7 @@ Within this tutorial, we focus on the **arrange** and **select** verbs and progr
 
 ## Arrange
 
-In the following, you will study the first parts of the [Data transformation](https://r4ds.had.co.nz/transform.html) chapter of the [R for Data Science](https://r4ds.had.co.nz/index.html) online tutorial of the book by Hadley Wickham and Garret Grolemund.
+In the following, you will study the `arrange()` and `select()`-related parts of the [Data transformation](https://r4ds.had.co.nz/transform.html) chapter of the [R for Data Science](https://r4ds.had.co.nz/index.html) online tutorial of the book by Hadley Wickham and Garret Grolemund.
 
 Since the online book tutorial is not interactive, you are encouraged to use the following interactive R consoles to
 

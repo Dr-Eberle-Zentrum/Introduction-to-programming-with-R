@@ -42,4 +42,7 @@ In the following, the cheatsheets of the tutorials are aggregated.
 ```{r child = 'inst/tutorials/dplyr-arrange-select/images/cheatsheet.Rmd'}
 ```
 
+```{r child = 'inst/tutorials/dplyr-mutate/images/cheatsheet.Rmd'}
+```
+
 

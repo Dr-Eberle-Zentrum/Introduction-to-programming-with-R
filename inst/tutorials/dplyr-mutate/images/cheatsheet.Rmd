@@ -1,0 +1,37 @@
+
+
+
+## Cheatsheet "dplyr-mutate"
+
+- `mutate()` creates **new variables**
+  - format is `NAME = EXPRESSION`
+  - multiple variables can be created (subsequently) in one `mutate()` calls
+    - you can directly use previously created variables
+- `transmute()` creates a **new table** with new variables (dropping the input table)
+- **creation functions** 
+  - are done *rowwise* on the *whole column* at once
+    - i.e. when computing `A-B`, respective `A` and `B` values from each row from both columns are subtracted (creating a new vector with the same length as both columns; one result for each row in the same row-order)
+  - if a function works that way it is called a *vectorized functions*
+  - common operations: 
+    - arithmetic operations (for numbers only): `+`, `-`, `*`, `/`, `^` (power), `log..()`
+    - modular operations (for integers only): `%/%` and `%%`
+    - logical comparison: `<`, `==`, `!=`, `>=`, ...
+    - logical operations (working on `TRUE/FALSE`): `&`, `|`, `!`
+    - `cum...()` = rolling ..., e.g. 
+      - `cumsum()`/`cumprod` = rolling sum/product of consecutive values (= vector of values)
+      - `cummin()`/`cummax` = min/max of all rows up to here
+      - `cummean()`
+    - rank of each value (within sorted order of values within variable), e.g.
+      - `min_rank()` or `dense_rank()` (typically one of both is what you are looking for)
+      - or `percent_rank()`, `row_number()`, ...
+    - offset, i.e. column is shifted up or down by `n` rows
+      - `lag()` = previous values, i.e. shifting the column down (`NA`s at the beginning)
+      - `lead()` = following values, i.e. shiting the column up (`NA`s at the end)
+    - aggregative functions like
+      - `sum()` = sum of all values in the variable column (= single value)
+      - `mean()`
+- **recycling rule** = if one operator element is too small, it is **repeated** to the needed length!
+  - *longer length needs to be multiple of shorter length!*
+  - e.g. both `c(1,2,3,4)+1` and `c(1,2,3,4)+c(1,2)` are working while `c(1,2,3)+c(1,2)` is not
+  - *best use with single values only!*
+  

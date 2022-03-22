@@ -293,6 +293,62 @@ pre code {
 </ul></li>
 </ul>
 </div>
+<div id="cheatsheet-dplyr-mutate" class="section level2">
+<h2>Cheatsheet “dplyr-mutate”</h2>
+<ul>
+<li><code>mutate()</code> creates <strong>new variables</strong>
+<ul>
+<li>format is <code>NAME = EXPRESSION</code></li>
+<li>multiple variables can be created (subsequently) in one <code>mutate()</code> calls
+<ul>
+<li>you can directly use previously created variables</li>
+</ul></li>
+</ul></li>
+<li><code>transmute()</code> creates a <strong>new table</strong> with new variables (dropping the input table)</li>
+<li><strong>creation functions</strong>
+<ul>
+<li>are done <em>rowwise</em> on the <em>whole column</em> at once
+<ul>
+<li>i.e. when computing <code>A-B</code>, respective <code>A</code> and <code>B</code> values from each row from both columns are subtracted (creating a new vector with the same length as both columns; one result for each row in the same row-order)</li>
+</ul></li>
+<li>if a function works that way it is called a <em>vectorized functions</em></li>
+<li>common operations:
+<ul>
+<li>arithmetic operations (for numbers only): <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>^</code> (power), <code>log..()</code></li>
+<li>modular operations (for integers only): <code>%/%</code> and <code>%%</code></li>
+<li>logical comparison: <code>&lt;</code>, <code>==</code>, <code>!=</code>, <code>&gt;=</code>, …</li>
+<li>logical operations (working on <code>TRUE/FALSE</code>): <code>&amp;</code>, <code>|</code>, <code>!</code></li>
+<li><code>cum...()</code> = rolling …, e.g. 
+<ul>
+<li><code>cumsum()</code>/<code>cumprod</code> = rolling sum/product of consecutive values (= vector of values)</li>
+<li><code>cummin()</code>/<code>cummax</code> = min/max of all rows up to here</li>
+<li><code>cummean()</code></li>
+</ul></li>
+<li>rank of each value (within sorted order of values within variable), e.g.
+<ul>
+<li><code>min_rank()</code> or <code>dense_rank()</code> (typically one of both is what you are looking for)</li>
+<li>or <code>percent_rank()</code>, <code>row_number()</code>, …</li>
+</ul></li>
+<li>offset, i.e. column is shifted up or down by <code>n</code> rows
+<ul>
+<li><code>lag()</code> = previous values, i.e. shifting the column down (<code>NA</code>s at the beginning)</li>
+<li><code>lead()</code> = following values, i.e. shiting the column up (<code>NA</code>s at the end)</li>
+</ul></li>
+<li>aggregative functions like
+<ul>
+<li><code>sum()</code> = sum of all values in the variable column (= single value)</li>
+<li><code>mean()</code></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><strong>recycling rule</strong> = if one operator element is too small, it is <strong>repeated</strong> to the needed length!
+<ul>
+<li><em>longer length needs to be multiple of shorter length!</em></li>
+<li>e.g. both <code>c(1,2,3,4)+1</code> and <code>c(1,2,3,4)+c(1,2)</code> are working while <code>c(1,2,3)+c(1,2)</code> is not</li>
+<li><em>best use with single values only!</em></li>
+</ul></li>
+</ul>
+</div>
 
 
 
