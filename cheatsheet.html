@@ -263,6 +263,36 @@ pre code {
 <li><code>summary()</code> statistical overview of values in data structure</li>
 </ul>
 </div>
+<div id="cheatsheet-dplyr-arrange-select" class="section level2">
+<h2>Cheatsheet “dplyr-arrange-select”</h2>
+<ul>
+<li><code>arrange()</code> changes the order of rows
+<ul>
+<li>multiple (comma-separated) variable names define a sorting hierarchy (left-to-right) that is used for tie breaking</li>
+<li>default = <em>ascending order</em></li>
+<li><code>desc()</code> around a variable triggers <em>descending</em> sorting w.r.t. the variable’s values</li>
+<li><code>NA</code> is always last</li>
+</ul></li>
+<li><code>select()</code> reduces the columns to variables of interest
+<ul>
+<li>comma-separated variable list or vector notation
+<ul>
+<li><code>:</code> generates a vector of ascendingly increasing elements (<code>from:to</code>) including the boundaries</li>
+<li>specified order = new order of columns (can be used for reordering)
+<ul>
+<li><code>everything()</code> : all variables not named so far (useful for reordering of columns)</li>
+<li>duplicated names are ignored</li>
+</ul></li>
+</ul></li>
+<li><code>-</code> negation removes the specified variables (also works for vectors via <code>c()</code> or <code>:</code>)</li>
+<li>selection can be specified via names (quoted and unquoted) as well as numbers</li>
+<li><code>starts_with()</code>, <code>ends_with()</code>, <code>contains()</code> : parts of variable names</li>
+<li><code>matches()</code> : regular expression on names (discussed later)</li>
+<li><code>num_range()</code> : combines strings and number vectors to full names like <code>x1</code>, <code>x2</code>, …</li>
+<li><code>any_of()</code> : listed variable names not necessarily present in data table (useful for negative selection without errors/warnings)</li>
+</ul></li>
+</ul>
+</div>
 
 
 
