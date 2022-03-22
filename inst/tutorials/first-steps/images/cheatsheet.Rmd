@@ -1,0 +1,6 @@
+
+## Cheatsheet "first-steps"
+
+- in *tidy* tabular data
+  - a *row* represents one *observation*, i.e. a single thing you want to talk about
+  - a *column* is a *variable*, i.e. a feature that might be vary between observations

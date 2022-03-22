@@ -140,3 +140,6 @@ But before we continue, think about the following questions, which can be answer
 - What are constraints on a well formatted table column concerning data types and length? How is it called?
 
 
+
+```{r child = 'images/cheatsheet.Rmd'}
+```

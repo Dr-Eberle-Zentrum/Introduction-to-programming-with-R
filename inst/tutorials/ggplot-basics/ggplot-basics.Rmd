@@ -623,3 +623,6 @@ But before we continue, think about the following questions, which can be answer
 - Is the order of the geometries important for plotting?
 
 
+```{r child = 'images/cheatsheet.Rmd'}
+```
+

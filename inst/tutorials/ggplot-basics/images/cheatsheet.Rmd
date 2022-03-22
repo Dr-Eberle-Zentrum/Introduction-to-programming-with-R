@@ -1,0 +1,18 @@
+
+## Cheatsheet "ggplot-basics"
+
+- `help()` provides details information on functions, data sets, packages
+  -  `?` short version
+- `head()` first elements of object
+- `glimpse()` compact variable view of tabular data (from `dplyr` package)
+- `ggplot2` is the visualization package
+  - `ggplot()` defines what data to plot (and general/shared aesthetics)
+  - `aes()` aesthetics define what data variables are used where in the plot, i.e. their *mapping*
+  - `geom_...()` defines how to plot the data, e.g.
+    - `geom_point()`
+    - `geom_line()`
+    - `geom_smooth()`
+  - `+` combines different geometries etc. into one plot
+- R combines *multiple lines* into one call if at the end of a line
+  - there is an operator like `+`, `<-`, `=`, ...
+  - it misses still a closing bracket or brace, i.e. `)`, `]`, `}`, or closing quote, i.e. `"`, `'`

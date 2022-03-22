@@ -1,0 +1,22 @@
+
+
+
+## Cheatsheet "dplyr-filter"
+
+- vector creation via `c()` (*concatenate*)
+- conditional statements/functions
+  - `==`, `!=`, `>`, `<`, `<=`, `>=`
+  - `&`, `|`, `xor()`
+  - `!`
+  - `%in%` vector (or counterpart `%notin%`)
+  - `between()` (dplyr)
+  - `near()` better for floating point number comparison than `==`
+- `filter()`
+  - multiple sequential filter steps separated by comma or `&`
+  - direct use of variable (column) names in filter criteria
+  - brackets in conditional statements are often important!
+- `%>%` piping for connection of data transformation steps
+  - (first) input argument of subsequent function automatically set (with result of last)
+- `summary()` statistical overview of values in data structure
+
+
