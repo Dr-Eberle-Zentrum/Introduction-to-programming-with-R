@@ -1,0 +1,23 @@
+
+
+
+## Cheatsheet "dplyr-groupby-summarize"
+
+- `summarize()` produces only a single output row (per group)
+  - computes statistical properties of variables (or combinations)
+  - when statistics on groups: good idea to report/check group size via `n()`
+  - 'consumes' a previous grouping via 'group_by()', i.e. merges the rows per group into one table
+- `group_by()` decomposes the observations from the table into subtables that show the same value w.r.t. the grouping variable
+  - multiple grouping variables can be given (comma-separated) to specific a grouping hierarchy
+  - subsequent `group_by()` calls overwrite the grouping of the previous!
+  - all subsequent operations or done *independently per group*
+- `ungroup()` explicitly undoes the previous `group_by()` and merges the subtables back into one
+- **aggregation functions**
+  - `mean()`, `median()`, `quantile()`, `Sd()`
+  - `min()`, `max()`, `first()`, `last()`, `nth()`
+  - `n()`, `n_distinct()`
+  - `sum()`
+    - `sum()` of logical values == number of `TRUE`s (since scored 1, where `FALSE` is scored 0)
+  - can be used anywhere, also in `mutate()`, `filter()`, ...
+  - `NA` handling important (set `na.rm=TRUE` argument if wanted)
+- `count()` is a summary based on counting or summation only

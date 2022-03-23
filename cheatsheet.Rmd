@@ -45,4 +45,7 @@ In the following, the cheatsheets of the tutorials are aggregated.
 ```{r child = 'inst/tutorials/dplyr-mutate/images/cheatsheet.Rmd'}
 ```
 
+```{r child = 'inst/tutorials/dplyr-groupby-summarize/images/cheatsheet.Rmd'}
+```
+
 

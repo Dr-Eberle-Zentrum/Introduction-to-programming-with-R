@@ -1,0 +1,392 @@
+---
+title: "dplyr::group_by+summarize"
+tutorial:
+  id: "de.uni-tuebingen.dezfdk.tutorials.r-dplyr-groupby-summarize"
+  version: 2022.03.23
+  author: Martin Raden
+output:
+  learnr::tutorial :
+    progressive: true
+    allow_skip: true
+    theme: "sandstone"
+    language: "en"
+    css: "css/dez-style.css"
+    includes:
+      before_body: "../../resources/logo-header.html"
+      after_body: "../../resources/footer.html"
+runtime: shiny_prerendered
+---
+  
+```{r setup, include=FALSE}
+library(learnr)
+library(nycflights13)
+library(tidyverse)
+# disable warnings
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+# Link to static resources in Shiny's web server
+shiny::addResourcePath("css",
+                       system.file("resources","css",
+                       package = "deztutr"))
+
+```
+
+
+## The `dplyr` package
+
+![](images/dplyr-logo.png){width=10%}
+
+The [`dplyr` package](https://dplyr.tidyverse.org/) provides the central functions for data transformation within the `tidyverse` universe.
+Common tasks of data transformation are typically made of a serious of steps that can be implemented by the following *verbs* of dplyr: 
+
+- *filter*, 
+- *mutate*, 
+- *arrange*, 
+- *select* and 
+- *summarize*.
+
+Within this tutorial, we focus on the **summarize** verb, which is typically used together with **grouping**, and programming aspects related to it
+
+
+## Summarize + grouping
+
+In the following, you will study the `grouped summary`-related parts of the [Data transformation](https://r4ds.had.co.nz/transform.html) chapter of the [R for Data Science](https://r4ds.had.co.nz/index.html) online tutorial of the book by Hadley Wickham and Garret Grolemund.
+
+Since the online book tutorial is not interactive, you are encouraged to use the following interactive R consoles to
+
+- repeat and follow the code examples of the tutorial
+- solve the exercises of the tutorial (which we recreated below)
+
+So let's start! 
+
+In the following, we link (via the following section captions) the specific chapters and provide respective interactive consoles and additional information for each.
+
+
+### [5.6 Grouped summaries with `summarise()`](https://r4ds.had.co.nz/transform.html#grouped-summaries-with-summarise)
+
+Note, both the `nycflights13` and `tidyverse` package are already loaded and ready within this tutorial.
+
+Thus, you can directly start redoing the examples! 
+
+
+```{r hadley-summarize, exercise=TRUE}
+summarise(flights, delay = mean(dep_delay, na.rm = TRUE))
+```
+
+Note, both writings `summarise()` and `summarize()` are correct and working. Use w.r.t. your British or U.S. English style.
+
+
+### [5.6.1 Combining multiple operations with the pipe](https://r4ds.had.co.nz/transform.html#combining-multiple-operations-with-the-pipe)
+
+That's a recap of piping, but worth looking at!
+
+**Exercise:** Test what happens when removing `na.rm = TRUE` from the code below and rewrite it, such that it is using a pipe and no temporary variable `by_day`.
+
+```{r hadley-group-summarize, exercise=TRUE}
+by_day <- group_by(flights, month)
+summarise(by_day, delay = mean(dep_delay, na.rm = TRUE))
+```
+
+```{r hadley-group-summarize-solution}
+group_by(flights, day) %>%
+  summarise(delay = mean(dep_delay))
+# the data contains unknown 'NA' values, such that the mean cannot be computed.
+# thus, the result of 'mean()' is unknown 'NA' too.
+```
+
+
+### [5.6.2 Missing values](https://r4ds.had.co.nz/transform.html#missing-values-1)
+
+Unknown `NA` values are common in real world data.
+Since R takes it serious to be precise in its results, it will say "I don't know" (`NA`) as soon as it finds an `NA` within a data set it is asked to compute statistics on.
+
+In order to deal with that, you have to explicitly encourage R to **ignore `NA` values** when you want it that way, using the `na.rm=TRUE` argument of functions like `mean()`, `sd()`, ...
+
+
+**Exercise:** What month shows on average the higher departure delays, February or July? Write a pipe to be able to answer the question. Best by producing an output table with two rows that directly shows the result.
+
+```{r pipe-delay-per-month, exercise=TRUE}
+flights %>%
+```
+
+```{r pipe-delay-per-month-hint-1}
+# best start with reducing the observations to February and July
+```
+
+```{r pipe-delay-per-month-hint-2}
+# best start with reducing the observations to February and July
+flights %>%
+  filter( month %in% c(2,7)) %>%
+```
+
+```{r pipe-delay-per-month-hint-3}
+# did you think about grouping yet?
+```
+
+```{r pipe-delay-per-month-hint-4}
+flights %>%
+  # first we best filter for the months of interest, i.e. 2 and 7
+  filter( month %in% c(2,7)) %>%
+  # next we group by month to do independent statistics
+  group_by(month) %>%
+```
+
+```{r pipe-delay-per-month-hint-5}
+# the summarizing statistics per group need to deal with NA values!
+```
+
+```{r pipe-delay-per-month-solution}
+flights %>%
+  # first we best filter for the months of interest, i.e. 2 and 7
+  filter( month %in% c(2,7)) %>%
+  # next we group by month to do independent statistics
+  group_by(month) %>%
+  # finally we compute the mean departure delay for each
+  # remember, we have to ignore NA values!
+  summarize( meanDepDelay = mean(dep_delay, na.rm=TRUE)) %>%
+  # and it might be a good idea to sort it (descendingly, to put the answer on top)
+  arrange(desc(meanDepDelay))
+```
+
+
+### [5.6.3 Counts](https://r4ds.had.co.nz/transform.html#counts)
+
+This section goes much into detail about statistics and how to interprete, which is beyond the focus of this course.
+
+So please **study only up to second scatter plot** and the RStudio tip!
+
+That is, skip the part about the baseball statistics!
+
+
+**Exercise:** What month has the highest rate of canceled flights (`(is.na(arr_delay) | is.na(dep_delay))`)?
+
+```{r pipe-cancel-rate, exercise=TRUE}
+flights %>%
+```
+
+```{r pipe-cancel-rate-hint-1}
+# first we have to find out for each flight whether it is canceled or not
+```
+
+```{r pipe-cancel-rate-hint-2}
+# store if a flight is canceled
+flights %>%
+  mutate( cancelled = (is.na(arr_delay) | is.na(dep_delay))) %>%
+```
+
+```{r pipe-cancel-rate-hint-3}
+# next we need a grouping and a summary for our question
+```
+
+```{r pipe-cancel-rate-hint-4}
+flights %>%
+  # store if a flight is canceled
+  mutate( cancelled = (is.na(arr_delay) | is.na(dep_delay))) %>%
+  # next we group by month to do independent statistics
+  group_by(month) %>%
+  summarize(  ) %>%
+  # dont't forget sorting at the end!
+```
+
+```{r pipe-cancel-rate-solution}
+flights %>%
+  # store if a flight is canceled
+  mutate( cancelled = (is.na(arr_delay) | is.na(dep_delay))) %>%
+  # next we group by month to do independent statistics
+  group_by(month) %>%
+  # finally we compute the rate via counting the canceled and division by overall count
+  summarize( cancellationRate = sum(cancelled) / n()) %>%
+  # and it might be a good idea to sort it (descendingly, to put the answer on top)
+  arrange(desc(cancellationRate))
+```
+
+
+### [5.6.4 Useful summary functions](https://r4ds.had.co.nz/transform.html#summarise-funs)
+
+The provided list of 'aggregation functions' is not complete, but gives a good overview on functions commonly used and needed.
+
+
+**Exercise:** Come up with another approach that will give you the same output as `not_cancelled %>% count(dest)` and `not_cancelled %>% count(tailnum, wt = distance)` (without using `count()`).
+
+```{r hadlay-no-count, exercise=TRUE}
+# create subset
+not_cancelled <- filter(flights, !is.na(dep_delay), !is.na(arr_delay))
+# challenge 1
+not_cancelled %>% count(dest)
+# challenge 2
+not_cancelled %>% count(tailnum, wt = distance)
+```
+
+```{r hadlay-no-count-solution}
+# challenge 1
+not_cancelled %>%
+  group_by(dest) %>%
+  summarize( n=n() ) # just count number of observations
+# challenge 2
+not_cancelled %>%
+  group_by(tailnum) %>%
+  summarize( n=sum(distance) ) # sum distances of each group's observations
+# alternatives using 'tally()' are discussed here
+# https://jrnold.github.io/r4ds-exercise-solutions/transform.html#exercise-5.6.2
+```
+
+
+**Exercise:** How many planes (identified by `tailnum`) flew more than 249,010 miles, i.e. ten times around the world?
+
+```{r hadlay-plane-far, exercise=TRUE}
+flights %>%
+```
+
+```{r hadlay-plane-far-hint-1}
+# first compute cummulative distance per plane
+```
+
+```{r hadlay-plane-far-hint-2}
+flights %>%
+  # compute cummulative distance per plane
+  group_by(tailnum) %>%
+  summarize( cumDist = sum(distance)) %>%
+```
+
+
+```{r hadlay-plane-far-hint-3}
+# filter
+```
+
+
+```{r hadlay-plane-far-solution}
+flights %>%
+  # compute cummulative distance per plane
+  group_by(tailnum) %>%
+  summarize( cumDist = sum(distance)) %>%
+  # filter for long-running ones
+  filter( cumDist > 249010)
+```
+
+
+
+
+### [5.6.5 Grouping by multiple variables](https://r4ds.had.co.nz/transform.html#grouping-by-multiple-variables)
+
+When grouping your data into "subtables" for subsequent independent operations, you will need to merge them back into a "normal" single table at some point.
+
+This is done either implicitly by `summarize()` (but only one layer per call, see tutorial for details) or explicitly via `ungroup()` (all remaining grouping layers at once).
+
+
+```{r hadlay-ungroup, exercise=TRUE}
+daily <- group_by(flights, year, month, day)
+# check summary of groups
+daily %>% summarise(flights = n())
+# check effect of ungroup()
+daily %>% 
+  ungroup() %>%             # no longer grouped by date
+  summarise(flights = n())  # all flights
+```
+
+
+### [5.7 Grouped mutates (and filters)](https://r4ds.had.co.nz/transform.html#grouped-mutates-and-filters)
+
+Grouping the observations is often also useful to 
+
+- filter groups, e.g. for some group-specific statistical property
+- compute group-specifically additional variables
+- find specific subgroups (top, tail, ..) of groups
+- ...
+
+**Exercise:** Compute for each destination the number of carriers that fly to it and filter for destinations operated by at least 2 carriers.
+
+
+```{r hadlay-min-carriers, exercise=TRUE}
+flights %>%
+```
+
+```{r hadlay-min-carriers-solution}
+flights %>%
+  group_by(dest) %>%
+  summarize( numCarriers = n_distinct(carrier)) %>%
+  filter( numCarriers > 5)
+```
+
+
+
+**Exercise:** What is the destination targeted most often by planes (identified by `tailnum`) that flew more than 249,010 miles, i.e. ten times around the world?
+
+```{r hadlay-plane-dest, exercise=TRUE}
+flights %>%
+```
+
+```{r hadlay-plane-dest-hint-1}
+# filter for planes that do not fulfill the distance criterion
+```
+
+```{r hadlay-plane-dest-hint-2}
+flights %>%
+  # compute distance per plane
+  group_by(tailnum) %>%
+  mutate( cumDist = sum(distance)) %>%
+```
+
+```{r hadlay-plane-dest-hint-3}
+# compute destination counts
+```
+
+```{r hadlay-plane-dest-hint-4}
+flights %>%
+  # filter planes below threshold
+  group_by(tailnum) %>%
+  filter( sum(distance) > 249010) %>%
+  # compute flights (of remaining planes) per destination
+  group_by(dest) %>%
+  summarize(numFlightsOfFarPlanes = n()) %>%
+```
+
+```{r hadlay-plane-dest-hint-5}
+# sort
+```
+
+```{r hadlay-plane-dest-solution}
+flights %>%
+  # filter planes below threshold
+  group_by(tailnum) %>%
+  filter( sum(distance) > 249010) %>%
+  # compute flights (of remaining planes) per destination
+  group_by(dest) %>%
+  summarize(numFlightsOfFarPlanes = n()) %>%
+  # sort descendingly
+  arrange( desc(numFlightsOfFarPlanes) )
+  
+```
+
+
+## In short in ModernDive
+
+To recapitulate what you learned so far, you can **browse** the respective chapters from the ModernDive tutorial, specifically
+
+- [3.3 `summarize` variables](https://moderndive.com/3-wrangling.html#summarize)
+- [3.4 `group_by` rows](https://moderndive.com/3-wrangling.html#groupby)
+
+Both provide a nice *graphical depiction* of both verbs as well as a *compact overview* with some *other examples*.
+
+
+## Wrap-up
+
+But before we continue, think about the following questions, which can be answered with the current material.
+
+
+```{r q-recycling, echo=FALSE}
+question("Aggregation function like `min()` can be used in",
+  answer(".. `arrange()`"),
+  answer(".. `filter()`", correct=TRUE),
+  answer(".. `group_by()`"),
+  answer(".. `mutate()`", correct=TRUE),
+  answer(".. `summarize()`", correct=TRUE)
+)
+```
+
+- What is computed by `summarize( myTable, n=n() )`?
+- What happens when multiple `group_by()` calls are used?
+- What's the problem with `NA` values?
+
+
+
+```{r child = 'images/cheatsheet.Rmd'}
+```

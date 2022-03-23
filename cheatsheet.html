@@ -304,7 +304,10 @@ pre code {
 <li>you can directly use previously created variables</li>
 </ul></li>
 </ul></li>
-<li><code>transmute()</code> creates a <strong>new table</strong> with new variables (dropping the input table)</li>
+<li><code>transmute()</code> creates a <strong>new table</strong> with new variables (dropping the input table)
+<ul>
+<li>produces one row for each row of the input table</li>
+</ul></li>
 <li><strong>creation functions</strong>
 <ul>
 <li>are done <em>rowwise</em> on the <em>whole column</em> at once
@@ -347,6 +350,37 @@ pre code {
 <li>e.g. both <code>c(1,2,3,4)+1</code> and <code>c(1,2,3,4)+c(1,2)</code> are working while <code>c(1,2,3)+c(1,2)</code> is not</li>
 <li><em>best use with single values only!</em></li>
 </ul></li>
+</ul>
+</div>
+<div id="cheatsheet-dplyr-groupby-summarize" class="section level2">
+<h2>Cheatsheet “dplyr-groupby-summarize”</h2>
+<ul>
+<li><code>summarize()</code> produces only a single output row (per group)
+<ul>
+<li>computes statistical properties of variables (or combinations)</li>
+<li><code>NA</code> handling important (set <code>na.rm=TRUE</code> argument of aggregating functions)</li>
+<li>when statistics on groups: good idea to report/check group size via <code>n()</code></li>
+<li>‘consumes’ a previous grouping via ‘group_by()’, i.e. merges the rows per group into one table</li>
+</ul></li>
+<li><code>group_by()</code> decomposes the observations from the table into subtables that show the same value w.r.t. the grouping variable
+<ul>
+<li>multiple grouping variables can be given (comma-separated) to specific a grouping hierarchy</li>
+<li>subsequent <code>group_by()</code> calls overwrite the grouping of the previous!</li>
+<li>all subsequent operations or done <em>independently per group</em></li>
+</ul></li>
+<li><code>ungroup()</code> explicitly undoes the previous <code>group_by()</code> and merges the subtables back into one</li>
+<li><strong>aggregation functions</strong>
+<ul>
+<li><code>mean()</code>, <code>median()</code>, <code>quantile()</code>, <code>Sd()</code></li>
+<li><code>min()</code>, <code>max()</code>, <code>first()</code>, <code>last()</code>, <code>nth()</code></li>
+<li><code>n()</code>, <code>n_distinct()</code></li>
+<li><code>sum()</code>
+<ul>
+<li><code>sum()</code> of logical values == number of <code>TRUE</code>s (since scored 1, where <code>FALSE</code> is scored 0)</li>
+</ul></li>
+<li>can be used anywhere, also in <code>mutate()</code>, <code>filter()</code>, …</li>
+</ul></li>
+<li><code>count()</code> is a summary based on counting or summation only</li>
 </ul>
 </div>
 

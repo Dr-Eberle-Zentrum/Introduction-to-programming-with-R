@@ -1,7 +1,7 @@
 Package: deztutr
 Type: Package
 Title: Introduction to data processing with R
-Version: 2022.03.22
+Version: 2022.03.23
 Author: Dr. Eberle centre for digital competencies - Tuebingen University
 Maintainer: Martin Raden <martin.raden@uni-tuebingen.de>
 Description: This is a collection of learnr-based tutorials to get started
