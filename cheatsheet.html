@@ -174,7 +174,7 @@ pre code {
 </div>
 
 
-<p>In the following, the cheatsheets of the tutorials are aggregated.</p>
+<p>In the following, cheat sheets of the tutorials and additional information are aggregated.</p>
 <div id="r-rstudio-coding-packages" class="section level2">
 <h2>R, RStudio, coding, packages</h2>
 <ul>
@@ -184,14 +184,14 @@ pre code {
 <ul>
 <li>can be combined using logical operators like <code>&amp;</code> (AND), <code>|</code> (OR), and <code>!</code> (NOT)</li>
 </ul></li>
-<li><em>functions</em>, aka <em>commands</em>, are the workhorses in R and always come with a <code>()</code> after theirs name</li>
-<li><code>c()</code> combines/concatenates multiple values into one vector object</li>
-<li><code>install.packages()</code> installs a new package via its name from the console (also possible via menu in RStudio)</li>
+<li><em>functions</em>, aka <em>commands</em>, are the workhorses in R and always come with a <code>()</code> after their name</li>
+<li><code>c()</code> combines/concatenates multiple values into one <em>vector</em> object</li>
+<li><code>install.packages()</code> installs a new package via its name from the console (also possible via ‘Packages’ menu in RStudio)</li>
 <li>a package is a collection of additional functions and data objects, examples are
 <ul>
 <li><code>ggplot2</code> for visualization</li>
 <li><code>dplyr</code> for data transformation</li>
-<li>all covered and loaded by the meta-package <code>tidyverse</code></li>
+<li>important packages for data processing covered in this course are loaded via the meta-package <code>tidyverse</code></li>
 </ul></li>
 <li><code>library()</code> loads a package via its name
 <ul>
@@ -221,8 +221,8 @@ pre code {
 <li><code>ggplot2</code> is the visualization package
 <ul>
 <li><code>ggplot()</code> defines what data to plot (and general/shared aesthetics)</li>
-<li><code>aes()</code> aesthetics define what data variables are used where in the plot, i.e. their <em>mapping</em></li>
-<li><code>geom_...()</code> defines how to plot the data, e.g.
+<li><code>aes()</code> <em>aesthetics</em> define what data variables are used where in the plot, i.e. their <em>mapping</em></li>
+<li><code>geom_...()</code> defines how to plot the data, i.e. the plot <em>geometry</em>, e.g.
 <ul>
 <li><code>geom_point()</code></li>
 <li><code>geom_line()</code></li>
@@ -235,6 +235,30 @@ pre code {
 <li>there is an operator like <code>+</code>, <code>&lt;-</code>, <code>=</code>, …</li>
 <li>it misses still a closing bracket or brace, i.e. <code>)</code>, <code>]</code>, <code>}</code>, or closing quote, i.e. <code>&quot;</code>, <code>&#39;</code></li>
 </ul></li>
+</ul>
+</div>
+<div id="workflow-basics" class="section level2">
+<h2>Workflow basics</h2>
+<ul>
+<li>variable names
+<ul>
+<li>can contain numbers, letters, <code>.</code> and <code>_</code></li>
+<li>have to start with a letter</li>
+<li>should be self-explanatory</li>
+<li>capitalization matters, i.e. <code>myname</code> is not <code>myName</code></li>
+</ul></li>
+<li>use <code>&lt;-</code> for object assignment (RStudio hot key = ‘ALT’ + ‘-’)</li>
+<li><code>seq()</code> generates a vector of subsequent numbers, e.g. <code>seq(2,5)</code> is equal to <code>c(2,3,4,5)</code></li>
+<li>text/string/character values have to be <em>quoted</em>, i.e. surrounded by ticks
+<ul>
+<li>use either <code>&#39;&#39;</code> or <code>&quot;&quot;</code>, both works</li>
+<li>ensure closing tick for any opening</li>
+</ul></li>
+<li>writing a variable name in the console prints it, i.e. <code>x</code> is equal to <code>print(x)</code>
+<ul>
+<li>surrounding a term in round brackets <code>()</code> triggers printing implicitly</li>
+</ul></li>
+<li>RStudio: hot key ‘ALT’+‘SHIFT’+‘K’ shows all hot key combinations</li>
 </ul>
 </div>
 <div id="cheatsheet-dplyr-filter" class="section level2">
@@ -358,7 +382,6 @@ pre code {
 <li><code>summarize()</code> produces only a single output row (per group)
 <ul>
 <li>computes statistical properties of variables (or combinations)</li>
-<li><code>NA</code> handling important (set <code>na.rm=TRUE</code> argument of aggregating functions)</li>
 <li>when statistics on groups: good idea to report/check group size via <code>n()</code></li>
 <li>‘consumes’ a previous grouping via ‘group_by()’, i.e. merges the rows per group into one table</li>
 </ul></li>
@@ -379,6 +402,7 @@ pre code {
 <li><code>sum()</code> of logical values == number of <code>TRUE</code>s (since scored 1, where <code>FALSE</code> is scored 0)</li>
 </ul></li>
 <li>can be used anywhere, also in <code>mutate()</code>, <code>filter()</code>, …</li>
+<li><code>NA</code> handling important (set <code>na.rm=TRUE</code> argument if wanted)</li>
 </ul></li>
 <li><code>count()</code> is a summary based on counting or summation only</li>
 </ul>

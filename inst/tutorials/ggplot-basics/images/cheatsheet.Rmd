@@ -7,8 +7,8 @@
 - `glimpse()` compact variable view of tabular data (from `dplyr` package)
 - `ggplot2` is the visualization package
   - `ggplot()` defines what data to plot (and general/shared aesthetics)
-  - `aes()` aesthetics define what data variables are used where in the plot, i.e. their *mapping*
-  - `geom_...()` defines how to plot the data, e.g.
+  - `aes()` *aesthetics* define what data variables are used where in the plot, i.e. their *mapping*
+  - `geom_...()` defines how to plot the data, i.e. the plot *geometry*, e.g.
     - `geom_point()`
     - `geom_line()`
     - `geom_smooth()`

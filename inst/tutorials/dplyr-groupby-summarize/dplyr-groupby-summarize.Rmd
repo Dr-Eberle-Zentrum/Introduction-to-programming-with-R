@@ -378,6 +378,7 @@ question("Aggregation function like `min()` can be used in",
   answer(".. `filter()`", correct=TRUE),
   answer(".. `group_by()`"),
   answer(".. `mutate()`", correct=TRUE),
+  answer(".. `select()`"),
   answer(".. `summarize()`", correct=TRUE)
 )
 ```

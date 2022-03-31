@@ -9,7 +9,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```
 
-In the following, the cheatsheets of the tutorials are aggregated.
+In the following, cheat sheets of the tutorials and additional information are aggregated.
 
 
 ## R, RStudio, coding, packages
@@ -18,13 +18,13 @@ In the following, the cheatsheets of the tutorials are aggregated.
 - `=` is used for assignment of values to arguments (don't use for object assignment!)
 - Boolean statements work on and result in `TRUE/FALSE` values 
   - can be combined using logical operators like `&` (AND), `|` (OR), and `!` (NOT)
-- *functions*, aka *commands*, are the workhorses in R and always come with a `()` after theirs name
-- `c()` combines/concatenates multiple values into one vector object
-- `install.packages()` installs a new package via its name from the console (also possible via menu in RStudio)
+- *functions*, aka *commands*, are the workhorses in R and always come with a `()` after their name
+- `c()` combines/concatenates multiple values into one *vector* object
+- `install.packages()` installs a new package via its name from the console (also possible via 'Packages' menu in RStudio)
 - a package is a collection of additional functions and data objects, examples are
   - `ggplot2` for visualization
   - `dplyr` for data transformation
-  - all covered and loaded by the meta-package `tidyverse`
+  - important packages for data processing covered in this course are loaded via the meta-package `tidyverse`
 - `library()` loads a package via its name
   - this command is *typically missing* if your R doesn't know/find the function you want to use!
 
@@ -35,6 +35,23 @@ In the following, the cheatsheets of the tutorials are aggregated.
 
 ```{r child = 'inst/tutorials/ggplot-basics/images/cheatsheet.Rmd'}
 ```
+
+## Workflow basics
+
+- variable names 
+  - can contain numbers, letters, `.` and `_`
+  - have to start with a letter
+  - should be self-explanatory
+  - capitalization matters, i.e. `myname` is not `myName`
+- use `<-` for object assignment (RStudio hot key = 'ALT' + '-')
+- `seq()` generates a vector of subsequent numbers, e.g. `seq(2,5)` is equal to `c(2,3,4,5)`
+- text/string/character values have to be *quoted*, i.e. surrounded by ticks
+  - use either `''` or `""`, both works
+  - ensure closing tick for any opening
+- writing a variable name in the console prints it, i.e. `x` is equal to `print(x)`
+  - surrounding a term in round brackets `()` triggers printing implicitly
+- RStudio: hot key 'ALT'+'SHIFT'+'K' shows all hot key combinations
+
 
 ```{r child = 'inst/tutorials/dplyr-filter/images/cheatsheet.Rmd'}
 ```
