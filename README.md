@@ -20,6 +20,7 @@ We thus recommend the following order
   - The grammar of graphics = [Chapter 2.1 of ModernDive](https://moderndive.com/2-viz.html)
   - `ggplot-basics` tutorial
 - Data processing with the `dplyr` package
+  - Workflow basics = [Chapter 4 of R4DS](https://r4ds.had.co.nz/workflow-basics.html)
   - `dplyr-filter` tutorial
   - `dplyr-arrange-select` tutorial
   - `dplyr-mutate` tutorial
@@ -92,7 +93,7 @@ This can be done with the red (STOP)-button in the RStudio "R Markdown" pane (up
 
 # License
 
-This work is licensed under a
+This work by Martin Raden is licensed under a
 [Creative Commons Attribution-ShareAlike 4.0 International License][cc-by-sa].
 
 [![CC BY-SA 4.0][cc-by-sa-image]][cc-by-sa]

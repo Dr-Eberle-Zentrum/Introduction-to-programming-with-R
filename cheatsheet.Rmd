@@ -9,7 +9,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```
 
-In the following, cheat sheets of the tutorials and additional information are aggregated.
+This page aggregates the cheat sheets of our tutorials and additional information from out
+R tutorial package [Introduction to programming with R](https://github.com/Dr-Eberle-Zentrum/Introduction-to-programming-with-R).
 
 
 ## R, RStudio, coding, packages
@@ -65,4 +66,11 @@ In the following, cheat sheets of the tutorials and additional information are a
 ```{r child = 'inst/tutorials/dplyr-groupby-summarize/images/cheatsheet.Rmd'}
 ```
 
+
+--------------------------------------------------------
+
+
+This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
+
+Feel free to contribute at [https://github.com/Dr-Eberle-Zentrum/Introduction-to-programming-with-R](https://github.com/Dr-Eberle-Zentrum/Introduction-to-programming-with-R).
 
