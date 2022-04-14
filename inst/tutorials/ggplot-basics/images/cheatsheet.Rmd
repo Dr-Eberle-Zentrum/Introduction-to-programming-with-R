@@ -4,14 +4,16 @@
 - `help()` provides details information on functions, data sets, packages
   -  `?` short version
 - `head()` first elements of object
-- `glimpse()` compact variable view of tabular data (from `dplyr` package)
+- `glimpse()` (from `dplyr` package) compact variable view of tabular data
+  - one line per variable column
+  - [Summary page](https://dplyr.tidyverse.org/reference/glimpse.html)
 - `ggplot2` is the visualization package
   - `ggplot()` defines what data to plot (and general/shared aesthetics)
   - `aes()` *aesthetics* define what data variables are used where in the plot, i.e. their *mapping*
   - `geom_...()` defines how to plot the data, i.e. the plot *geometry*, e.g.
-    - `geom_point()`
-    - `geom_line()`
-    - `geom_smooth()`
+    - `geom_point()` ([Summary page](https://ggplot2.tidyverse.org/reference/geom_point.html))
+    - `geom_line()` ([Summary page](https://ggplot2.tidyverse.org/reference/geom_line.html))
+    - `geom_smooth()` ([Summary page](https://ggplot2.tidyverse.org/reference/geom_smooth.html))
   - `+` combines different geometries etc. into one plot
 - R combines *multiple lines* into one call if at the end of a line
   - there is an operator like `+`, `<-`, `=`, ...

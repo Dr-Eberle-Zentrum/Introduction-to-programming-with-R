@@ -3,11 +3,12 @@
 
 ## Cheatsheet "dplyr-groupby-summarize"
 
-- `summarize()` produces only a single output row (per group)
+- `summarize()` produces only a *single output row (per group)* ([Summary page](https://dplyr.tidyverse.org/reference/summarise.html))
   - computes statistical properties of variables (or combinations)
   - when statistics on groups: good idea to report/check group size via `n()`
   - 'consumes' a previous grouping via 'group_by()', i.e. merges the rows per group into one table
-- `group_by()` decomposes the observations from the table into subtables that show the same value w.r.t. the grouping variable
+- `group_by()` *decomposes the observations* ([Summary page](https://dplyr.tidyverse.org/reference/group_by.html))
+  - i.e. decomposing the table into subtables that show the same value w.r.t. the grouping variable
   - multiple grouping variables can be given (comma-separated) to specific a grouping hierarchy
   - subsequent `group_by()` calls overwrite the grouping of the previous!
   - all subsequent operations or done *independently per group*

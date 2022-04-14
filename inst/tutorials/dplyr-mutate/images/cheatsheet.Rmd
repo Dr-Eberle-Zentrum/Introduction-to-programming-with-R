@@ -3,14 +3,14 @@
 
 ## Cheatsheet "dplyr-mutate"
 
-- `mutate()` creates **new variables**
+- `mutate()` creates **new variables** (columns)  ([Summary page](https://dplyr.tidyverse.org/reference/mutate.html))
   - format is `NAME = EXPRESSION`
   - multiple variables can be created (subsequently) in one `mutate()` calls
     - you can directly use previously created variables
 - `transmute()` creates a **new table** with new variables (dropping the input table)
   - produces one row for each row of the input table
 - **creation functions** 
-  - are done *rowwise* on the *whole column* at once
+  - are done *row-wise* on the *whole column* at once
     - i.e. when computing `A-B`, respective `A` and `B` values from each row from both columns are subtracted (creating a new vector with the same length as both columns; one result for each row in the same row-order)
   - if a function works that way it is called a *vectorized functions*
   - common operations: 

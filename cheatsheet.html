@@ -217,16 +217,20 @@ pre code {
 <li><code>?</code> short version</li>
 </ul></li>
 <li><code>head()</code> first elements of object</li>
-<li><code>glimpse()</code> compact variable view of tabular data (from <code>dplyr</code> package)</li>
+<li><code>glimpse()</code> (from <code>dplyr</code> package) compact variable view of tabular data
+<ul>
+<li>one line per variable column</li>
+<li><a href="https://dplyr.tidyverse.org/reference/glimpse.html">Summary page</a></li>
+</ul></li>
 <li><code>ggplot2</code> is the visualization package
 <ul>
 <li><code>ggplot()</code> defines what data to plot (and general/shared aesthetics)</li>
 <li><code>aes()</code> <em>aesthetics</em> define what data variables are used where in the plot, i.e. their <em>mapping</em></li>
 <li><code>geom_...()</code> defines how to plot the data, i.e. the plot <em>geometry</em>, e.g.
 <ul>
-<li><code>geom_point()</code></li>
-<li><code>geom_line()</code></li>
-<li><code>geom_smooth()</code></li>
+<li><code>geom_point()</code> (<a href="https://ggplot2.tidyverse.org/reference/geom_point.html">Summary page</a>)</li>
+<li><code>geom_line()</code> (<a href="https://ggplot2.tidyverse.org/reference/geom_line.html">Summary page</a>)</li>
+<li><code>geom_smooth()</code> (<a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">Summary page</a>)</li>
 </ul></li>
 <li><code>+</code> combines different geometries etc. into one plot</li>
 </ul></li>
@@ -265,7 +269,7 @@ pre code {
 <h2>Cheatsheet “dplyr-filter”</h2>
 <ul>
 <li>vector creation via <code>c()</code> (<em>concatenate</em>)</li>
-<li>conditional statements/functions
+<li>conditional statements/functions result in logical values (<code>TRUE</code> or <code>FALSE</code>)
 <ul>
 <li><code>==</code>, <code>!=</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;=</code></li>
 <li><code>&amp;</code>, <code>|</code>, <code>xor()</code></li>
@@ -274,8 +278,9 @@ pre code {
 <li><code>between()</code> (dplyr)</li>
 <li><code>near()</code> better for floating point number comparison than <code>==</code></li>
 </ul></li>
-<li><code>filter()</code>
+<li><code>filter()</code> prunes table to <em>rows of interest</em> (<a href="https://dplyr.tidyverse.org/reference/filter.html">Summary page</a>)
 <ul>
+<li>all rows for which the conditional statement is <code>TRUE</code> pass the filter and are kept; all others are removed</li>
 <li>multiple sequential filter steps separated by comma or <code>&amp;</code></li>
 <li>direct use of variable (column) names in filter criteria</li>
 <li>brackets in conditional statements are often important!</li>
@@ -284,22 +289,22 @@ pre code {
 <ul>
 <li>(first) input argument of subsequent function automatically set (with result of last)</li>
 </ul></li>
-<li><code>summary()</code> statistical overview of values in data structure</li>
+<li><code>summary()</code> statistical overview of values in data structure; e.g. for each variable of a data frame</li>
 </ul>
 </div>
 <div id="cheatsheet-dplyr-arrange-select" class="section level2">
 <h2>Cheatsheet “dplyr-arrange-select”</h2>
 <ul>
-<li><code>arrange()</code> changes the order of rows
+<li><code>arrange()</code> changes the <em>order of rows</em> (<a href="https://dplyr.tidyverse.org/reference/arrange.html">Summary page</a>)
 <ul>
 <li>multiple (comma-separated) variable names define a sorting hierarchy (left-to-right) that is used for tie breaking</li>
 <li>default = <em>ascending order</em></li>
 <li><code>desc()</code> around a variable triggers <em>descending</em> sorting w.r.t. the variable’s values</li>
 <li><code>NA</code> is always last</li>
 </ul></li>
-<li><code>select()</code> reduces the columns to variables of interest
+<li><code>select()</code> reduces the columns to <em>variables of interest</em> (<a href="https://dplyr.tidyverse.org/reference/select.html">Summary page</a>)
 <ul>
-<li>comma-separated variable list or vector notation
+<li>comma-separated variable list or vector notation (using <code>c()</code>)
 <ul>
 <li><code>:</code> generates a vector of ascendingly increasing elements (<code>from:to</code>) including the boundaries</li>
 <li>specified order = new order of columns (can be used for reordering)
@@ -308,7 +313,7 @@ pre code {
 <li>duplicated names are ignored</li>
 </ul></li>
 </ul></li>
-<li><code>-</code> negation removes the specified variables (also works for vectors via <code>c()</code> or <code>:</code>)</li>
+<li><code>!</code> or <code>-</code> negation removes the specified variables (also works for vectors via <code>c()</code> or <code>:</code>)</li>
 <li>selection can be specified via names (quoted and unquoted) as well as numbers</li>
 <li><code>starts_with()</code>, <code>ends_with()</code>, <code>contains()</code> : parts of variable names</li>
 <li><code>matches()</code> : regular expression on names (discussed later)</li>
@@ -320,7 +325,7 @@ pre code {
 <div id="cheatsheet-dplyr-mutate" class="section level2">
 <h2>Cheatsheet “dplyr-mutate”</h2>
 <ul>
-<li><code>mutate()</code> creates <strong>new variables</strong>
+<li><code>mutate()</code> creates <strong>new variables</strong> (columns) (<a href="https://dplyr.tidyverse.org/reference/mutate.html">Summary page</a>)
 <ul>
 <li>format is <code>NAME = EXPRESSION</code></li>
 <li>multiple variables can be created (subsequently) in one <code>mutate()</code> calls
@@ -334,7 +339,7 @@ pre code {
 </ul></li>
 <li><strong>creation functions</strong>
 <ul>
-<li>are done <em>rowwise</em> on the <em>whole column</em> at once
+<li>are done <em>row-wise</em> on the <em>whole column</em> at once
 <ul>
 <li>i.e. when computing <code>A-B</code>, respective <code>A</code> and <code>B</code> values from each row from both columns are subtracted (creating a new vector with the same length as both columns; one result for each row in the same row-order)</li>
 </ul></li>
@@ -379,14 +384,15 @@ pre code {
 <div id="cheatsheet-dplyr-groupby-summarize" class="section level2">
 <h2>Cheatsheet “dplyr-groupby-summarize”</h2>
 <ul>
-<li><code>summarize()</code> produces only a single output row (per group)
+<li><code>summarize()</code> produces only a <em>single output row (per group)</em> (<a href="https://dplyr.tidyverse.org/reference/summarise.html">Summary page</a>)
 <ul>
 <li>computes statistical properties of variables (or combinations)</li>
 <li>when statistics on groups: good idea to report/check group size via <code>n()</code></li>
 <li>‘consumes’ a previous grouping via ‘group_by()’, i.e. merges the rows per group into one table</li>
 </ul></li>
-<li><code>group_by()</code> decomposes the observations from the table into subtables that show the same value w.r.t. the grouping variable
+<li><code>group_by()</code> <em>decomposes the observations</em> (<a href="https://dplyr.tidyverse.org/reference/group_by.html">Summary page</a>)
 <ul>
+<li>i.e. decomposing the table into subtables that show the same value w.r.t. the grouping variable</li>
 <li>multiple grouping variables can be given (comma-separated) to specific a grouping hierarchy</li>
 <li>subsequent <code>group_by()</code> calls overwrite the grouping of the previous!</li>
 <li>all subsequent operations or done <em>independently per group</em></li>

@@ -5,6 +5,26 @@
 This repository holds an R package, which covers tutorials for a basic introduction to programming and data processing with R.
 It can be and is used both as self-study material or for tutored e-learning courses.
 
+# Available tutorials in recommended order
+
+The tutorials are based on and extending chapters of the following text books
+
+- [Statistical Inference via Data Science: A ModernDive into R and the Tidyverse](https://moderndive.com/) by Chester Ismay and Albert Y. Kim
+- [R for Data Science](https://r4ds.had.co.nz/) by Hadley Wickham and Garrett Grolemund
+
+We thus recommend the following order
+
+- To get started
+  - R, RStudio, coding, packages = [Chapter 1 - 1.3.3 of ModernDive](https://moderndive.com/1-getting-started.html)
+  - `first-steps` tutorial
+  - The grammar of graphics = [Chapter 2.1 of ModernDive](https://moderndive.com/2-viz.html)
+  - `ggplot-basics` tutorial
+- Data processing with the `dplyr` package
+  - `dplyr-filter` tutorial
+  - `dplyr-arrange-select` tutorial
+  - `dplyr-mutate` tutorial
+  - `dplyr-groupby-summarize` tutorial
+
 # Requirements and local installation of tutorials
 
 In order to run the tutorials you need to

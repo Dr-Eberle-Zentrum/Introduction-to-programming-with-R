@@ -4,19 +4,20 @@
 ## Cheatsheet "dplyr-filter"
 
 - vector creation via `c()` (*concatenate*)
-- conditional statements/functions
+- conditional statements/functions result in logical values (`TRUE` or `FALSE`)
   - `==`, `!=`, `>`, `<`, `<=`, `>=`
   - `&`, `|`, `xor()`
   - `!`
   - `%in%` vector (or counterpart `%notin%`)
   - `between()` (dplyr)
   - `near()` better for floating point number comparison than `==`
-- `filter()`
+- `filter()` prunes table to *rows of interest* ([Summary page](https://dplyr.tidyverse.org/reference/filter.html))
+  - all rows for which the conditional statement is `TRUE` pass the filter and are kept; all others are removed
   - multiple sequential filter steps separated by comma or `&`
   - direct use of variable (column) names in filter criteria
   - brackets in conditional statements are often important!
 - `%>%` piping for connection of data transformation steps
   - (first) input argument of subsequent function automatically set (with result of last)
-- `summary()` statistical overview of values in data structure
+- `summary()` statistical overview of values in data structure; e.g. for each variable of a data frame
 
 
