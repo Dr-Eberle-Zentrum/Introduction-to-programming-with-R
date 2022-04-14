@@ -1,0 +1,20 @@
+
+
+
+## Cheatsheet "dplyr-sundries"
+
+- `rename()` allows to *alter variable names* ([Summary page](https://dplyr.tidyverse.org/reference/rename.html))
+  - format: `<NEWNAME> = <OLDVAR>` where `OLDVAR` can be
+    - an *index* number or 
+    - the *old name* of the column to rename
+- `colnames()` give you the vector of a table's *column names* (base R)
+- `slice` functions *extract specific rows* ([Summary page](https://dplyr.tidyverse.org/reference/slice.html))
+  - `slice()` - columns specified by indices
+  - `slice_min(), slice_max()` - best/worst rows w.r.t. values in a given variable
+  - `slice_head(), slice_tail()` - top/tail rows w.r.t. current row order
+  - `slice_sample()` - pick at random
+  - set `n=..` argument for number of rows
+  - be aware of ranking ties during min/max slicing 
+- `distinct()` reduces the table to *unique observations* ([Summary page](https://dplyr.tidyverse.org/reference/distinct.html))
+  - if a variable name is given, *only first rows with a unique value* w.r.t. the variable are kept
+  - `.keep_all=TRUE` no columns are removed from the output

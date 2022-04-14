@@ -9,8 +9,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```
 
-This page aggregates the cheat sheets of our tutorials and additional information from out
-R tutorial package [Introduction to programming with R](https://github.com/Dr-Eberle-Zentrum/Introduction-to-programming-with-R).
+This aggregated cheatsheet of our tutorial package 
+[Introduction to programming with R](https://github.com/Dr-Eberle-Zentrum/Introduction-to-programming-with-R) 
+summarizes the individual notes from the provided tutorials and additional information from recommended sources.
 
 
 ## R, RStudio, coding, packages

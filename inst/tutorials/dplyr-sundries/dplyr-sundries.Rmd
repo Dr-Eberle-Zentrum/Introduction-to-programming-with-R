@@ -1,0 +1,242 @@
+---
+title: "dplyr sundries"
+tutorial:
+  id: "de.uni-tuebingen.dezfdk.tutorials.r-dplyr-sundries"
+  version: 2022.04.04
+  author: Martin Raden
+output:
+  learnr::tutorial :
+    progressive: true
+    allow_skip: true
+    theme: "sandstone"
+    language: "en"
+    css: "css/dez-style.css"
+    includes:
+      before_body: "../../resources/logo-header.html"
+      after_body: "../../resources/footer.html"
+runtime: shiny_prerendered
+---
+  
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+# disable warnings
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+# Link to static resources in Shiny's web server
+shiny::addResourcePath("css",
+                       system.file("resources","css",
+                       package = "deztutr"))
+
+
+```
+
+
+## The `dplyr` package
+
+![](images/dplyr-logo.png){width=10%}
+
+The [`dplyr` package](https://dplyr.tidyverse.org/) provides the central functions for data transformation within the `tidyverse` universe.
+Common tasks of data transformation are typically made of a serious of steps that can be implemented by the following *verbs* of dplyr: 
+
+- *filter*, 
+- *mutate*, 
+- *arrange*, 
+- *select* and 
+- *summarize*.
+
+But there are other useful verbs and aspects concerning data processing with `dplyr`, which are the topic of this tutorial.
+
+
+## Rename columns
+
+Sometimes the variable names of your table are long, ugly, complicated, misleading or all at once. 
+Thus, you need to rename them, which can be done via the `rename()` function.
+For instance, the following code will rename the first column to `Weight` and the variable `Chick` to `ChickenID`.
+
+```{r rename-example}
+# variable names of ChickWeight
+colnames(ChickWeight)
+# renaming
+rename(ChickWeight, Weight = 1, ChickenID = Chick) %>% 
+  # and rechecking the variable names
+  colnames()
+```
+
+Note, we used the `colnames()` function to extract the names of the table's variables before and after the rename.
+
+Further examples and details are provided on the [`rename()` reference website](https://dplyr.tidyverse.org/reference/rename.html).
+
+To test it yourself look up the help page of the `starwars` data set and do the following
+
+- rename the 2nd column in `height_in_cm`
+- rename the `mass` variable to `weight_in_kg`
+- reduce the data set to droids
+- reduce the columns to the renamed ones
+- compute mean values for both variables
+
+
+```{r starwars-droid-stats, exercise=TRUE}
+
+```
+
+```{r starwars-droid-stats-solution}
+starwars %>% 
+  rename( height_in_cm = 2,
+          weight_in_kg = mass) %>% 
+  filter( species == "Droid") %>% # needs the table's help page or checking of the data
+  select( height_in_cm, weight_in_kg) %>% 
+  summarize( mean_height_in_cm = mean(height_in_cm, na.rm=T), # remember the NA problem!
+             mean_weight_in_kg = mean(weight_in_kg, na.rm=T))
+```
+
+Try to rename the `name` variable from the `starwars` data set to `42`. Think about and explain your observation.
+
+```{r starwars-wrong-rename, exercise=TRUE}
+
+```
+
+```{r starwars-wrong-rename-solution}
+# this rename is not working
+starwars %>% 
+  rename( 42 = name)
+# since "42" is no valid variable name (starts with a digit)
+
+# Thus, R is surprised to see the assignment operator after the digit
+# and provides a respective error message.
+```
+
+
+
+## Slice out rows
+
+Another set of common tasks is to 
+
+- *extract the best/worst observations* w.r.t. the values within a given variable column (`slice_min(), slice_max()`)
+- *get first/last rows* w.r.t. the current row order (`slice_head(), slice_tail()`)
+- *select only specific rows by index* (`slice()`) or
+- *pick some rows at random* (`slice_sample()`) .
+
+While most of these tasks could be solved with a combination of rank computation and filtering, it is more convenient to use the dedicated `slice()` function and its variants named after each task.
+
+Each of the `slice` functions takes an `n=..` argument to name the number of rows to keep.
+
+For instance, we can identify the five lightest humans in Star Wars via
+
+```{r fat-starwars, exercise=TRUE}
+starwars %>% 
+  filter( species == "Human" ) %>% 
+  slice_min( mass, n=5 ) %>% 
+  select( name, mass )
+```
+
+Did you note that we get more than 5 rows? 
+This is a result from ranking ties, i.e. multiple observations show the same weight and are thus not distinguishable.
+If still interested in only 5 rows, we could either subsequently prune the list to the top 5 using `slice_head()` or set `with_ties = F` to disable the listing of all alternatives with the same value.
+
+```{r fat-starwars-solution}
+# further pruning via second slice
+starwars %>% 
+  filter( species == "Human" ) %>% 
+  slice_min(mass, n=5) %>% 
+  select( name, mass ) %>% 
+  slice_head(n=5)
+
+# or disable listing of all ties
+starwars %>% 
+  filter( species == "Human" ) %>% 
+  slice_min(mass, n=5, with_ties = F ) %>% 
+  select( name, mass )
+```
+
+A detailed summary and list of examples is available on the [`slice()` reference website](https://dplyr.tidyverse.org/reference/slice.html).
+
+
+## Distinct rows
+
+When reducing the number of variables it often happens that observations are getting undistinguishable, i.e. multiple rows are showing the same values.
+Thus, one wants to *remove duplicated observations* to *keep only unique* ones.
+
+This can be accomplished using the `distinct()` function.
+When used without further arguments, it removes all duplicated rows from a table, keeping only the first occurrence.
+
+Try in the following to identify the unique `gender` and `sex` combinations within the `starwars` data set
+
+```{r distinct-table, exercise=TRUE}
+starwars %>% 
+  select( gender, sex ) %>% 
+```
+  
+```{r distinct-table-solution}
+starwars %>% 
+  select( gender, sex ) %>% 
+  distinct()
+```
+
+The same can be produced, when naming the variables of interest for which unique values/combinations are to be produced:
+
+```{r unique-combis}
+starwars %>% 
+  distinct(gender, sex)
+```
+
+In that case, only the first row that shows a unique combination is kept.
+
+Try in the following to produce the same set of observations (order doesn't matter) as from the `distinct(starwars, gender, sex)` call from above but using only the already known `dplyr` verbs *without* `distinct()`!
+
+
+```{r distinct-fake, exercise=TRUE}
+starwars %>% 
+```
+  
+```{r distinct-fake-solution}
+starwars %>% 
+  # reducing the table to columns of interest
+  select(sex,gender) %>% 
+  # decompose into groups that are unique w.r.t. to both variables
+  group_by( gender, sex ) %>% 
+  # keep only first row of each group
+  slice_head(n=1)
+```
+
+
+While useful, we are often interested in examples that are unique w.r.t. to a specific variable but we want to keep the whole information (and not reduce the output to a single variable).
+This can be achieved using the `.keep_all=TRUE` argument of `distinct()`, which you can test below.
+
+
+```{r unique-combis-keepAll, exercise=TRUE}
+starwars %>% 
+  distinct(gender, sex, .keep_all = TRUE )
+```
+
+
+
+A detailed summary and list of examples is available on the [`distinct()` reference website](https://dplyr.tidyverse.org/reference/distinct.html).
+
+
+## Joining tables
+
+TODO
+
+## `dplyr` cheat sheet
+
+TODO
+
+
+## Wrap-up
+
+But before we continue, think about the following questions, which can be answered with the current material.
+
+TODO
+
+```{r q-recycling, echo=FALSE}
+question("Q",
+  answer(".. A1", correct=TRUE),
+  answer(".. A2")
+)
+```
+
+
+
+
+```{r child = 'images/cheatsheet.Rmd'}
+```
