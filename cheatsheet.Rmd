@@ -1,5 +1,5 @@
 ---
-title: "Cheatsheet of the tutorials"
+title: "Cheatsheets of all tutorials"
 author: "Martin Raden"
 output: html_document
 ---

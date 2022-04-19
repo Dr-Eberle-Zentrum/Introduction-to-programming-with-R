@@ -27,7 +27,8 @@ shiny::addResourcePath("css",
                        system.file("resources","css",
                        package = "deztutr"))
 
-
+# load needed data package
+library(nycflights13)
 ```
 
 
@@ -64,9 +65,11 @@ rename(ChickWeight, Weight = 1, ChickenID = Chick) %>%
 
 Note, we used the `colnames()` function to extract the names of the table's variables before and after the rename.
 
-Further examples and details are provided on the [`rename()` reference website](https://dplyr.tidyverse.org/reference/rename.html).
+Further examples and details are provided on the 
 
-To test it yourself look up the help page of the `starwars` data set and do the following
+- [`rename()` reference website](https://dplyr.tidyverse.org/reference/rename.html).
+
+To test it yourself, look up the help page of the `starwars` data set and do the following
 
 - rename the 2nd column in `height_in_cm`
 - rename the `mass` variable to `weight_in_kg`
@@ -148,7 +151,11 @@ starwars %>%
   select( name, mass )
 ```
 
-A detailed summary and list of examples is available on the [`slice()` reference website](https://dplyr.tidyverse.org/reference/slice.html).
+Using `prop=..`, we can also carve out a respective fraction of the observations.
+
+A detailed summary and list of examples is available on the 
+
+- [`slice()` reference website](https://dplyr.tidyverse.org/reference/slice.html).
 
 
 ## Distinct rows
@@ -210,30 +217,158 @@ starwars %>%
 
 
 
-A detailed summary and list of examples is available on the [`distinct()` reference website](https://dplyr.tidyverse.org/reference/distinct.html).
+A detailed summary and list of examples is available on the 
+
+- [`distinct()` reference website](https://dplyr.tidyverse.org/reference/distinct.html).
 
 
 ## Joining tables
 
-TODO
+Often data is distributed over different tables.
+As an example, think about a table that provides data for each town in Germany including the respective state.
+A second table gathers details about the states.
+In order to draw conclusions or visualize relations of town and state data, we first have to *join* the two data sets.
+That is, we want to create a new *tidy* table that extends the town information with the respective full state information.
+Such an operation is called a *left join*.
+There are other possible table joins that are briefly introduced in the following video.
 
-## `dplyr` cheat sheet
+![](https://youtu.be/Yg-pNqzDuN4){width="60%"}
 
-TODO
+The video's examples (using tibbles instead of data.frames) can be tested in the following interactive exercise.
+
+```{r videoexample, exercise=TRUE}
+data1 <- tibble(ID = 1:2, X1 = c("a1","a2"))
+data2 <- tibble(ID = 2:3, X2 = c("b1","b2"))
+
+inner_join( data1, data2, by = "ID")
+left_join( data1, data2, by = "ID")
+right_join( data1, data2, by = "ID")
+full_join( data1, data2, by = "ID")
+semi_join( data1, data2, by = "ID")
+anti_join( data1, data2, by = "ID")
+```
+
+While this defines the easiest way to do, one often faces the problem that the tables do not feature the same name for the columns one wants to join the tables on.
+Thus, one either has to 
+
+- either rename the column in one of the tables
+- or use specify both column names in a "rename-like" notion `by = c(VAR1 = VAR2)` where `VAR1` and `VAR2` are the two column names.
+
+Test both ways for a left join of the following two data sets. Consider a pipe for the first variant!
+
+```{r videoexample-rename, exercise=TRUE}
+data1 <- tibble(ID = 1:2, X1 = c("a1","a2"))
+data2 <- tibble(id = 2:3, X2 = c("b1","b2"))
+```
+
+```{r videoexample-rename-solution}
+# using a column rename for the first table
+data1 %>%
+  rename(id = ID) %>%
+  left_join( data2, by = "id")
+
+# specifying both column names in join
+left_join( data1, data2, by = c("ID" = "id"))
+```
+
+This type of data operation is closely related to data organization and manipulation in relational databases using SQL, which is also detailed in the *join* tutorial of ModernDive.
+The examples from the following chapter and sections are provided below.
+
+- [3.7 `join` data frames](https://moderndive.com/3-wrangling.html#joins)
+
+Note, the required data package `nycflights13` is already preloaded within this tutorial.
+
+```{r airlinesview, exercise=TRUE}
+# use "head()" here rather than "View()" since we are not in RStudio
+head(airlines)
+```
+
+Joining the flights with airline information.
+
+```{r join-flight-airline, exercise=TRUE}
+# let's use only the first ten flights for now and reduce the variables
+first_flights <- 
+  flights %>% 
+  slice_head(n=10)
+# joining
+flights_joined <- 
+  first_flights %>% 
+  inner_join(airlines, by = "carrier")
+# printing
+print(first_flights)
+print(flights_joined)
+```
+
+To better see the effect, reduce the `first_flights` table to the variables `tailnum` and `carrier`.
+
+```{r join-flight-airline-solution}
+# let's use only the first ten flights for now and reduce the variables
+first_flights <- 
+  flights %>% 
+  select(tailnum, carrier) %>% 
+  slice_head(n=10)
+# joining
+flights_joined <- 
+  first_flights %>% 
+  inner_join(airlines, by = "carrier")
+# printing
+print(first_flights)
+print(flights_joined)
+```
+
+Now let's check the `airports`.
+
+```{r view-airports, exercise=TRUE}
+head(airports)
+```
+
+And do a left join (with a reduced `flights` table).
+
+```{r join-airport-name, exercise=TRUE}
+flights %>% 
+  slice_head(n=10) %>% 
+  select( tailnum, dest) %>% 
+  inner_join(airports, by = c("dest" = "faa"))
+```
+
+And the summarizing example
+
+```{r join-summary, exercise=TRUE}
+flights %>% 
+  group_by(dest) %>%
+  summarize(num_flights = n()) %>%
+  arrange(desc(num_flights)) %>%
+  inner_join(airports, by = c("dest" = "faa")) %>%
+  rename(airport_name = name)
+```
+
+As well as the "multi-key" example
+
+```{r multi-key, exercise=TRUE}
+flights %>%
+  slice_head(n=10) %>% 
+  select(tailnum, year,month,day,hour,origin) %>% 
+  inner_join(weather, by = c("year", "month", "day", "hour", "origin"))
+```
+
+
+For a more detailed introduction into data table combination, I recommend the respective chapter in R4DS:
+
+- [13. Relational data](https://r4ds.had.co.nz/relational-data.html) in R4DS
+
 
 
 ## Wrap-up
 
 But before we continue, think about the following questions, which can be answered with the current material.
 
-TODO
-
-```{r q-recycling, echo=FALSE}
-question("Q",
-  answer(".. A1", correct=TRUE),
-  answer(".. A2")
-)
-```
+- Do you still remember the constraints on variable names in R?
+- Can you define a variable name with spaces? Did you try?
+- When do you need to quote variable names in dplyr operations?
+- What does `slice( SOMEDATA, n=n())` do?
+- We want the first half of observations and try `slice_head( SOMEDATA, n=n()/2)`. How to fix it?
+- What verb was used to remove duplicates?
+- What happens when a left join is done but no values in the respective key columns match?
 
 
 

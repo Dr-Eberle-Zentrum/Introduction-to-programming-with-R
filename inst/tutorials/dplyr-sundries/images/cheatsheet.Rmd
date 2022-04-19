@@ -14,7 +14,23 @@
   - `slice_head(), slice_tail()` - top/tail rows w.r.t. current row order
   - `slice_sample()` - pick at random
   - set `n=..` argument for number of rows
+  - set `prop=..` argument to specify a fraction of rows to keep
   - be aware of ranking ties during min/max slicing 
 - `distinct()` reduces the table to *unique observations* ([Summary page](https://dplyr.tidyverse.org/reference/distinct.html))
-  - if a variable name is given, *only first rows with a unique value* w.r.t. the variable are kept
+  - if a (set of) variable  name(s) is given, *only first rows with a unique value combination* w.r.t. the named variables are kept
   - `.keep_all=TRUE` no columns are removed from the output
+- `join` functions allow to fuse information from multiple tables into one 
+  - this is called a *mutating join* ([Summary page](https://dplyr.tidyverse.org/reference/mutate-joins.html))
+  - increases data redundancy but allows for subsequent "tidy" data analyses and ggplot visualizations
+  - joining is done based on equal values in respective *key* columns
+    - `by = X` - same column name `X` in both tables
+    - `by = c(X = Y)` - merge based on `X` column in first table and `Y` variable from second table
+  - missing values produce `NA` entries
+  - `left_join()` keeps all rows from first table
+  - `inner_join()` - only observations with values in both tables
+  - `full_join()` - all vs. all combinations
+- `dplyr` package cover **even more verbs**, see 
+  - [`dplyr` reference page](https://dplyr.tidyverse.org/reference/)
+  - [Cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-transformation.pdf)
+
+[![dplry cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/data-transformation.png){width="50%"}](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-transformation.pdf)
