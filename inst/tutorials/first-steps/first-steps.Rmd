@@ -97,7 +97,7 @@ You don't have to understand the details right now, just see the general structu
 library(tidyverse)
 
 # (1) create data table
-rawData <- data.frame(
+rawData <- tibble(
             name = c("Mickey", "Fritz", "Ashley", "Clark", "Faust"),
             size = c( 56, 182, 167, 192, 173),
             real = c( F, T, T, F, F )

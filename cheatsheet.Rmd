@@ -1,5 +1,5 @@
 ---
-title: "Cheatsheets of all tutorials"
+title: "Aggregated cheatsheets of all tutorials"
 author: "Martin Raden"
 output: html_document
 ---
@@ -65,6 +65,9 @@ summarizes the individual notes from the provided tutorials and additional infor
 ```
 
 ```{r child = 'inst/tutorials/dplyr-groupby-summarize/images/cheatsheet.Rmd'}
+```
+
+```{r child = 'inst/tutorials/dplyr-sundries/images/cheatsheet.Rmd'}
 ```
 
 

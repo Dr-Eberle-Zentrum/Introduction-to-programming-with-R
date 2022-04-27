@@ -591,7 +591,7 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
   geom_point( mapping= aes(col=drv) ) +
   geom_smooth( mapping = aes(lty=drv), se=FALSE)
 
-# middle right
+# bottom right
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
   geom_point( size=5, col="white") +
   geom_point( mapping = aes(col=drv) )
