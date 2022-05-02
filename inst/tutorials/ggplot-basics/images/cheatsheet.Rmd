@@ -7,6 +7,10 @@
 - `glimpse()` (from `dplyr` package) compact variable view of tabular data
   - one line per variable column
   - [Summary page](https://dplyr.tidyverse.org/reference/glimpse.html)
+- R combines *multiple lines* into one call if at the end of a line
+  - there is an operator like `+`, `<-`, `=`, ...
+  - it misses still a closing bracket or brace, i.e. `)`, `]`, `}`, or closing quote, i.e. `"`, `'`
+
 - `ggplot2` is the visualization package
   - `ggplot()` defines what data to plot (and general/shared aesthetics)
   - `aes()` *aesthetics* define what data variables are used where in the plot, i.e. their *mapping*
@@ -15,6 +19,6 @@
     - `geom_line()` ([Summary page](https://ggplot2.tidyverse.org/reference/geom_line.html))
     - `geom_smooth()` ([Summary page](https://ggplot2.tidyverse.org/reference/geom_smooth.html))
   - `+` combines different geometries etc. into one plot
-- R combines *multiple lines* into one call if at the end of a line
-  - there is an operator like `+`, `<-`, `=`, ...
-  - it misses still a closing bracket or brace, i.e. `)`, `]`, `}`, or closing quote, i.e. `"`, `'`
+
+[![ggplot2 cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/thumbnails/data-visualization-cheatsheet-thumbs.png){width="50%"}](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-visualization.pdf)
+
