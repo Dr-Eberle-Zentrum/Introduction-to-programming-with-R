@@ -32,5 +32,5 @@
   - `writexl` for (simple) MS Excel export
   - `googlesheets4` for import/export of online Google Sheets
 
-[![dplry cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/data-import.png){width="50%"}](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-import.pdf)
+[![dplry cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/thumbnails/data-import-cheatsheet-thumbs.png){width="50%"}](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-import.pdf)
 

@@ -33,4 +33,4 @@
   - [`dplyr` reference page](https://dplyr.tidyverse.org/reference/)
   - [Cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-transformation.pdf)
 
-[![dplry cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/data-transformation.png){width="50%"}](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-transformation.pdf)
+[![dplry cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/thumbnails/data-transformation-cheatsheet-thumbs.png){width="50%"}](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-transformation.pdf)
