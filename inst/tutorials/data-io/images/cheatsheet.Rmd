@@ -16,7 +16,7 @@
   - `col_types` allows to specify the data type of (individual) columns
   - `na` takes a vector of (string) values to be treated as *not available* (`NA`)
 - data can be typically read from
-  - file (on you computer)
+  - file (on you computer) with or without path information (check working directory)
   - url (internet address)
   - text (variable)
   - works also for compressed files (ending with `.gz`, `.bz2`, `.xz`)

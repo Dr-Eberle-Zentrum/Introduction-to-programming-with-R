@@ -26,9 +26,6 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 shiny::addResourcePath("css",
                        system.file("resources","css",
                        package = "deztutr"))
-
-# load needed data package
-library(nycflights13)
 ```
 
 
@@ -254,6 +251,12 @@ The full list of answers to all exercises from the data import chapter can be fo
 - optional [11.3 Parsing a vector](https://r4ds.had.co.nz/data-import.html#parsing-a-vector)
 - optional [11.4 Parsing a file](https://r4ds.had.co.nz/data-import.html#parsing-a-file)
 
+
+### Multiple files
+
+If you are facing multiple files that share a common table structure and column naming, 
+e.g. measurements from different runs, summaries for different groups, etc., 
+you can load all files in one go using wildcards (`*`) within the name.
 
 
 ## Data sources

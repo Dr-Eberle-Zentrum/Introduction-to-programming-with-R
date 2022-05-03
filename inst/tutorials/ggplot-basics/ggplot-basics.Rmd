@@ -2,7 +2,7 @@
 title: "ggplot basics"
 tutorial:
   id: "de.uni-tuebingen.dezfdk.tutorials.r-ggplot-basics"
-  version: 2022.03.17
+  version: 2022.05.03
   author: Martin Raden
 output:
   learnr::tutorial :
@@ -66,23 +66,32 @@ Let's try! Open within the following interactive R terminal the help page for `g
 # Write the command to open the help page for the ggplot2::mpg data set
 # and hit the "Run Code" button in the upper right.
 
+# NOTE: the help page will open WITHIN RSTUDIO "Help" View !!!
+# !!! No output is shown here on the interactive console page !!!
+# (sorry for that...)
+
 ```
 
 ```{r help-mpg-solution}
+# NOTE: the following commands are opening the help 
+# WITHIN THE "Help" VIEW OF RSTUDIO !!!
+# !!! no output on the interactive console !!!
+
 # using the shortcut and specifying both package (ggplot2) and data set (mpg)
 # the double-colon notation says "mpg belongs to the ggplot2 package"
 ?ggplot2::mpg
 
-# or doing it explicitely with the help function
+# or doing it explicitly with the help function
 help(topic="mpg", package=ggplot2)
 
 # if you loaded the ggplot library already, you can directly ask for the data set
 library(ggplot2)
 ?mpg       # using the shortcut
-help(mpg)  # using the help function explicitely
+help(mpg)  # using the help function explicitly
 ```
 
-When all went fine, this should open an new browser window that displays the data set's help page.
+When all went fine, this should open the respective help page within the RStudio "Help" View tab.
+Alternatively, you can have a look at the online version [here](https://www.rdocumentation.org/packages/ggplot2/versions/3.3.5/topics/mpg)
 
 Have a closer look and answer the following question.
 
