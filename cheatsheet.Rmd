@@ -70,6 +70,9 @@ summarizes the individual notes from the provided tutorials and additional infor
 ```{r child = 'inst/tutorials/dplyr-sundries/images/cheatsheet.Rmd'}
 ```
 
+```{r child = 'inst/tutorials/data-io/images/cheatsheet.Rmd'}
+```
+
 
 --------------------------------------------------------
 

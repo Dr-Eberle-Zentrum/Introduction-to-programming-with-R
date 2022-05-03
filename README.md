@@ -26,6 +26,8 @@ We thus recommend the following order
   - `dplyr-mutate` tutorial
   - `dplyr-groupby-summarize` tutorial
   - `dplyr-sundries` tutorial
+- Data import/export
+  - `data-io` tutorial
   
 The tutorials are summarized in our [Aggregated Cheatsheet](https://htmlpreview.github.io/?https://raw.githubusercontent.com/Dr-Eberle-Zentrum/Introduction-to-programming-with-R/master/cheatsheet.html).
 

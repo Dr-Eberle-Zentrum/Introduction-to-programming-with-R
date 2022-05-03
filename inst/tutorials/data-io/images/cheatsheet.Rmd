@@ -1,0 +1,36 @@
+
+
+
+## Cheatsheet "Data import/export"
+
+- `readr` package
+  - `read_delim()` - columns are separated by a single letter given to `delim` argument
+    - `read_csv()` - using `,` as column delimiter
+    - `read_csv2()` - columns delimited by `;` and German `,`-based decimal number notation
+    - `read_tsv()` - tabular as column delimiter
+  - `read_fwf()` - fixed width column specification (fixed number of letters per column)
+  - `locale` argument defines language specifications like decimal separator, names of days/months, date/time encoding, letter encodings, ...
+    - e.g. `locale=locale(decimal_mark=",", grouping_mark=".")` = German number notation
+    - e.g. `locale=locale(encoding="latin1")` = using the Latin-1 letter encoding typically used on Microsoft Windows systems to enable a correct rendering of umlauts etc.
+  - `quote` to specify quotation letter
+  - `col_types` allows to specify the data type of (individual) columns
+  - `na` takes a vector of (string) values to be treated as *not available* (`NA`)
+- data can be typically read from
+  - file (on you computer)
+  - url (internet address)
+  - text (variable)
+  - works also for compressed files (ending with `.gz`, `.bz2`, `.xz`)
+- the "working directory" of the `R` session defines from/to where to read/write files (without absolute path specification)
+  - `getwd()` and `setwd()`
+  - can be changed via menu "Session >> Set Working Directory" in RStudio
+  - also possible via "File" tab in RStudio
+- corresponding `write` functions
+  - e.g. `write_csv(DATATABLE, FILENAME)`
+  - use `write_csv2()` if you need a `,` decimal separator (no manual locale specification possible!)
+- additional packages
+  - `readxl` for MS Excel import
+  - `writexl` for (simple) MS Excel export
+  - `googlesheets4` for import/export of online Google Sheets
+
+[![dplry cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/data-import.png){width="50%"}](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-import.pdf)
+

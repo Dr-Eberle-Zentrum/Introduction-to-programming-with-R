@@ -1,0 +1,503 @@
+---
+title: "Data import/export"
+tutorial:
+  id: "de.uni-tuebingen.dezfdk.tutorials.r-data-io"
+  version: 2022.05.03
+  author: Martin Raden
+output:
+  learnr::tutorial :
+    progressive: true
+    allow_skip: true
+    theme: "sandstone"
+    language: "en"
+    css: "css/dez-style.css"
+    includes:
+      before_body: "../../resources/logo-header.html"
+      after_body: "../../resources/footer.html"
+runtime: shiny_prerendered
+---
+  
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+# disable warnings
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+# Link to static resources in Shiny's web server
+shiny::addResourcePath("css",
+                       system.file("resources","css",
+                       package = "deztutr"))
+
+# load needed data package
+library(nycflights13)
+```
+
+
+## The `readr` package
+
+![](images/readr-logo.png){width=10%}
+
+The [`readr` package](https://readr.tidyverse.org/) provides the central functions for the **import of tabular (rectangular) data** within the `tidyverse` universe.
+
+Data that is read by this package is typically organized in rows where the *first line* provides the columns names and *columns are separated by* a specific single *character* or of fixed *width*.
+An example of a comma-separated (value) [CSV] file is given below.
+
+```
+Year,Make,Model
+1997,Ford,E350
+2000,Mercury,Cougar
+```
+
+Things are getting complicated due to two things:
+
+- representation of floating point numbers (delimiter differs depending on country codes, e.g. `.` = en or `,` = de)
+- encoding of text data (potentially including the column separator letter)
+
+### Decimal separator and `locale`
+
+Thus, beside specifying the column delimiter, one also has to take care about the decimal separator in floating point numbers.
+In Germany, one typically has to deal with the German notation using `,` as a decimal separator and `.` to structure the data in magnitudes (thousands), e.g. `3.004.300,5` = "three million four thousand three hundred and a half".
+The respective English notation (more common and typically used notation in programming language) is `3,004,300.5` and uses the opposite notation.
+
+These reverse notations often cause havoc in data import/export! Be wary!
+
+The setting of the separators is based on the so called `locale`, which specifies the country's data encoding specifics.
+As a default, R uses the USA locale. You can switch to a different encoding using
+
+```{r local-specification}
+locale()
+```
+
+Each of the given variables within the locale can be set via arguments.
+Given this, you can alter the reading behavior by setting the `locale` argument of the called `readr` function.
+
+```{r readr-local, exercise=TRUE}
+# reading data directly from character string without changing the locale
+read_delim( "A B C\n1,3 42 4.300", delim = " " )
+# testing our (incomplete) German locale definition
+locale(date_names="de", decimal_mark=",", grouping_mark=".")
+# reading where "\n" encodes the line break
+read_delim( "A B C\n1,3 42 4.300", delim = " ", locale=locale(decimal_mark=",", grouping_mark=".") )
+```
+
+### Text encoding
+
+Another source for headache is when you text contains letters not used in the standard English letter code like mutated vowels, i.e. umlauts `ü` in German language.
+While numbers (typically) use a fixed amount of data space (i.e. number of bits for encoding), letters are typically encoded using a variable number of data space.
+(In short: all possible letters and symbols are indexed and higher index numbers need more space. See [UTF8 encoding at wikipedia](https://en.wikipedia.org/wiki/UTF-8) for more details.)
+
+Thus, to "decode" (i.e. read) text data from a file, one has to tell what letter encoding was used to create the file.
+
+Per default, **`readr` uses** the international and powerful **[UTF8](https://en.wikipedia.org/wiki/UTF-8) encoding**, making is capable of reading any letter.
+So let's try:
+
+```{r readr-encoding, exercise=TRUE}
+# reading data with the umlaut "ü"
+read_csv( "A,B\nWürze,42")
+```
+
+Often output looks weird, i.e. we get `\xfc` instead of `ü` (depending on the language settings of your machine and your operating system like Microsoft Windows).
+Looking up the [`\xfc` encoding](https://www.compart.com/en/unicode/U+00FC), we find out all is well, it is an `ü` encoding, but we are still not satisfied.
+
+*What happened?*
+
+If you see this "backslash"-notation, you input wasn't UTF8 encoded.. 
+Most likely, your computer used the (older) [Latin-1 encoding](https://en.wikipedia.org/wiki/ISO/IEC_8859-1), which takes more space due to fixed-size encoding.
+Thus, we have to tell `readr` to use this instead, by changing the `locale` with the argument `encoding="latin1"`.
+Try to change the above call respectively!
+
+```{r readr-encoding-solution}
+# reading data with the umlaut "ü"
+# but using latin1 letter encoding for reading
+read_csv( "A,B\nWürze,42", locale=locale( encoding = "latin1"))
+```
+
+
+### Quoting of text
+
+When importing textual data that also (potentially) contains the value/column separating symbol (e.g. the `,`), the text data has to be quoted within the file, e.g.
+
+```
+Year,Make,Model,Customer
+1997,Ford,E350,"Gates, Bill"
+2000,Mercury,Cougar,"Monroe, Marilyn"
+```
+
+Since **any quoting symbol** can be used like `'`, `"` or even `|` or `*`, one might have to specify the respective letter when reading data (while `readr` typically does a good job in guessing it). 
+
+```{r readr-quote, exercise=TRUE}
+# reading data with the specific quoting letter '
+read_csv( "A,B,C\n'yes,no',42,'4.300'", quote = "'")
+```
+
+Note, **R still tries to guess the correct data type** and to convert the values from a column into that. 
+Here, it made the third column a number value.
+When this is not intended and you want to define the data type of a specific column, you can provide it using a named list specifying the types.
+For instance try `col_types = list( C="c" )` as an additional argument in the reading call from above.
+
+```{r readr-quote-solution}
+# reading data with the specific quoting letter '
+# ensuring the third column "C" stays a character variable
+read_csv( "A,B,C\n'yes,no',42,'4.300'", quote = "'", col_types = list( C="c" ))
+```
+
+If interested in further details, you might want to check the `?read_csv` help page or the `vignette("readr")`.
+
+
+### `NA` values
+
+Finally, the placeholder used in the data to specify missing (*not available* `NA`) data might be different from the standard string notation `NA`.
+You can provide a list of respective strings via the `na` argument of the `readr` reading functions.
+
+For instance, per default `readr` assumes empty values and `NA` to be missing, i.e. the argument is set to `na = c("", "NA")`.
+Change the call from below such that both `k.A.` as well as `-` are treated as missing values.
+
+```{r readr-na, exercise=TRUE}
+# reading data with missing values
+read_csv( "A,B,C\n3,k.A.,-")
+```
+
+```{r readr-na-solution}
+# reading data with missing values
+read_csv( "A,B,C\n3,k.A.,-", na = c("k.A.", "-"))
+```
+
+
+### Common formats
+
+Common file formats and respective separators are for flat rectangular data are:
+
+- CSV: comma (or semicolon) separated values
+  - `read_csv()` = using `,` (and typically assuming english decimal point notation)
+  - `read_csv2()` = using `;` (and the German `,`-based decimal point definition)
+- TSV: tabular separated values
+  - `read_tsv()`
+- FWF: fixed width file (columns are always taking a specific number of letters)
+  - `read_fwf()` = requires the number of letters for each column to use
+
+All delimiter-using functions can be substituted using the more generic function
+
+- `read_delim( delim="X" )` = general reading using the given delimiter (here `X`)
+
+To check the full set of arguments e.g. to guide how many lines are to be skipped, to define a commenting prefix to ignore lines, etc., please check the respective help pages.
+
+Given your gained knowledge so far, try to provide a `read_delim()` call that produces exactly the same output as the `read_csv2()` call from below.
+
+
+```{r readr-csv2, exercise=TRUE}
+# reading data using read_csv2()
+read_csv2( "A;B;C\n3,2;'och noe';4.000")
+
+# TODO: try to get the same using read_delim()
+```
+
+```{r readr-csv2-solution}
+# reading data using read_csv2()
+read_csv2( "A;B;C\n3,2;'och noe';4.000")
+
+# reading data using read_delim()
+read_delim( "A;B;C\n3,2;'och noe';4.000", 
+           delim=";", 
+           locale=locale(decimal_mark = ",",grouping_mark = "."))
+```
+
+*Note:* there are *similar functions from the basic R* system for the same purpose, i.e. `read.csv()`, `read.csv2()`, `read.delim()` and `read.fwf()`.
+
+These functions:
+
+- have a different set of arguments (e.g. locale stuff are direct arguments)
+- return a `data.frame` and not a `tibble` and thus 
+  - have a different default behavior w.r.t. text reading and factorization
+- might be a little bit slower for larger files
+
+It is thus recommended to use the `readr` functions (with underscore `_`), but the base R functions will typically do the same job.
+
+
+### Exercises
+
+Before we run some exercises, browse the first parts of the "Data import" chapter or R4DS.
+
+- 11 [Data Import](https://r4ds.had.co.nz/data-import.html#data-import)
+  - 11.1 Introduction
+  - 11.2 Getting started
+
+**When reaching the exercises STOP** and answer the following questions
+
+
+```{r q-ready-to-continue, echo=FALSE}
+question("What function would you use to read a file where fields were separated with '|'?",
+  answer("read_delim()", correct=T),
+  answer("read_csv()"),
+  answer("read_fwf()"),
+  answer("read_psv()")
+)
+```
+
+
+Sometimes strings in a CSV file contain commas. 
+To prevent them from causing problems they need to be surrounded by a quoting character, like `"` or `'`. 
+By convention, `read_csv()` assumes that the quoting character will be `"`, and if you want to change it you’ll need to use `read_delim()` instead. 
+What arguments do you need to specify to read the following text into a data frame?
+
+```{r readr-textvar, exercise=TRUE}
+# read the following text
+x <- "x,y\n1,'a,b'"
+```
+
+```{r readr-textvar-solution}
+read_delim(x, ",", quote = "'")
+```
+
+The full list of answers to all exercises from the data import chapter can be found [here](https://jrnold.github.io/r4ds-exercise-solutions/data-import.html#getting-started).
+
+*If* you have *lots of time or are interested* in the details how `readr` parses the data, you should look up the next two sections of the "Data import" chapter, i.e.
+
+- optional [11.3 Parsing a vector](https://r4ds.had.co.nz/data-import.html#parsing-a-vector)
+- optional [11.4 Parsing a file](https://r4ds.had.co.nz/data-import.html#parsing-a-file)
+
+
+
+## Data sources
+
+You can read data from different sources:
+
+- from *file* on *your computer* (using the name and maybe the path)
+  - e.g. `read_csv("my_super_file.csv")`
+- from *the internet* using its URL
+  - e.g. `read_csv("http://be.clever.com/online_super_file.csv")`
+- from *text* (variables) (text needs to be multi-line, i.e. with line breaks encoded by `\n`)
+  - e.g. `read_csv( "A,B,C\n3,4,5" )` directly from string encoding
+  - or `myText<-"A,B,C\n3,4,5"; read_csv(myText)` from a variable that holds the text
+
+Note, the file can even be a compressed file with ending
+
+- `.gz` = GNU ZIP
+- `.bz2` = bzip2
+- `.xz` = LZMA-based xz
+
+that can be read without prior decompression, e.g.
+
+`read_csv("my_compressed_super_file.csv.gz")`
+
+
+
+## Working directory
+
+A common error message when working with data import looks like the output of the following call.
+
+```{r no-file, exercise=TRUE}
+read_csv("my_important_data.csv")
+```
+
+That is: **R doesn't find the file you want to work with!**
+
+There are two workarounds:
+
+(I) Give the *absolute path* to the file on *YOUR COMPUTER*, e.g. using
+
+```{r no-file-abs, eval=FALSE}
+read_csv("C:/secret_folder/project/x/my_important_data.csv")
+```
+
+This has a limitation: *IT ONLY WORKS ON YOUR COMPUTER!* 
+
+So when possible **DON'T DO**! ;)
+
+Better:
+
+(II) Set the working directory!
+
+The what? All operations you run in R are done with respect to a current working directory, i.e. some place somewhere in your computer. You can check where you are currently working using the following:
+
+```{r check-cwd, exercise=TRUE}
+# check current working directory
+getwd()
+```
+
+To change it, you have multiple options:
+
+- use the RStudio menu "Session >> Set Working Directory >> ..."
+  - select a folder via the "Choose Directory" dialog
+  - set "To Source File Location" e.g. if the file to read is *in the same folder*
+- use the "Files" View tab of RStudio
+  - browse to the folder of interest
+  - in the "More" menu, you find "Set as Working Directory"
+- use the `setwd()` command (which is eventually invoked by the methods from above)
+
+For instance:
+
+```{r setwd-example, eval=FALSE}
+# change to working directory (e.g. once at the beginning of your script file)
+setwd("C:/secret_folder/project/x")
+# now read the file without path specification (from the current updated working directory)
+read_csv("my_important_data.csv")
+```
+
+You might say: *Hey, this still only works on my computer!* 
+
+Ok, that's true, but now I can get it running by changing/ignoring **ONE LINE OF CODE** instead of changing all file reading/writing operations in your whole script! :)
+
+Thus, the whole script is much more portable than before!
+
+
+*Note:* in Linux or Apple systems, directories are separated via backslash `\`. 
+Since this typically marks the notation of a special character in character strings (like "\n" to encode a line break), one has to escape them in path notations. For instance:
+
+```{r setwd-example-linux, eval=FALSE}
+# change to working directory in a UNIX-based system
+setwd("\\mnt\\c\\secret_folder\\project\\x")
+```
+
+
+
+## Writing data
+
+Of course you can also write data back to file, for instance using
+
+```{r write-csv, eval=FALSE}
+write_csv(myData, "my_super_file.csv")
+```
+
+*Note again*: if no path is specified along with the file name, *the file will be placed in your current working directory*!
+
+There are respective `write_` functions for each of the `read_` functions discussed so far, as well as two additional ones to deal with Microsoft Excel specifics w.r.t. CSV files.
+
+Please check the short section on file writing from the R4DS book:
+
+- [11.5 Writing to a file](https://r4ds.had.co.nz/data-import.html#writing-to-a-file)
+
+
+## Excel & Co
+
+Often data comes in the format designed for Excel or is stored within an online Google Sheet.
+For both, respective import/export functions are available, which are provided in dedicated packages.
+
+### The `readxl` package
+
+![](images/readxl-logo.png){width=10%}
+
+The [`readxl` package](https://readxl.tidyverse.org/) provides simple functions for the **import of Microsoft Excel files** within the `tidyverse` universe.
+Note, the package is currently not automatically loaded with `tidyverse` package but needs explicit loading.
+
+- `read_xls()` reads `.xls` files (old MS Excel format)
+- `read_xlsx()` reads the newer `.xlsx` format
+- `read_excel()` guesses the file type
+
+you can first check the available sheets within the file using
+
+- `excel_sheets()` provides the sheet names of the file
+
+The following example shows how to use the functions.
+
+```{r readxl-example, exercise=TRUE}
+library(readxl)
+# load an example data file
+xlsx_example <- readxl_example("datasets.xlsx")
+# show location of the file
+print(xlsx_example)
+# check sheets
+excel_sheets(xlsx_example)
+# read a specific part of the file
+read_xlsx( xlsx_example,
+           sheet = "chickwts",
+           n_max = 5)
+```
+
+Change the example w.r.t. the following questions:
+
+- What happens if you omit the sheet argument from the call?
+- What if you specify the number `3` instead of a sheet's name?
+
+```{r readxl-example-solution}
+# if no sheet is specified, the FIRST SHEET only is read
+read_xlsx( xlsx_example, n_max = 5)
+# sheets can also be specified via their index (w.r.t. the oder provided in excel_sheets())
+read_xlsx( xlsx_example, sheet=3, n_max = 5)
+```
+
+You can also just read a specific subset/range of cells, which is useful when 
+accessing complicated/messy MS Excel sheets. 
+To this end use the 
+
+- `range` argument to specify a subset of cells to read
+
+Check out the [`readxl` package website](https://readxl.tidyverse.org/) for examples.
+
+
+### The `writexl` package
+
+![](images/writexl-logo.png){width=10%}
+
+The [`writexl` package](https://docs.ropensci.org/writexl/) is an additional package (needs installation) to enable the **writing/export of Microsoft Excel files**.
+
+- `write_xlsx()` writes data in MS Excel format
+
+```{r writexl-example, exercise=TRUE}
+library(writexl)
+# let's write a single sheet to file using the example data set "chickwts"
+# NOTE: when no target file is specified, a temporary file is created (and it's name returned)
+tmpFileName <- write_xlsx( chickwts )
+# check the name
+print(tmpFileName)
+# let's read it back
+library(readxl)
+excel_sheets(tmpFileName)
+read_xlsx(tmpFileName, n_max = 3)
+# removing the temporary file (not really needed but good practice)
+unlink(tmpFileName)
+```
+
+You can write *multiple and/or named sheets* when providing a *list of data frames* as input.
+
+This is exemplified in the following.
+
+```{r writexl-example-multisheet, exercise=TRUE}
+library(writexl)
+# let's write two sheets to file using the example data set "chickwts" for both
+tmpFileName <- write_xlsx( list( data1 = chickwts, duplicatedData = chickwts ) )
+# let's read it back
+library(readxl)
+excel_sheets(tmpFileName)
+read_xlsx(tmpFileName, n_max = 3)
+# removing the temporary file (not really needed but good practice)
+unlink(tmpFileName)
+```
+
+There are minor formatting options using the arguments
+
+- `col_names` = whether or not the columns names should be written to file
+- `format_headers` = if `TRUE` column names are centered and bold
+
+
+### The `googlesheets4` package
+
+![](images/googlesheets4-logo.png){width=10%}
+
+The [`googlesheets4` package](https://googlesheets4.tidyverse.org/) is a `tidyverse` package to enable the **import/export of online Google Sheets**.
+
+The package's functions need an enabled login to your Google account (or will open the respective Google login page when needed).
+Subsequently, you can read/write from/to online sheets using
+
+- `read_sheet()`
+- `gs4_create()` creates a new (empty) sheet
+- `sheet_write()` (over)writes a sheet
+
+All in all the usage is similar to the functions discussed already.
+So if interested in details please refer to the [googlesheets4 package website](https://googlesheets4.tidyverse.org/).
+
+
+## Wrap-up
+
+But before we continue, think about the following questions, which can be answered with the current material.
+
+
+- How to read a tabular-separated table file?
+- How to deal with language specific number and text encoding?
+- What can I do if the data type of a column is not correctly guessed by `readr`?
+- Can I directly read a file from the internet?
+- What is defined by the working directory?
+- What are ways to alter the working directory and to check to what it is currently set?
+
+
+
+```{r child = 'images/cheatsheet.Rmd'}
+```
