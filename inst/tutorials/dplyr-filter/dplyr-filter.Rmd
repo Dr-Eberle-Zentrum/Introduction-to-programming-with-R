@@ -70,6 +70,8 @@ head(flights)
 
 ### [5.2 Filter rows with `filter()`](https://r4ds.had.co.nz/transform.html#filter-rows-with-filter)
 
+For replaying the example, you can use the following console.
+
 ```{r hadley-filter-flights, exercise=TRUE}
 filter(flights, month == 1, day == 1)
 ```
@@ -84,7 +86,7 @@ Correct the following code, such that all flights with `month` equal to 1 are se
 filter(flights, month = 1)
 ```
 
-```{r hadley-filter-flights-solution}
+```{r hadley-filter-flights-bug-solution}
 filter(flights, month == 1)
 # i.e. we need to use the comparison operator "==" rather than the assignment operator "="
 ```
@@ -312,7 +314,7 @@ mydata  # command ends here since no open bracket nor an "open operator" (will c
 filter(flights, carrier == "AS")
 ```
 
-```{r piping-flights-solution, exercise=TRUE}
+```{r piping-flights-solution}
 flights %>%
   filter(carrier == "AS")
 # or in one row
