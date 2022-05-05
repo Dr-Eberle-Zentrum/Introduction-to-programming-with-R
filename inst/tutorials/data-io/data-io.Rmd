@@ -2,7 +2,7 @@
 title: "Data import/export"
 tutorial:
   id: "de.uni-tuebingen.dezfdk.tutorials.r-data-io"
-  version: 2022.05.03
+  version: 2022.05.05
   author: Martin Raden
 output:
   learnr::tutorial :
@@ -252,11 +252,6 @@ The full list of answers to all exercises from the data import chapter can be fo
 - optional [11.4 Parsing a file](https://r4ds.had.co.nz/data-import.html#parsing-a-file)
 
 
-### Multiple files
-
-If you are facing multiple files that share a common table structure and column naming, 
-e.g. measurements from different runs, summaries for different groups, etc., 
-you can load all files in one go using wildcards (`*`) within the name.
 
 
 ## Data sources
@@ -486,6 +481,24 @@ Subsequently, you can read/write from/to online sheets using
 
 All in all the usage is similar to the functions discussed already.
 So if interested in details please refer to the [googlesheets4 package website](https://googlesheets4.tidyverse.org/).
+
+
+## RStudio data import
+
+In RStudio you can also import data using a graphical interface.
+This is discussed and exemplified in the short ModernDive chapter
+
+- [4.1.2 Using RStudio's interface](https://moderndive.com/4-tidy.html#using-rstudios-interface)
+
+Within the dialog, you can
+
+- select the sheet and cells to import
+- change variable (column) data types
+- deal with `NA` encodings
+- ...
+
+Note, the *Import Excel Data* Dialog (shown on the page) provides in the lower right the respective R source code that is used for the import.
+
 
 
 ## Wrap-up
