@@ -6,7 +6,7 @@
 - *initial data collection in spreadsheets* should follow
   - [**principles of data organisation**](https://rafalab.github.io/dsbook/importing-data.html#organizing-data-with-spreadsheets) 
 
-- `readr` package
+- `readr` package ([Summary page](https://readr.tidyverse.org/))
   - `read_delim()` - columns are separated by a single letter given to `delim` argument
     - `read_csv()` - using `,` as column delimiter
     - `read_csv2()` - columns delimited by `;` and German `,`-based decimal number notation
@@ -25,15 +25,15 @@
   - works also for compressed files (ending with `.gz`, `.bz2`, `.xz`)
 - the "working directory" of the `R` session defines from/to where to read/write files (without absolute path specification)
   - `getwd()` and `setwd()`
-  - can be changed via menu "Session >> Set Working Directory" in RStudio
-  - also possible via "File" tab in RStudio
+  - can be changed via menu "*Session >> Set Working Directory*" in RStudio
+  - also possible via "*File*" tab in RStudio
 - corresponding `write` functions
   - e.g. `write_csv(DATATABLE, FILENAME)`
   - use `write_csv2()` if you need a `,` decimal separator (no manual locale specification possible!)
 - additional packages
-  - `readxl` for MS Excel import
-  - `writexl` for (simple) MS Excel export
-  - `googlesheets4` for import/export of online Google Sheets
+  - `readxl` for MS Excel import ([Summary page](https://readxl.tidyverse.org/))
+  - `writexl` for (simple) MS Excel export ([Summary page](https://docs.ropensci.org/writexl/))
+  - `googlesheets4` for import/export of online Google Sheets ([Summary page](https://googlesheets4.tidyverse.org/))
 
 [![dplry cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/thumbnails/data-import-cheatsheet-thumbs.png){width="50%"}](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-import.pdf)
 

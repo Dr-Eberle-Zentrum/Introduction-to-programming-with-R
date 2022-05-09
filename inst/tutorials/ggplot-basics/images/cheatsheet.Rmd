@@ -13,12 +13,18 @@
 
 - `ggplot2` is the visualization package
   - `ggplot()` defines what data to plot (and general/shared aesthetics)
-  - `aes()` *aesthetics* define what data variables are used where in the plot, i.e. their *mapping*
+    - `data` = first argument = what *tidy* data table to visualize
   - `geom_...()` defines how to plot the data, i.e. the plot *geometry*, e.g.
     - `geom_point()` ([Summary page](https://ggplot2.tidyverse.org/reference/geom_point.html))
     - `geom_line()` ([Summary page](https://ggplot2.tidyverse.org/reference/geom_line.html))
     - `geom_smooth()` ([Summary page](https://ggplot2.tidyverse.org/reference/geom_smooth.html))
-  - `+` combines different geometries etc. into one plot
+  - `+` combines different geometries, labels, etc. into one plot
+      - e.g. `ggplot(mtcars, mapping=aes(x=wt, y=mpg)) + geom_point() + xlab("weight")`
+  - `mapping` argument takes `aes()` *aesthetics*, which defines what data *variables from the input table* are used *where in the plot*, i.e. their *mapping* ([Summary page](https://ggplot2.tidyverse.org/reference/aes.html))
+    - when defined in `ggplot()`: applied to all subsequent `geom_*()` functions
+      - e.g. `ggplot(mtcars, mapping=aes(x=wt, y=mpg)) + geom_point()`
+    - when defined e.g. in `geom_point()`: only used when doing this point drawing
+      - e.g. `ggplot(mtcars) + geom_point(mapping=aes(x=wt, y=mpg))`
 
 [![ggplot2 cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/thumbnails/data-visualization-cheatsheet-thumbs.png){width="50%"}](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-visualization.pdf)
 
