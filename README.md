@@ -21,7 +21,7 @@ We thus recommend the following order
   - `ggplot-basics` tutorial
 - Data processing with the `dplyr` package
   - Workflow basics = [Chapter 4 of R4DS](https://r4ds.had.co.nz/workflow-basics.html)
-  - Tibbles = [Chapter 10 of R4DS](https://r4ds.had.co.nz/tibbles.html)
+  - `data-tibbles` tutorial
   - `dplyr-filter` tutorial
   - `dplyr-arrange-select` tutorial
   - `dplyr-mutate` tutorial

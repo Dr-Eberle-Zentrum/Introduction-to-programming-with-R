@@ -1,0 +1,25 @@
+
+
+
+## Cheatsheet "Tibbles"
+
+- `tibble` = data structure to store tabular data (`tidyverse` extension of `data.frame` structure)
+  - ([Summary page](https://tibble.tidyverse.org/))
+- can be manually created via
+  - vectorized (column-wise) input, i.e. `p2 <- tibble( x = 0:3, y = c(1,2,4,8))` (as done for `data.frame` or `list`)
+    - when defining columns you can already used previously defined columns, e.g. `p2 <- tibble( x=0:3, y=2^x)`
+  - row-wise *transposed tibble*, i.e. `p2 <- tribble( ~x, ~y, 0, 1, 1, 2, 2, 4, 3, 8)` (put line breaks where appropriate)
+- column/variable access (vector data structure) via
+  - `$colName` = **dollar + name-based** (**most recommended**), e.g. `p2$y`
+  - `[["colName"]]` = *double-squared + quoted* name as done for lists, e.g. `p2[["y"]]`
+  - `[[2]]` = double-squared + index-based (try to avoid), e.g. `p2[[2]]`
+    - *Beware*: you *get a tibble* (i.e. table data structure) when using `[]` = *single-squared + index*, *not a column vector*!
+- *quote* column/variable *names not meating standard* syntax requirements (e.g. with spaces etc.)
+  - `table[["strange name"]]` - quotes in double-bracket usage
+  - ``table$`strange name` `` - back-ticks in direct name-based access
+- `glimpse(p2)` to check column names and resp. data types
+- `as_tibble()` converts an object into a `tibble` (if possible)
+- `is_tibble()` checks whether it is a `tibble`
+- `str()`provides the data structure of an R object, i.e. how it is organized and what's inside
+
+

@@ -1,0 +1,281 @@
+---
+title: "Tibbles"
+tutorial:
+  id: "de.uni-tuebingen.dezfdk.tutorials.r-data-tibbles"
+  version: 2022.05.09
+  author: Martin Raden
+output:
+  learnr::tutorial :
+    progressive: true
+    allow_skip: true
+    theme: "sandstone"
+    language: "en"
+    css: "css/dez-style.css"
+    includes:
+      before_body: "../../resources/logo-header.html"
+      after_body: "../../resources/footer.html"
+runtime: shiny_prerendered
+---
+  
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+# disable warnings
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+# Link to static resources in Shiny's web server
+shiny::addResourcePath("css",
+                       system.file("resources","css",
+                       package = "deztutr"))
+```
+
+
+## The `tibble` package
+
+![](images/tibble-logo.png){width=10%}
+
+The [`tibble` package](https://tibble.tidyverse.org/) provides the central data structure `tibble` for the **storage of tabular (rectangular) data** within the `tidyverse` universe.
+
+```{r data-example, echo=FALSE}
+
+tribble(
+~Year,~Make,~Model,
+1997,"Ford","E350",
+2000,"Mercury","Cougar"
+)
+
+```
+
+
+A `tibble` is an extension of the basic `data.frame` data structure and thus:
+
+- each column holds data of *one* data type (e.g. numbers like `<dbl>`, text `<chr>`, ...)
+- different columns can represent different data types (see above)
+- columns are typically *named* (bold in above table)
+- all columns have the same lengths (2 in the example)
+  - i.e. all 2nd elements of all columns form the 2nd row
+  
+Within the `tidyverse`, typically
+
+- rows are called *observations* and
+- columns are called *variables* (of an observation).
+
+
+The following chapter of *R for Data Science* introduced `tibble`s in detail.
+
+- [10. Tibbles](https://r4ds.had.co.nz/tibbles.html)
+
+You can use the subsequent interactive consoles to revise the examples.
+
+```{r tibble-1, exercise=TRUE}
+tibble(
+  x = 1:5, 
+  y = 1, 
+  z = x ^ 2 + y
+)
+```
+
+Transposed initialization using `tribble()` function:
+
+```{r tribble-1, exercise=TRUE}
+tribble(
+  ~x, ~y, ~z,
+  #--|--|----
+  "a", 2, 3.6,
+  "b", 1, 8.5
+)
+```
+
+Named column access (i.e. accessing list of values from *one* table column with the respective name), can be done via two ways:
+
+- "dollar notation"
+- "double-bracket notation"
+
+```{r tibble-column, exercise=TRUE}
+df <- tibble(
+  x = 0:3,
+  y = 2^x
+)
+
+glimpse(df)
+
+# Extract by name
+df$y       # "dollar notation"
+df[["y"]]  # "double-bracket notation"
+
+# Extract by position
+df[[2]]    # not recommended
+```
+
+**Check**: Compare the output of `df[2]` with the one from above!
+What can you infer/deduce from the result?
+
+```{r tibble-column-solution}
+# When using single-bracket notation "df[2]", we get a table (with one column) as a result 
+# rather than a list of values!
+```
+
+### Exercises
+
+How can you tell if an object is a tibble? Have you heard of [`is_tibble()`](https://tibble.tidyverse.org/reference/is_tibble.html) already or can imagine its use?
+
+Also check the output of the `str()` function, which provides the "*structure*" of the data container (see its [help page](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/str) for details).
+
+```{r ex-1, exercise=TRUE}
+# data set 1
+mtcars
+# data set 2
+mpg
+
+```
+
+```{r ex-1-solution}
+# checking whether they are tibble
+is_tibble(mtcars)
+is_tibble(mpg)
+# checking the data structures
+str(mtcars)
+str(mpg)
+```
+
+
+Compare and contrast the following operations on a `data.frame` and equivalent `tibble`. 
+What is different? 
+Why might the default data frame behaviors cause you frustration?
+
+```{r ex-2, exercise=TRUE}
+df <- data.frame(abc = 1, xyz = "a")
+# name-based column access
+df$x
+# comma-based subsetting notation: [ rows , columns ] : empty = all
+str( df[, "xyz"] )
+str( df[, c("abc", "xyz")] )
+```
+
+```{r ex-2-solution}
+# convert data.frame to tibble and repeat:
+tbl <- as_tibble(df)
+
+# In a data.frame, the $ operator will match any column name that starts with the name following it. 
+# Since there is a column named "xyz", the expression "df$x" will be expanded to "df$xyz". 
+# This behavior of the $ operator saves a few keystrokes, but it can result in accidentally using 
+# a different column than you thought you were using.
+tbl$x
+# This is not supported for tibbles, to avoid unexpected behavior.
+
+# With data.frames, with [ the type of object that is returned differs on the number of columns. 
+# If it is one column, it won’t return a data.frame, but instead will return a vector. 
+# With more than one column, then it will return a data.frame. 
+# This is fine if you know what you are passing in, but suppose you did df[ , vars] where vars was a variable. 
+# Then what that code does depends on length(vars) and you’d have to write code to account for those situations or risk bugs.
+str(tbl[, "xyz"])
+str(tbl[, c("abc", "xyz")])
+# both calls return a tibble
+```
+
+
+If you have the name of a variable column stored in an object, e.g. `var <- "xyz"`, how can you extract the respective column from a tibble?
+
+```{r ex-3, exercise=TRUE}
+# my data
+df <- tibble(abc = 1, xyz = "a")
+# my columns of interested in a variable 
+var <- "xyz"
+# how to access the columns in "df" via "var"?
+
+```
+
+```{r ex-3-solution}
+# name-based access not possible, because "df$var" would look for a column named "var". 
+# requires double-bracket notation:
+df[[var]]
+```
+
+
+Practice referring to non-syntactic names in the following data frame:
+
+```{r ex-annoy}
+annoying <- tibble( `1` = 1:5, `2` = `1` * 2 + rnorm(length(`1`)) )
+print(annoying)
+```
+
+- Extracting the variable called `1`.
+
+```{r ex-annoy-1, exercise=TRUE}
+annoying <- tibble( `1` = 1:10, `2` = `1` * 2 + rnorm(length(`1`)) )
+```
+
+```{r ex-annoy-1-solution}
+annoying[["1"]]
+# or
+annoying$`1`
+```
+
+- Plotting a scatterplot of `1` vs `2`.
+
+```{r ex-annoy-2, exercise=TRUE}
+annoying <- tibble( `1` = 1:10, `2` = `1` * 2 + rnorm(length(`1`)) )
+```
+
+```{r ex-annoy-2-solution}
+ggplot(annoying, aes(x = `1`, y = `2`)) +
+  geom_point()
+```
+
+- Creating a new column called `3` which is `2` divided by `1`.
+
+```{r ex-annoy-3, exercise=TRUE}
+annoying <- tibble( `1` = 1:10, `2` = `1` * 2 + rnorm(length(`1`)) )
+# todo
+
+# check result
+glimpse(annoying)
+```
+
+```{r ex-annoy-3-solution}
+# direct creation via naming 
+annoying[["3"]] = annoying$`2` / annoying$`1`
+# or
+annoying[["3"]] <- annoying[["2"]] / annoying[["1"]]
+# (re)creation + overwriting  # try to avoid! ;)
+annoying <- tibble( `1` = annoying$`1`, 
+                    `2` = annoying$`2`,
+                    `3` = `2` / `1`)
+# something you will learn later
+mutate(annoying, `3` = `2` / `1`)
+```
+
+- Renaming the columns to `one` and `two`.
+
+```{r ex-annoy-4, exercise=TRUE}
+annoying <- tibble( `1` = 1:10, `2` = `1` * 2 + rnorm(length(`1`)) )
+# todo
+
+# check result
+glimpse(annoying)
+```
+
+```{r ex-annoy-4-solution}
+# (re)creation + overwriting  # try to avoid! ;)
+annoying <- tibble( one = annoying$`1`, 
+                    two = annoying$`2`)
+# something you will learn later
+annoying <- rename(annoying, one = `1`, two = `2`)
+```
+
+
+
+
+
+## Wrap-up
+
+But before we continue, think about the following questions, which can be answered with the current material.
+
+
+- How to create a `tibble` from scratch? 
+- Do you remember both ways (via column specification and the transposed (row-like) form)?
+- How to access table columns by name? Is there more than one way?
+- What is produced when accessing a `tibble`'s column using single-bracket notation like `mtcars[2]`, i.e. using *subsetting*?
+
+
+```{r child = 'images/cheatsheet.Rmd'}
+```

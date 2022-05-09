@@ -282,16 +282,19 @@ pre code {
 <li>RStudio: hot key ‘ALT’+‘SHIFT’+‘K’ shows all hot key combinations</li>
 </ul>
 </div>
-<div id="tibbles" class="section level2">
-<h2>Tibbles</h2>
+<div id="cheatsheet-tibbles" class="section level2">
+<h2>Cheatsheet “Tibbles”</h2>
 <ul>
-<li>data structure to store tabular data (<code>tidyverse</code> extension of <code>data.frame</code> structure)
+<li><code>tibble</code> = data structure to store tabular data (<code>tidyverse</code> extension of <code>data.frame</code> structure)
 <ul>
 <li>(<a href="https://tibble.tidyverse.org/">Summary page</a>)</li>
 </ul></li>
 <li>can be manually created via
 <ul>
-<li>vectorized (column-wise) input, i.e. <code>p2 &lt;- tibble( x = 0:3, y = c(1,2,4,8))</code> (as done for <code>data.frame</code> or <code>list</code>)</li>
+<li>vectorized (column-wise) input, i.e. <code>p2 &lt;- tibble( x = 0:3, y = c(1,2,4,8))</code> (as done for <code>data.frame</code> or <code>list</code>)
+<ul>
+<li>when defining columns you can already used previously defined columns, e.g. <code>p2 &lt;- tibble( x=0:3, y=2^x)</code></li>
+</ul></li>
 <li>row-wise <em>transposed tibble</em>, i.e. <code>p2 &lt;- tribble( ~x, ~y, 0, 1, 1, 2, 2, 4, 3, 8)</code> (put line breaks where appropriate)</li>
 </ul></li>
 <li>column/variable access (vector data structure) via
@@ -309,6 +312,9 @@ pre code {
 <li><code>table$`strange name`</code> - back-ticks in direct name-based access</li>
 </ul></li>
 <li><code>glimpse(p2)</code> to check column names and resp. data types</li>
+<li><code>as_tibble()</code> converts an object into a <code>tibble</code> (if possible)</li>
+<li><code>is_tibble()</code> checks whether it is a <code>tibble</code></li>
+<li><code>str()</code>provides the data structure of an R object, i.e. how it is organized and what’s inside</li>
 </ul>
 </div>
 <div id="cheatsheet-dplyr-filter" class="section level2">
