@@ -466,6 +466,10 @@ pre code {
 <div id="cheatsheet-data-importexport" class="section level2">
 <h2>Cheatsheet “Data import/export”</h2>
 <ul>
+<li><em>initial data collection in spreadsheets</em> should follow
+<ul>
+<li><a href="https://rafalab.github.io/dsbook/importing-data.html#organizing-data-with-spreadsheets"><strong>principles of data organisation</strong></a></li>
+</ul></li>
 <li><code>readr</code> package
 <ul>
 <li><code>read_delim()</code> - columns are separated by a single letter given to <code>delim</code> argument
@@ -480,9 +484,9 @@ pre code {
 <li>e.g. <code>locale=locale(decimal_mark=&quot;,&quot;, grouping_mark=&quot;.&quot;)</code> = German number notation</li>
 <li>e.g. <code>locale=locale(encoding=&quot;latin1&quot;)</code> = using the Latin-1 letter encoding typically used on Microsoft Windows systems to enable a correct rendering of umlauts etc.</li>
 </ul></li>
-<li><code>quote</code> to specify quotation letter</li>
-<li><code>col_types</code> allows to specify the data type of (individual) columns</li>
-<li><code>na</code> takes a vector of (string) values to be treated as <em>not available</em> (<code>NA</code>)</li>
+<li><code>quote=&#39;&quot;&#39;</code> to specify quotation letter</li>
+<li><code>col_types=list(colName=&quot;c&quot;)</code> allows to specify the data type of (individual) columns</li>
+<li><code>na=&#39;--&#39;</code> takes a vector of (string) values to be treated as <em>not available</em> (<code>NA</code>)</li>
 </ul></li>
 <li>data can be typically read from
 <ul>
