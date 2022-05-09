@@ -2,7 +2,7 @@
 title: "Data import/export"
 tutorial:
   id: "de.uni-tuebingen.dezfdk.tutorials.r-data-io"
-  version: 2022.05.05
+  version: 2022.05.09
   author: Martin Raden
 output:
   learnr::tutorial :
@@ -35,7 +35,7 @@ shiny::addResourcePath("css",
 
 The [`readr` package](https://readr.tidyverse.org/) provides the central functions for the **import of tabular (rectangular) data** within the `tidyverse` universe.
 
-Data that is read by this package is typically organized in rows where the *first line* provides the columns names and *columns are separated by* a specific single *character* or of fixed *width*.
+Data that is read by this package is typically organized in rows where the *first line* provides the columns names and *columns are separated by* a specific single *character/letter* or of fixed *width*.
 An example of a comma-separated (value) [CSV] file is given below.
 
 ```
@@ -67,12 +67,17 @@ locale()
 Each of the given variables within the locale can be set via arguments.
 Given this, you can alter the reading behavior by setting the `locale` argument of the called `readr` function.
 
+Compare the resulting tables in the following example.
+
 ```{r readr-local, exercise=TRUE}
-# reading data directly from character string without changing the locale
+# checking the default locale definition
+locale()
+# reading space-separated data directly from character string without changing the locale
+# "\n" encodes the line break
 read_delim( "A B C\n1,3 42 4.300", delim = " " )
 # testing our (incomplete) German locale definition
 locale(date_names="de", decimal_mark=",", grouping_mark=".")
-# reading where "\n" encodes the line break
+# reading with German decimal notation 
 read_delim( "A B C\n1,3 42 4.300", delim = " ", locale=locale(decimal_mark=",", grouping_mark=".") )
 ```
 
@@ -92,13 +97,13 @@ So let's try:
 read_csv( "A,B\nWürze,42")
 ```
 
-Often output looks weird, i.e. we get `\xfc` instead of `ü` (depending on the language settings of your machine and your operating system like Microsoft Windows).
+Often output looks weird, i.e. we get `\xfc` or `<fc>` instead of `ü` (depending on the language settings of your machine and your operating system like Microsoft Windows).
 Looking up the [`\xfc` encoding](https://www.compart.com/en/unicode/U+00FC), we find out all is well, it is an `ü` encoding, but we are still not satisfied.
 
 *What happened?*
 
-If you see this "backslash"-notation, you input wasn't UTF8 encoded.. 
-Most likely, your computer used the (older) [Latin-1 encoding](https://en.wikipedia.org/wiki/ISO/IEC_8859-1), which takes more space due to fixed-size encoding.
+If you see this "backslash"- or "<>"-notation, your input wasn't UTF8 encoded.. 
+Most likely, your computer used the (older) [Latin-1 encoding](https://en.wikipedia.org/wiki/ISO/IEC_8859-1) (also capable of encoding a lot but takes more space due to fixed-size letter encoding).
 Thus, we have to tell `readr` to use this instead, by changing the `locale` with the argument `encoding="latin1"`.
 Try to change the above call respectively!
 
@@ -142,10 +147,10 @@ If interested in further details, you might want to check the `?read_csv` help p
 
 ### `NA` values
 
-Finally, the placeholder used in the data to specify missing (*not available* `NA`) data might be different from the standard string notation `NA`.
+Finally, the placeholder used in the data to specify missing (*not available* `NA`) data might be different from R's standard string notation `NA`.
 You can provide a list of respective strings via the `na` argument of the `readr` reading functions.
 
-For instance, per default `readr` assumes empty values and `NA` to be missing, i.e. the argument is set to `na = c("", "NA")`.
+For instance, per default `readr` assumes empty values and `NA` encode for missing values, i.e. the argument is set to `na = c("", "NA")`.
 Change the call from below such that both `k.A.` as well as `-` are treated as missing values.
 
 ```{r readr-na, exercise=TRUE}
@@ -161,7 +166,7 @@ read_csv( "A,B,C\n3,k.A.,-", na = c("k.A.", "-"))
 
 ### Common formats
 
-Common file formats and respective separators are for flat rectangular data are:
+Common file formats and respective separators for flat rectangular data are:
 
 - CSV: comma (or semicolon) separated values
   - `read_csv()` = using `,` (and typically assuming english decimal point notation)
@@ -169,9 +174,9 @@ Common file formats and respective separators are for flat rectangular data are:
 - TSV: tabular separated values
   - `read_tsv()`
 - FWF: fixed width file (columns are always taking a specific number of letters)
-  - `read_fwf()` = requires the number of letters for each column to use
+  - `read_fwf()` = requires the number of letters for each column
 
-All delimiter-using functions can be substituted using the more generic function
+All delimiter-using functions (CSV+TSV) can be substituted using the more generic function
 
 - `read_delim( delim="X" )` = general reading using the given delimiter (here `X`)
 
@@ -498,6 +503,22 @@ Within the dialog, you can
 - ...
 
 Note, the *Import Excel Data* Dialog (shown on the page) provides in the lower right the respective R source code that is used for the import.
+
+
+## Organizing data
+
+Data collection is typically the first step done long before we import data for procession.
+Still, one should be aware of and planning for the second right from the start!
+
+The following chapter from *Introduction to Data Science* posts a couple of best-practice tips for data organisation!
+
+- [5.8 Organizing data with spreadsheets](https://rafalab.github.io/dsbook/importing-data.html#organizing-data-with-spreadsheets)
+
+which is a summary of the following article
+
+- [Data Organization in Spreadsheets (Broman & Woo, 2017)](https://doi.org/10.1080/00031305.2017.1375989)
+
+to which you can refer to for a deeper reading into the topic or for referencing.
 
 
 

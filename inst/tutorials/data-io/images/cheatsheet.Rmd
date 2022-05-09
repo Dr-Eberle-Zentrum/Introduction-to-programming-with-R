@@ -3,6 +3,9 @@
 
 ## Cheatsheet "Data import/export"
 
+- *initial data collection in spreadsheets* should follow
+  - [**principles of data organisation**](https://rafalab.github.io/dsbook/importing-data.html#organizing-data-with-spreadsheets) 
+
 - `readr` package
   - `read_delim()` - columns are separated by a single letter given to `delim` argument
     - `read_csv()` - using `,` as column delimiter
@@ -12,9 +15,9 @@
   - `locale` argument defines language specifications like decimal separator, names of days/months, date/time encoding, letter encodings, ...
     - e.g. `locale=locale(decimal_mark=",", grouping_mark=".")` = German number notation
     - e.g. `locale=locale(encoding="latin1")` = using the Latin-1 letter encoding typically used on Microsoft Windows systems to enable a correct rendering of umlauts etc.
-  - `quote` to specify quotation letter
-  - `col_types` allows to specify the data type of (individual) columns
-  - `na` takes a vector of (string) values to be treated as *not available* (`NA`)
+  - `quote='"'` to specify quotation letter
+  - `col_types=list(colName="c")` allows to specify the data type of (individual) columns
+  - `na='--'` takes a vector of (string) values to be treated as *not available* (`NA`)
 - data can be typically read from
   - file (on you computer) with or without path information (check working directory)
   - url (internet address)
