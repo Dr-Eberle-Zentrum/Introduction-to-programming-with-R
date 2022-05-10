@@ -1,0 +1,24 @@
+
+
+
+## Cheatsheet "Making data tidy"
+
+- tidy data implements the following
+
+![](https://raw.githubusercontent.com/hadley/r4ds/main/images/tidy-1.png){width=40%}
+
+- `tidyr` package ([Summary page](https://tidyr.tidyverse.org/))
+  - *pivoting* = conversion of table format from/to wide/long
+    - `pivot_longer()` = column names go to "names" column (and values to one column)
+    - `pivot_wider()` = values from one column are distributed over multiple columns
+  - `NA` handling
+    - `fill()` replaces `NA` with previous/subsequent non-`NA` value in column
+    - `complete()` adds implicitly missing value combinations
+    - `drop_na()` removes rows with `NA`
+    - `replace_na()` new value for `NA` entries
+  - *(de)composition* of text/character values
+    - `separate()` decomposes a variable's text values into multiple columns
+    - `unite()` joins multiple variables into one text column
+
+
+[![tidyr cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/master/pngs/thumbnails/tidyr-thumbs.png){width="50%"}](https://raw.githubusercontent.com/rstudio/cheatsheets/main/tidyr.pdf)

@@ -1,0 +1,363 @@
+---
+title: "Making data tidy"
+tutorial:
+  id: "de.uni-tuebingen.dezfdk.tutorials.r-data-tidy"
+  version: 2022.05.10
+  author: Martin Raden
+output:
+  learnr::tutorial :
+    progressive: true
+    allow_skip: true
+    theme: "sandstone"
+    language: "en"
+    css: "css/dez-style.css"
+    includes:
+      before_body: "../../resources/logo-header.html"
+      after_body: "../../resources/footer.html"
+runtime: shiny_prerendered
+---
+  
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+# disable warnings
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+# Link to static resources in Shiny's web server
+shiny::addResourcePath("css",
+                       system.file("resources","css",
+                       package = "deztutr"))
+# example data
+table1 <- tribble(
+~country,~year,~cases,~population,
+"Afghanistan",  1999,    745,   19987071,
+"Afghanistan",  2000,   2666,   20595360,
+"Brazil",       1999,  37737,  172006362,
+"Brazil",       2000,  80488,  174504898,
+"China",        1999, 212258, 1272915272,
+"China",        2000, 213766, 1280428583
+)
+table2 <- pivot_longer(table1, c(cases,population), names_to="type", values_to = "count")
+table3 <- mutate(table1,rate=str_c(cases,population,sep="/")) %>% select(-cases,-population)
+table4a <- select(table1,-population) %>% pivot_wider( names_from=year, values_from = cases)
+table4b <- select(table1,-cases) %>% pivot_wider( names_from=year, values_from = population)
+
+stocks <- tibble(
+  year   = c(2015, 2015, 2015, 2015, 2016, 2016, 2016),
+  qtr    = c(   1,    2,    3,    4,    2,    3,    4),
+  return = c(1.88, 0.59, 0.35,   NA, 0.92, 0.17, 2.66)
+)
+
+treatment <- tribble(
+  ~ person,           ~ treatment, ~response,
+  "Derrick Whitmore", 1,           7,
+  NA,                 2,           10,
+  NA,                 3,           9,
+  "Katherine Burke",  1,           4
+)
+
+```
+
+
+## The `tidyr` package
+
+![](images/tidyr-logo.png){width=10%}
+
+Raw data imported from data acquisition is often structured in a way that is either 
+defined by the way the data was generated or by constraints to minimize storage etc.
+Typically, this does not render the data as *tidy* w.r.t. the `tidyverse` philosophy, i.e.
+
+- rows encode a single observation,
+- variables define columns of the table, and
+- each cell holds only a single value.
+
+In order to use `ggplot2` or to do use `dplyr` for efficient data processing, we need to first reformat the data into a "tidy" format.
+
+This process is supported by the [`tidyr` package](https://tidyr.tidyverse.org/).
+
+The main data wrangling aspects from the package covered by this tutorial are:
+
+- Converting wide to long (more tidy) table format (called *pivoting*)
+- Filling missing values
+- Decomposing values into multiple cells (or vice versa)
+
+The more advanced functions about *nested data* (lists or tables in tables etc.) are not covered in the following.
+
+## Tidy data
+
+To learn the basics to tidy up your data, we will follow the respective R4DS section.
+
+- [12 Tidy data](https://r4ds.had.co.nz/tidy-data.html)
+  - 12.1 Introduction
+  - 12.2 Tidy data
+
+Within this interactive tutorial, we have preloaded the `table1` to `table4b` data sets from the book for direct usage within the interactive consoles.
+Just run the following to see the respective content of each table.
+
+```{r tabledata, exercise=TRUE}
+# predefined data sets from the book chapter
+table1
+table2
+table3
+table4a
+table4b
+```
+
+### 12.2.1 Exercises 
+
+Check the following link for [a discussion of Exercise 1 (pros and cons)](https://jrnold.github.io/r4ds-exercise-solutions/tidy-data.html#exercise-12.2.1).
+
+Exercise 2 is not central to the tutorial and relatively complicated to solve.
+If you want to tackle it anyway, you can look up a [solution for Exercise 2 here](https://jrnold.github.io/r4ds-exercise-solutions/tidy-data.html#exercise-12.2.2).
+
+I recommend to try Exercise 3, i.e. recreating the plot showing change in cases over time using `table2` instead of `table1`. What do you need to do first?
+
+![](https://jrnold.github.io/r4ds-exercise-solutions/tidy_files/figure-html/unnamed-chunk-11-1.png){width=60%}
+
+```{r ex3, exercise=TRUE}
+table2
+```
+
+
+```{r ex3-hint-1}
+# First plot the table to see what variables are to be mapped to what aesthetics.
+```
+
+
+```{r ex3-hint-2}
+# Next you might need to prune unneeded data from the table to 
+# start plotting.
+```
+
+```{r ex3-hint-3}
+# Finally, some polishing of the plot might be needed to ensure it looks the same.
+```
+
+```{r ex3-solution}
+table2 %>%
+  filter(type == "cases") %>%
+  ggplot(aes(year, count)) +
+  geom_line(aes(group = country), colour = "grey50") +
+  geom_point(aes(colour = country)) +
+  scale_x_continuous(breaks = unique(table2$year)) +
+  ylab("cases")
+
+# alternatively to scale_x_... you can make "year" a categorical variable
+table2 %>%
+  filter(type == "cases") %>%
+  ggplot(aes(as.factor(year), count)) +
+  geom_line(aes(group = country), colour = "grey50") +
+  geom_point(aes(colour = country)) +
+  labs(x="year", y="cases")
+```
+
+
+
+
+
+### [12.3 Pivoting](https://r4ds.had.co.nz/tidy-data.html#pivoting) (click to open the section)
+
+This section introduces how to convert from wide to long table format (depicted below) and vice versa.
+
+[![](images/original-dfs-tidy.png){width=40%}](https://raw.githubusercontent.com/gadenbuie/tidyexplain/main/images/tidyr-pivoting.gif)
+
+
+The linked [animated image](https://raw.githubusercontent.com/gadenbuie/tidyexplain/main/images/tidyr-pivoting.gif) exemplifies the transition (both from [here](https://github.com/gadenbuie/tidyexplain)).
+
+
+
+You can use the following interactive consoles to follow and alter the examples.
+
+```{r pivot, exercise=TRUE}
+table4a %>% 
+  pivot_longer(c(`1999`, `2000`), names_to = "year", values_to = "cases")
+```
+
+
+#### 12.3.3 Exercises
+
+(1) Why are pivot_longer() and pivot_wider() not perfectly symmetrical?
+Carefully consider the following example:
+
+```{r pivot-ex1, exercise=TRUE}
+stocks <- tibble(
+  year   = c(2015, 2015, 2016, 2016),
+  half  = c(   1,    2,     1,    2),
+  return = c(1.88, 0.59, 0.92, 0.17)
+)
+stocks %>% 
+  pivot_wider(names_from = year, values_from = return) %>% 
+  pivot_longer(`2015`:`2016`, names_to = "year", values_to = "return")
+```
+
+(Hint: look at the variable types and think about column names.)
+
+Check out the [detailed solution discussion](https://jrnold.github.io/r4ds-exercise-solutions/tidy-data.html#exercise-12.3.1)
+
+(2) Why does this code fail?
+
+```{r pivot-ex2, exercise=TRUE}
+table4a %>% 
+  pivot_longer(c(1999, 2000), names_to = "year", values_to = "cases")
+```
+
+```{r pivot-ex2-solution}
+# 1999 and 2000 are no well formatted variable names.
+# thus they have to be quoted!
+table4a %>% 
+  pivot_longer(c(`1999`, `2000`), names_to = "year", values_to = "cases")
+# or
+table4a %>% 
+  pivot_longer(c("1999", "2000"), names_to = "year", values_to = "cases")
+```
+
+(3) You might look up [discussion of Exercise 3]().
+
+(4) Tidy the simple tibble below. Do you need to make it wider or longer? What are the variables?
+
+```{r pivot-ex4, exercise=TRUE}
+preg <- tribble(
+  ~pregnant, ~male, ~female,
+  "yes", NA, 10,
+  "no", 20, 12
+)
+```
+
+```{r pivot-ex4-solution}
+# We need to make it longer!
+
+# the following contains NA values... not super nice!
+pivot_longer(preg, c(male, female), names_to = "sex", values_to = "count")
+```
+
+Further cleanup of the `preg` data is discussed [here](https://jrnold.github.io/r4ds-exercise-solutions/tidy-data.html#exercise-12.3.4).
+
+
+
+### [12.4 Separating and uniting](https://r4ds.had.co.nz/tidy-data.html#separating-and-uniting)
+
+Next we want to know how to split values into columns and how to join multiple column values into one.
+
+```{r separate, exercise=TRUE}
+table3 %>% 
+  separate(rate, into = c("cases", "population"))
+```
+
+
+#### 12.4.3 Exercises
+
+(1) What do the `extra` and `fill` arguments do in `separate()`? Experiment with the various options for the following two toy datasets.
+
+```{r sep-ex1, exercise=TRUE}
+tibble(x = c("a,b,c", "d,e,f,g", "h,i,j")) %>% 
+  separate(x, c("one", "two", "three"))
+
+tibble(x = c("a,b,c", "d,e", "f,g,i")) %>% 
+  separate(x, c("one", "two", "three"))
+```
+
+Compare your observations with [this discussion of Exercise 1](https://jrnold.github.io/r4ds-exercise-solutions/tidy-data.html#exercise-12.4.1).
+
+
+
+(2) Both `unite()` and `separate()` have a `remove` argument. What does it do? Why would you set it to `FALSE`?
+
+```{r sep-ex3, exercise=TRUE}
+# no code to do here, just check the solution if interested!
+``` 
+
+```{r sep-ex3-solution}
+# The remove argument discards input columns in the result data frame. 
+# You would set it to FALSE if you want to create a new variable, but keep the old one.
+```
+
+(3) Question three is beyond our scope, but a solution can be found [here](https://jrnold.github.io/r4ds-exercise-solutions/tidy-data.html#exercise-12.4.3)
+
+
+
+
+### [12.5 Missing values](https://r4ds.had.co.nz/tidy-data.html#missing-values-3)
+
+Finally, we need to deal with missing values that can pop up when pivoting tables or that are missing right from the start within the raw data.
+Sometime, such values can be inferred from other (e.g. previous) values within the table or we want to discard them.
+The `tidyr` package provide specific functions for such use cases.
+
+```{r na-stocks, example=TRUE}
+# preloaded data set for inspection
+stocks
+# first example produces NA values via pivoting
+stocks %>% 
+  pivot_wider(names_from = year, values_from = return)
+```
+
+
+```{r na-treatment, example=TRUE}
+# preloaded data set
+treatment %>% 
+  fill(person)
+```
+
+Beside the functions discussed within the R4DS section, you should also know the following:
+
+- `drop_na()` removes all rows that contain `NA` values (in the specified columns).
+- `replace_na()` provides replaces `NA` with the given value
+
+Check the effect of the following `mutate` call and try both functions with the `stocks` data on the result.
+
+```{r na-drop, exercise=TRUE}
+stocksNA <- mutate(stocks, qtr = ifelse(qtr==3, NA, qtr))
+```
+
+```{r na-drop, exercise=TRUE}
+# 
+
+# removing the problematic row
+stocksNA %>% 
+  drop_na()
+# or explicitly using a variable name
+stocksNA %>% 
+  drop_na(return)
+
+# replacing the values for each column
+stocksNA %>% 
+  replace_na(list(qtr=3,return=12))
+# or just for one
+stocksNA %>% 
+  replace_na(list(qtr=3))
+
+```
+
+
+
+#### 12.5.1 Exercises
+
+(1) Compare and contrast the `fill` arguments to `pivot_wider()` and `complete()`.
+
+Solution is discussed [here](https://jrnold.github.io/r4ds-exercise-solutions/tidy-data.html#exercise-12.5.1).
+
+(2) What does the `direction` argument to `fill()` do?
+
+
+```{r na-ex2, exercise=TRUE}
+# no code to do here, just check the solution if interested!
+``` 
+
+```{r na-ex2-solution}
+# With "fill()", the "direction" determines whether NA values should be replaced 
+# by the previous non-missing value ("down") or the next non-missing value ("up").
+```
+
+
+
+## Wrap-up
+
+But before we continue, think about the following questions, which can be answered with the current material.
+
+- What are "features" of "untidy" data?
+- Why can't you use such data for plotting with `ggplot2`?
+- Can you distinguish long and wide table format?
+- What are possible ways to deal with missing values?
+- Can you imagine a use case (not discussed so far) where you would need the `separate()` function?
+
+
+```{r child = 'images/cheatsheet.Rmd'}
+```
