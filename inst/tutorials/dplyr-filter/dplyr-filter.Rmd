@@ -79,7 +79,9 @@ filter(flights, month == 1, day == 1)
 
 **5.2.1 Comparisons**
 
-Correct the following code, such that all flights with `month` equal to 1 are selected.
+First run the following code and investigate the result.
+
+Afterwards, correct the code, such that all flights with `month` equal to 1 are selected.
 
 
 ```{r hadley-filter-flights-bug, exercise=TRUE}
@@ -172,8 +174,7 @@ filter(flights, )
 ```
 
 ```{r hadley-filter-flights-summer-hint}
-# 'dest' is a character string variable, i.e. the values have to be quoted for checking
-# like "IAH" or "HOU"
+# 'month' is a numerical variable encoding with values from 1-12
 ```
 
 ```{r hadley-filter-flights-summer-solution}
@@ -186,14 +187,11 @@ filter(flights, month %in% c(7,8,9) )
 ```
 
 
-Another useful dplyr filtering helper is `between()`. **What does it do?** 
+Another useful dplyr filtering helper is `between()`. **What does it do?** (Check its [help page](https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/between)!)
 
 **Exercise:** Can you use it to simplify the code needed to answer the last challenge?
 
 ```{r hadley-filter-flights-between, exercise=TRUE}
-# check
-?between
-
 filter(flights, )
 ```
 
@@ -269,7 +267,7 @@ We thus recommend the study of this (short) chapter, to
 - double check your understanding
 
 
-### [3.1 Piping](https://moderndive.com/3-wrangling.html#piping)
+### Section [3.1 Piping](https://moderndive.com/3-wrangling.html#piping)
 
 
 **A central concept** to do efficient data processing in general is to *decompose* the overall processing task *into* small, well-defined *steps* like filtering, sorting, grouping, etc.
@@ -322,7 +320,7 @@ flights %>% filter(carrier == "AS")
 ```
 
 
-### [3.2 `filter` rows](https://moderndive.com/3-wrangling.html#filter)
+### Section [3.2 `filter` rows](https://moderndive.com/3-wrangling.html#filter)
 
 Note, the `View()` calls used within the ModernDive examples can be replaced via a `print()` in the interactive console of this tutorial.
 
@@ -334,6 +332,7 @@ print(portland_flights)
 ```
 
 
+Stop reading in the book for now at the end of section 3.2!
 
 
 
