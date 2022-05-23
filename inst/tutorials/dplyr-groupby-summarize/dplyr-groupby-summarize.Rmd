@@ -58,7 +58,8 @@ Since the online book tutorial is not interactive, you are encouraged to use the
 
 So let's start! 
 
-In the following, we link (via the following section captions) the specific chapters and provide respective interactive consoles and additional information for each.
+In the following, we link (via the following section headlines) the specific chapters to be studied.
+For each chapter, you find within each tutorial section respective interactive consoles and additional information.
 
 
 ### [5.6 Grouped summaries with `summarise()`](https://r4ds.had.co.nz/transform.html#grouped-summaries-with-summarise)

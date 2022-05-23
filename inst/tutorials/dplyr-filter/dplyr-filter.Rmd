@@ -57,7 +57,8 @@ Since the online book tutorial is not interactive, you are encouraged to use the
 
 So let's start! 
 
-In the following, we link (via the following section captions) the specific chapters and provide respective interactive consoles and additional information for each.
+In the following, we link (via the following section headlines) the specific chapters to be studied.
+For each chapter, you find within each tutorial section respective interactive consoles and additional information.
 
 ### [5.1 Introduction](https://r4ds.had.co.nz/transform.html#introduction-2)
 
@@ -265,6 +266,8 @@ We thus recommend the study of this (short) chapter, to
 - learn about *piping* using `%>%`
 - revisit `filter()` and respective notations
 - double check your understanding
+
+Again, the respective chapter to study is linked in the section header.
 
 
 ### Section [3.1 Piping](https://moderndive.com/3-wrangling.html#piping)
