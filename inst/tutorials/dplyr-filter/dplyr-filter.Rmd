@@ -2,7 +2,7 @@
 title: "dplyr::filter"
 tutorial:
   id: "de.uni-tuebingen.dezfdk.tutorials.r-dplyr-filter"
-  version: 2022.03.17
+  version: 2022.05.24
   author: Martin Raden
 output:
   learnr::tutorial :
@@ -233,15 +233,15 @@ filter(flights, dep_delay >= 60, dep_delay - arr_delay > 30)
 
 ### [5.2.3 Missing values](https://r4ds.had.co.nz/transform.html#missing-values)
 
-Identify all flights where the departing time `dep_time` is unknown (`NA`). How many are there?
+Identify all flights of January 2013 where the departing time `dep_time` is unknown (`NA`). How many are there?
 
 ```{r hadley-filter-flights-NA, exercise=TRUE}
 filter(flights, )
 ```
 
 ```{r hadley-filter-flights-NA-solution}
-filter(flights, is.na(dep_time))
-# yields 8255 rows
+filter(flights, is.na(dep_time), month==1, year==2013)
+# yields 512 rows
 ```
 
 
