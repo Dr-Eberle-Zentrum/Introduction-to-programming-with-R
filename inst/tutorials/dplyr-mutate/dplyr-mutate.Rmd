@@ -100,7 +100,8 @@ mutate(flights_sml,
 
 
 
-**Exercise:** Currently `dep_time` and `sched_dep_time` are convenient to look at, but hard to compute with because they’re not really continuous numbers. Convert them to a more convenient representation of number of minutes since midnight.
+**Exercise:** Currently `air_time` is convenient to look at, but hard to compute with because it does not really contain continuous numbers. 
+Convert them to a more convenient representation of number of minutes since midnight.
 
 ```{r hadlay-mutate-rescale, exercise=TRUE}
 mutate(flights_sml, )
@@ -108,21 +109,20 @@ mutate(flights_sml, )
 
 ```{r hadlay-mutate-rescale-solution}
 # we need to decompose the 'HHMM' time format into 'HH' hours and 'MM' minutes to compute the overall minutes
-# 'HH' can be extracted using modulo 100, i.e. 'dep_time %/% 100'
-# 'MM' can be extracted using rest division, i.e. 'dep_time %% 100'
+# 'HH' can be extracted using modulo 100, i.e. 'air_time %/% 100'
+# 'MM' can be extracted using rest division, i.e. 'air_time %% 100'
 # since midnight is represented by '2400', it would be converted to 1440 minutes (24*60)
 # -> thus, we have to do a final rest division by 1440 to handle the special case
 # all in one go we want: (HH*60 + MM) %% 1440
 mutate(flights_sml, 
-  dep_time_mins = (((dep_time %/% 100) * 60) + (dep_time %% 100)) %% 1440,
-  sched_dep_time_mins = (((sched_dep_time %/% 100) * 60) + (sched_dep_time %% 100)) %% 1440
+  air_time_mins = (((air_time %/% 100) * 60) + (air_time %% 100)) %% 1440
 )
 # details are discussed here
 # https://jrnold.github.io/r4ds-exercise-solutions/transform.html#exercise-5.5.1
 ```
 
 
-**Exercise:** Consider the following litte data table. 
+**Exercise:** Consider the following little data table. 
 
 ```{r hadlay-mutate-rank, exercise=TRUE}
 rankme <- tibble(
