@@ -546,11 +546,12 @@ pre code {
 <li>text (variable)</li>
 <li>works also for compressed files (ending with <code>.gz</code>, <code>.bz2</code>, <code>.xz</code>)</li>
 </ul></li>
-<li>the “working directory” of the <code>R</code> session defines from/to where to read/write files (without absolute path specification)
+<li>the “<strong>working directory</strong>” of the <code>R</code> session defines from/to where to read/write files (enables <em>relative</em> path specification!)
 <ul>
 <li><code>getwd()</code> and <code>setwd()</code></li>
 <li>can be changed via menu “<em>Session &gt;&gt; Set Working Directory</em>” in RStudio</li>
 <li>also possible via “<em>File</em>” tab in RStudio</li>
+<li><em>common issue</em> for problems with data import!</li>
 </ul></li>
 <li>corresponding <code>write</code> functions
 <ul>

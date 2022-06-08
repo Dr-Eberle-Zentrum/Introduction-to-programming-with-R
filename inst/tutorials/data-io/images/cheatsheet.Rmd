@@ -23,10 +23,11 @@
   - url (internet address)
   - text (variable)
   - works also for compressed files (ending with `.gz`, `.bz2`, `.xz`)
-- the "working directory" of the `R` session defines from/to where to read/write files (without absolute path specification)
+- the "**working directory**" of the `R` session defines from/to where to read/write files (enables *relative* path specification!)
   - `getwd()` and `setwd()`
   - can be changed via menu "*Session >> Set Working Directory*" in RStudio
   - also possible via "*File*" tab in RStudio
+  - *common issue* for problems with data import!
 - corresponding `write` functions
   - e.g. `write_csv(DATATABLE, FILENAME)`
   - use `write_csv2()` if you need a `,` decimal separator (no manual locale specification possible!)
