@@ -58,11 +58,11 @@ Since the online book tutorial is not interactive, you are encouraged to use the
 
 So let's start! 
 
-In the following, we link (via the following section headlines) the specific chapters to be studied.
+In the following, we link (via the section headlines) the specific chapters to be studied.
 For each chapter, you find within each tutorial section respective interactive consoles and additional information.
 
 
-### [5.6 Grouped summaries with `summarise()`](https://r4ds.had.co.nz/transform.html#grouped-summaries-with-summarise)
+### [Study 5.6 Grouped summaries with `summarise()` @ R4DS](https://r4ds.had.co.nz/transform.html#grouped-summaries-with-summarise)
 
 Note, both the `nycflights13` and `tidyverse` package are already loaded and ready within this tutorial.
 
@@ -76,7 +76,7 @@ summarise(flights, delay = mean(dep_delay, na.rm = TRUE))
 Note, both writings `summarise()` and `summarize()` are correct and working. Use w.r.t. your British or U.S. English style.
 
 
-### [5.6.1 Combining multiple operations with the pipe](https://r4ds.had.co.nz/transform.html#combining-multiple-operations-with-the-pipe)
+### [Study 5.6.1 Combining multiple operations with the pipe @ R4DS](https://r4ds.had.co.nz/transform.html#combining-multiple-operations-with-the-pipe)
 
 That's a recap of piping, but worth looking at!
 
@@ -95,7 +95,7 @@ group_by(flights, day) %>%
 ```
 
 
-### [5.6.2 Missing values](https://r4ds.had.co.nz/transform.html#missing-values-1)
+### [Study 5.6.2 Missing values @ R4DS](https://r4ds.had.co.nz/transform.html#missing-values-1)
 
 Unknown `NA` values are common in real world data.
 Since R takes it serious to be precise in its results, it will say "I don't know" (`NA`) as soon as it finds an `NA` within a data set it is asked to compute statistics on.
@@ -149,7 +149,7 @@ flights %>%
 ```
 
 
-### [5.6.3 Counts](https://r4ds.had.co.nz/transform.html#counts)
+### [Study 5.6.3 Counts @ R4DS](https://r4ds.had.co.nz/transform.html#counts)
 
 This section goes much into detail about statistics and how to interprete, which is beyond the focus of this course.
 
@@ -201,7 +201,7 @@ flights %>%
 ```
 
 
-### [5.6.4 Useful summary functions](https://r4ds.had.co.nz/transform.html#summarise-funs)
+### [Study 5.6.4 Useful summary functions @ R4DS](https://r4ds.had.co.nz/transform.html#summarise-funs)
 
 The provided list of 'aggregation functions' is not complete, but gives a good overview on functions commonly used and needed.
 
@@ -266,7 +266,7 @@ flights %>%
 
 
 
-### [5.6.5 Grouping by multiple variables](https://r4ds.had.co.nz/transform.html#grouping-by-multiple-variables)
+### [Study 5.6.5 Grouping by multiple variables @ R4DS](https://r4ds.had.co.nz/transform.html#grouping-by-multiple-variables)
 
 When grouping your data into "subtables" for subsequent independent operations, you will need to merge them back into a "normal" single table at some point.
 
@@ -284,7 +284,7 @@ daily %>%
 ```
 
 
-### [5.7 Grouped mutates (and filters)](https://r4ds.had.co.nz/transform.html#grouped-mutates-and-filters)
+### [Study 5.7 Grouped mutates (and filters) @ R4DS](https://r4ds.had.co.nz/transform.html#grouped-mutates-and-filters)
 
 Grouping the observations is often also useful to 
 

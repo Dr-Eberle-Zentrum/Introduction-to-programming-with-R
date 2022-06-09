@@ -230,11 +230,11 @@ So let's start!
 
 In the following, we link (via the following section captions) the specific chapters and provide respective interactive consoles and additional information for each.
 
-### [3.1 Introduction](https://r4ds.had.co.nz/data-visualisation.html#introduction-1)
+### [Study 3.1 Introduction @ R4DS](https://r4ds.had.co.nz/data-visualisation.html#introduction-1)
 
 **NOTE:** Within the rest of this tutorial, the **packages** from the `tidyverse`, i.e. `ggplot2`, `dplyr`, etc., are **already preloaded**, such that you can **directly use their functions and data** within the following consoles.
 
-### [3.2 First steps](https://r4ds.had.co.nz/data-visualisation.html#first-steps)
+### [Study 3.2 First steps @ R4DS](https://r4ds.had.co.nz/data-visualisation.html#first-steps)
 
 
 ```{r hadley-first-steps, exercise=TRUE}
@@ -284,7 +284,7 @@ ggplot(data = mpg) +
 
 
 
-### [3.3 Aesthetic mappings](https://r4ds.had.co.nz/data-visualisation.html#aesthetic-mappings)
+### [Study 3.3 Aesthetic mappings @ R4DS](https://r4ds.had.co.nz/data-visualisation.html#aesthetic-mappings)
 
 Coloring by `class`.
 
@@ -392,7 +392,7 @@ ggplot(data = mpg) +
 ```
 
 
-### [3.4 Common problems](https://r4ds.had.co.nz/data-visualisation.html#common-problems)
+### [Study 3.4 Common problems @ R4DS](https://r4ds.had.co.nz/data-visualisation.html#common-problems)
 
 Get the following code working, i.e. drawing a scatterplot.
 
@@ -447,7 +447,7 @@ ggplot(data = mpg) +
 ```
 
 
-### [3.6 Geometric objects](https://r4ds.had.co.nz/data-visualisation.html#geometric-objects)
+### [Study 3.6 Geometric objects @ R4DS](https://r4ds.had.co.nz/data-visualisation.html#geometric-objects)
 
 ```{r hadley-geom-first-vis}
 # left

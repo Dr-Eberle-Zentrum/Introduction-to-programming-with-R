@@ -36,5 +36,5 @@
   - `writexl` for (simple) MS Excel export ([Summary page](https://docs.ropensci.org/writexl/))
   - `googlesheets4` for import/export of online Google Sheets ([Summary page](https://googlesheets4.tidyverse.org/))
 
-[![dplry cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/thumbnails/data-import-cheatsheet-thumbs.png){width="50%"}](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-import.pdf)
+[![dplyr cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/thumbnails/data-import-cheatsheet-thumbs.png){width="50%"}](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-import.pdf)
 

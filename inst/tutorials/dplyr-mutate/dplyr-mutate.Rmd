@@ -65,11 +65,11 @@ Since the online book tutorial is not interactive, you are encouraged to use the
 
 So let's start! 
 
-In the following, we link (via the following section headlines) the specific chapters to be studied.
+In the following, we link (via the section headlines) the specific chapters to be studied.
 For each chapter, you find within each tutorial section respective interactive consoles and additional information.
 
 
-### [5.5 Add new variables with `mutate()`](https://r4ds.had.co.nz/transform.html#add-new-variables-with-mutate)
+### [Study 5.5 Add new variables with `mutate()` @ R4DS](https://r4ds.had.co.nz/transform.html#add-new-variables-with-mutate)
 
 Note, both the `nycflights13` and `tidyverse` package are already loaded and ready within this tutorial. Also the `flights_sml` sub-dataset is precomputed and available.
 
