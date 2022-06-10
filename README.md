@@ -30,6 +30,8 @@ We thus recommend the following order
 - Data import/export
   - `data-io` tutorial
   - `data-tidy` tutorial
+- String processing
+  - `stringr-regex` tutorial
   
 The tutorials are summarized in our [Aggregated Cheatsheet](https://htmlpreview.github.io/?https://raw.githubusercontent.com/Dr-Eberle-Zentrum/Introduction-to-programming-with-R/master/cheatsheet.html).
 
