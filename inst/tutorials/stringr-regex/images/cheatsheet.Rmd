@@ -1,0 +1,50 @@
+
+## Cheatsheet "stringr::basics+regex"
+
+Strings
+
+- strings need to be quoted (single `'` or double `"` quotes)
+- **escaping** via `\` of special characters like line-break `\n`, tabulator `\t`, ...
+- **non-keyboard symbols/characters** via UTF encoding (`\uXXXX` for UTF-16 and `\U..` for UTF-32 encodings), e.g. `"greek alpha = \u03B1"`
+- `writeLines()` : final text output in the console (e.g. for testing/checking)
+- `str_length()` : number of characters/letters
+- `str_c()` or `paste()`: concatenation of strings
+  - element wise processing with separator `sep` string
+  - collapse/aggregation to one string via `collapse` string
+  - empty strings (length == 0) are ignored
+- `str_to_lower()`, `str_to_upper()`, `str_to_title()` : capitalization conversion
+  - use `locale` for language specifics
+_ `str_sort()` : lexicographic sorting
+  - again `locale` specific
+- `str_trim()`/`str_pad()` : remove/add whitespaces at strings' ends
+
+Regular expressions
+
+- regular expressions (regex) are powerful tools to process text
+  - "placeholders" to encode **character classes**
+    - `.` : any letter (but no newline per default)
+    - **Note**: class symbols need **double-escaping** in string encodings!!!
+    - `\\d` (`\\D`) : (not a) digit 
+    - `\\s` (`\\S`) : (not a) whitespace, i.e. space, tabulator, ..
+    - `\\w` : (english) word letter or digit
+    - `[]` : explicit letter list (use `[^]` for negation of list)
+  - **anchors** define *where* the pattern match should start/end
+    - `^` : beginning of the text
+    - `$` : end of the text
+    - `\\b` : end of a word (left or right)
+  - `|` alternative separator, e.g. `a|b` matches `a` or `b`
+  - `()` **grouping** to define blocks of a pattern, e.g. to specify alternatives
+  - **repetition** rules allow for compact the encoding of substrings
+    - `?` : 0 or 1 times
+    - `*` : 0 or multiple times
+    - `+` : 1 or multiple times
+    - `{}` : explicit counts `{3}`, ranges `{2,4}` or "at least/most" `{2,}`,`{,3}`
+    - regex **matching is greedy**, i.e. the longest possible match is searched
+      - e.g. `str_view("aaaa","a+")` reports the *whole string* as match and not only one letter!
+    - repetition rules also *apply to groups*, i.e. `(ab)+` matches `"ababab"`
+- `str_view()` shows pattern matches within the input strings (e.g. for regex testing)
+  - `match=T` : show hits only (also useful to list not-matched strings)
+- `str_subset()` provides the subset of input elements (a vector of strings) that match the given regex, e.g. `str_subset(c("a","b","c"), "a|b")`
+
+[![stringr cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/thumbnails/strings-cheatsheet-thumbs.png){width="50%"}](https://raw.githubusercontent.com/rstudio/cheatsheets/main/strings.pdf)
+

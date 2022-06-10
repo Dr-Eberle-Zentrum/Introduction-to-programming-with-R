@@ -1,0 +1,564 @@
+---
+title: "stringr::basics+regex"
+tutorial:
+  id: "de.uni-tuebingen.dezfdk.tutorials.r-stringr-regex"
+  version: 2022.06.09
+  author: Martin Raden
+output:
+  learnr::tutorial :
+    progressive: true
+    allow_skip: true
+    theme: "sandstone"
+    language: "en"
+    css: "css/dez-style.css"
+    includes:
+      before_body: "../../resources/logo-header.html"
+      after_body: "../../resources/footer.html"
+runtime: shiny_prerendered
+---
+  
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+# disable warnings
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+# Link to static resources in Shiny's web server
+shiny::addResourcePath("css",
+                       system.file("resources","css",
+                       package = "deztutr"))
+
+```
+
+
+## The `stringr` package
+
+![](images/stringr-logo.png){width=10%}
+
+The [`stringr` package](https://stringr.tidyverse.org/) provides the central functions for string processing within the `tidyverse` universe.
+It is a compilation functions to tackle of standard tasks concerning strings like:
+
+- Compose strings from other strings.
+- Determine which strings match a pattern.
+- Find the positions of matches.
+- Extract the content of matches.
+- Replace matches with new values.
+- Split a string based on a match.
+
+The functions from the `stringr` package are simplified variants from the more powerful (but complex) [`stringi` package](https://stringi.gagolewski.com/).
+Thus, if you find `stringr` not sufficient, check the `stringi` package.
+
+Within this tutorial, we first focus on the basics of string process, i.e. details of *string encoding* and *regular expressions*, the workhorses of pattern matching.
+
+
+To this end, you will study the first parts of the [Strings](https://r4ds.had.co.nz/strings.html) chapter of the [R for Data Science](https://r4ds.had.co.nz/index.html) online tutorial of the book by Hadley Wickham and Garret Grolemund.
+
+Since the online book tutorial is not interactive, you are encouraged to use the following interactive R consoles to
+
+- repeat and follow the code examples of the tutorial
+- solve the exercises of the tutorial (which we recreated below)
+
+So let's start! 
+
+In the following, we link (via the section headlines) the specific chapters to be studied.
+For each chapter, you find within each tutorial section respective interactive consoles and additional information.
+
+## String basics
+
+### [Study 14 - 14.2 String basics @ R4DS](https://r4ds.had.co.nz/strings.html)
+
+Note, the `tidyverse` package is already loaded and ready within this tutorial.
+
+Printing of special characters (escaping).
+```{r stringr-print, exercise=TRUE}
+x <- c("\"", "\\", "\u00b5")
+x
+writeLines(x)
+```
+
+#### 14.2.2 Combining strings
+
+Concatenation of strings.
+```{r stringr-c-sep, exercise=TRUE}
+str_c("x", "y", sep = ", ")
+```
+
+`NA` handling.
+```{r stringr-c-NA, exercise=TRUE}
+x <- c("abc", NA)
+str_c("|-", x, "-|")
+str_c("|-", str_replace_na(x), "-|")
+```
+
+Concatenation vs. collapse.
+Why do both calls provide the same result?
+What are the differences and respective effects?
+```{r concat-vs-collapse, exercise=TRUE}
+str_c("x", "y", "z", sep = ", ")
+str_c(c("x", "y", "z"), collapse = ", ")
+```
+
+```{r concat-vs-collapse-solution}
+str_c("x", "y", "z", sep = ", ")
+# here we are CONCATENATING three vectors (of length one)
+# where resp. vector elements are SEPARATED by ", "
+
+str_c(c("x", "y", "z"), collapse = ", ")
+# here we are COLLAPSING the values of ONE vector
+# (eventually, FIRST we concatenate the vector with nothing 
+# and the RESULTing vector is than collapsed...)
+```
+
+
+#### 14.2.3 Subsetting strings
+
+```{r substr-examples, exercise=TRUE}
+x <- c("Apple", "Banana", "Pear")
+# substring
+str_sub(x, 1, 3)
+# negative numbers count backwards from end
+str_sub(x, -3, -1)
+# out of range
+str_sub(x, 5, 10)
+```
+
+#### 14.2.4 Locales
+
+Lexicographic sorting as well as capitalization is language specific.
+Thus, set the specific `locale` when working with non-english text.
+Language codes can be found on [Wikipedia](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes).
+
+```{r local-examples, exercise=TRUE}
+# Turkish has two i's: with and without a dot, and it
+# has a different rule for capitalizing them:
+str_to_upper(c("i", "ı"))
+str_to_upper(c("i", "ı"), locale = "tr")
+```
+
+
+#### 14.2.5 Exercises
+
+
+
+1. In code that doesn’t use `stringr`, you’ll often see `paste()` and `paste0()`. What’s the difference between the two functions? What `stringr` function are they equivalent to? How do the functions differ in their handling of `NA`?
+
+
+```{r ex-1, exercise=TRUE}
+paste("a","b","c",NA)
+paste0("a","b","c",NA)
+str_c("a","b","c",NA)
+```
+```{r ex-1-solution}
+# The function paste() separates strings by spaces by default, 
+# while paste0() does not separate strings with spaces by default.
+# Since str_c() does not separate strings with spaces by default 
+# it is closer in behavior to paste0().
+
+# However, str_c() and the paste function handle NA differently. 
+# The function str_c() propagates NA, if any argument is a missing value, 
+# it returns a missing value. 
+# This is in line with how the numeric R functions, e.g. sum(), mean(), handle missing values.
+# However, the paste functions, convert NA to the string "NA" 
+# and then treat it as any other character vector.
+```
+
+
+2. In your own words, describe the difference between the `sep` and `collapse` arguments to `str_c()`.
+
+
+```{r ex-2, exercise=TRUE}
+str_c("Hallo", c("Anna","Herbert"), sep=" ", collapse=". ")
+```
+```{r ex-2-solution}
+# The sep argument is the string inserted between arguments to str_c(), 
+# while collapse is the string used to separate any elements of the 
+# final character vector into a character vector of length one.
+```
+
+3. Use `str_length()` and `str_sub()` to extract the middle character from a string. What will you do if the string has an even number of characters?
+
+```{r ex-3, exercise=TRUE}
+word1 = "Hallo"
+word2 = "Anna"
+```
+```{r ex-3-solution}
+# bracketing triggers printing for checking the value
+# need "+1" for word of odd length
+(mid1 = str_length(word1)/2+1)
+str_sub( word1, mid1, mid1 )
+# "+1" yields the "post-middle" letter of words of even length
+(mid2 = str_length(word2)/2+1)
+str_sub( word2, mid2, mid2 )
+```
+
+3.1 Can you write a vectorized version of the last exercise using a piping?
+Note: with `.` you can refer to the piped input of the current command!
+
+```{r ex-3_1, exercise=TRUE}
+c("Hallo", "Anna")
+```
+```{r ex-3_1-solution}
+c("Hallo", "Anna") %>% 
+  str_sub( str_length(.)/2+1, str_length(.)/2+1)
+```
+
+
+4. What does `str_wrap()` do? When might you want to use it?
+
+```{r ex-4, exercise=TRUE}
+rep("Na sowas!", 20) %>% 
+  str_c( collapse=" ") %>% 
+  # uncomment to check the effect
+  # str_wrap(width = 20) %>% 
+  writeLines()
+```
+```{r ex-4-solution}
+# The function str_wrap() wraps text so that it fits within a certain width. 
+# This is useful for wrapping long strings of text to be typeset.
+```
+
+
+5. What does `str_trim()` do? What’s the opposite of `str_trim()`?
+
+```{r ex-5, exercise=TRUE}
+str_trim(" abc ")
+str_trim(" abc ", side = "left")
+str_trim(" abc ", side = "right")
+```
+```{r ex-5-solution}
+# The function str_trim() trims the whitespace from a string.
+
+# The opposite of str_trim() is str_pad() which adds characters to each side.
+str_pad("abc", 5, side = "both")
+str_pad("abc", 4, side = "right")
+str_pad("abc", 4, side = "left")
+```
+
+
+Exercise 6 is too complex for now (when you only followed the tutorial so far), 
+but you can checkout a [solution online](https://jrnold.github.io/r4ds-exercise-solutions/strings.html#exercise-14.2.6).
+
+
+
+## Regular expressions
+
+### [Study 14.3 Matching patterns with regular expressions @ R4DS](https://r4ds.had.co.nz/strings.html#matching-patterns-with-regular-expressions)
+
+####  14.3.1 Basic matches 
+
+```{r regex-simple-example, exercise=TRUE}
+x <- c("apple", "banana", "pear")
+str_view(x, ".a.")
+```
+
+Exercises
+
+1. Explain why each of these strings don’t match a `\`: `"\"`, `"\\"`, `"\\\"`.
+
+```{r ex-basic-1, exercise=TRUE}
+# AFTER thinking about the question, you can check out the solution... ;)
+```
+```{r ex-basic-1-solution}
+# "\"   : This will escape the next character in the R string.
+# "\\"  : This will resolve to \ in the regular expression, 
+#         which will escape the next character in the regular expression.
+# "\\\" : The first two backslashes will resolve to a literal backslash 
+#         in the regular expression, the third will escape the next character. 
+#         So in the regular expression, this will escape some escaped character.
+```
+
+2. How would you match the string/sequence `"'\` ?
+
+```{r ex-basic-2, exercise=TRUE}
+# extend the following call with the string to check and the pattern
+str_view( string = "", pattern = "")
+```
+```{r ex-basic-2-hint-1}
+# string encoding will need some escaping
+```
+```{r ex-basic-2-hint-2}
+# string encoding will need some escaping
+str_view( string = "\"'\\", pattern = "")
+```
+```{r ex-basic-2-hint-3}
+# regex pattern need double escaping of the backslash letter
+str_view( string = "\"'\\", pattern = "\"'\\\\")
+```
+
+3. What patterns will the regular expression `\..\..\..` match? 
+How would you represent it as a string?
+
+```{r ex-basic-3, exercise=TRUE}
+# Think about some example strings first, that could be matched by the regex
+str_view( string = c("","",""), pattern = "")
+```
+```{r ex-basic-3-hint-1}
+# One example might be this
+str_view( string = c(".a.b.c","",""), pattern = "")
+```
+```{r ex-basic-3-hint-2}
+# or parts of these
+str_view( string = c(".a.b.c", "1.2.3.4", "....."), pattern = "")
+```
+```{r ex-basic-3-hint-3}
+# and now with regex
+str_view( string = c(".a.b.c", "1.2.3.4", "......."), pattern = "\\..\\..\\..")
+```
+```{r ex-basic-3-hint-4}
+# are the shown matches the only possible ones?
+```
+
+
+#### 14.3.2 Anchors
+
+
+```{r regex-anchor-example, exercise=TRUE}
+x <- c("apple pie", "apple", "apple cake")
+# try them without anchors!
+str_view(x, "^a")
+str_view(x, "le$")
+str_view(x, "\\bp")
+# this is quite constraint
+str_view(x, "^apple$")
+```
+
+Exercises
+
+
+
+1. How would you match the literal string `"$^$"`?
+
+
+```{r ex-regex-ex-1, exercise=TRUE}
+str_view(c("$^$","don't-$^$-match"), "")
+```
+```{r ex-regex-ex-1-solution}
+str_view(c("$^$","don't-$^$-match"), "^\\$\\^\\$$")
+```
+
+
+2. Given the corpus of common (english) words in the data set `stringr::words`, create regular expressions that find all words as given below.
+Since this list is long, you might want to use the `match` argument to `str_view()` to show only the matching or non-matching words.
+
+
+```{r ex-regex-ex-2, exercise=TRUE}
+# Start with `“y”`.
+str_view( words, "" )
+# End with `“x”`
+str_view( words, "" )
+# Are exactly three letters long.
+str_view( words, "" )
+# Have seven letters or more.
+str_view( words, "" )
+```
+```{r ex-regex-ex-2-hint-1}
+# Start with `“y”`.
+str_view(stringr::words, "^y", match = TRUE)
+```
+```{r ex-regex-ex-2-hint-2}
+# End with `“x”`
+str_view(stringr::words, "x$", match = TRUE)
+```
+```{r ex-regex-ex-2-hint-3}
+# Are exactly three letters long.
+# due to both end anchors, only length-three words are matched
+str_view(stringr::words, "^...$", match = TRUE)
+```
+```{r ex-regex-ex-2-hint-4}
+# Have seven letters or more.
+# without end anchors, also longer words are matched
+str_view(stringr::words, ".......", match = TRUE)
+```
+
+
+#### 14.3.3 Character classes and alternatives
+
+```{r example-classes, exercise=TRUE}
+# Look for a literal character that normally has special meaning in a regex
+str_view(c("abc", "a.c", "a*c", "a c"), "a[.]c")
+# alternatives and grouping
+str_view(c("grey", "gray"), "gr(e|a)y")
+```
+
+Exercises
+
+
+
+1.  Create regular expressions to find all words that:
+
+```{r ex-class-ex-1, exercise=TRUE}
+# Start with a vowel.
+str_view( words, "")
+# That only contain consonants. (Hint: thinking about matching “not”-vowels.)
+str_view( words, "")
+# End with "ed", but not with "eed".
+str_view( words, "")
+# End with "ing" or "ise".
+str_view( words, "")
+```
+```{r ex-class-ex-1-hint-1}
+# Start with a vowel.
+str_view( words, "^[aeiou]", match=TRUE)
+```
+```{r ex-class-ex-1-hint-2}
+# That only contain consonants. (Hint: thinking about matching “not”-vowels.)
+str_view( words, "[aeiou]", match=FALSE)
+```
+```{r ex-class-ex-1-hint-3}
+# End with "ed", but not with "eed".
+str_view( words, "[^e]ed$", match=TRUE)
+```
+```{r ex-class-ex-1-hint-4}
+# End with "ing" or "ise".
+str_view( words, "i(ng|se)$", match=TRUE)
+```
+
+
+2.  Empirically verify the rule `“i before e except after c”`, i.e. count the number of matches following or violating the rule.
+
+
+```{r ex-class-ex-2, exercise=TRUE}
+# check occurrences in accordance with the rule (using a resp. regex)
+length(str_subset( words, "" ))
+# check violations by encoding the contrary regex
+length(str_subset( words, "" ))
+```
+```{r ex-class-ex-2-solution}
+# check occurrences in accordance with the rule (using a resp. regex)
+length(str_subset( words, "(cei|[^c]ie)" ))
+# check violations by encoding the contrary regex
+length(str_subset( words, "(cie|[^c]ei)" ))
+```
+
+3.  Is `“q”` always followed by a `“u”`?
+
+```{r ex-class-ex-3, exercise=TRUE}
+str_view( words, "")
+```
+```{r ex-class-ex-3-solution}
+# eventually yes: the output of the following is empty
+str_view( words, "q[^u]", match=TRUE)
+# most common words follow the rules. 
+# there are only very few and rare counter-example.
+```
+
+4.  Write a regular expression that matches a word if it’s probably written in British English, not American English.
+
+A solution to this exercise is [discussed online](https://jrnold.github.io/r4ds-exercise-solutions/strings.html#exercise-14.3.3.4).
+
+5.  Create a regular expression that will match telephone numbers as commonly written in your country.
+
+Eventually, a good answer to this exercise requires repetition encodings only discussed in the next section. Thus, if interested, refer to an [online solution discussion](https://jrnold.github.io/r4ds-exercise-solutions/strings.html#exercise-14.3.3.5).
+
+
+#### 14.3.4 Repetition
+
+
+```{r example-repeat, exercise=TRUE}
+x <- "1888 is the longest year in Roman numerals: MDCCCLXXXVIII"
+str_view(x, "CC?")
+str_view(x, "CC+")
+str_view(x, 'C[LX]+')
+str_view(x, "C{2}")
+str_view(x, "C{2,}")
+str_view(x, "C{2,3}")
+```
+
+Exercises
+
+1. Describe the equivalents of `?`, `+`, `*` in `{m,n}` form.
+
+```{r ex-rep-ex-1, exercise=TRUE}
+# rewrite with {m,n} notation
+str_view( "aaa", "a?")
+str_view( "aaa", "a+")
+str_view( "aaa", "a*")
+```
+```{r ex-rep-ex-1-solution}
+# ?
+str_view( "aaa", "a{0,1}")
+# +
+str_view( "aaa", "a{1,}")
+# *
+str_view( "aaa", "a{0,}")
+```
+
+
+2. Describe in words what these regular expressions match: 
+(read carefully to see if I’m using a regular expression or a string that defines a regular expression.)
+
+
+```{r ex-rep-ex-2, exercise=TRUE}
+#1   ^.*$
+#2   "\\{.+\\}"
+#3   \d{4}-\d{2}-\d{2}
+#4   "\\\\{4}"
+```
+```{r ex-rep-ex-2-hint-1}
+#1 ^.*$ will match any string. For example: 
+str_view(c("dog", "$1.23", "lorem ipsum"), "^.*$")
+```
+```{r ex-rep-ex-2-hint-2}
+#2 "\\{.+\\}" will match any string with curly braces surrounding 
+# at least one character. For example: 
+str_view( c("{a}", "{abc}"), "\\{.+\\}")
+```
+```{r ex-rep-ex-2-hint-3}
+#3 \d{4}-\d{2}-\d{2} will match four digits followed by a hyphen, 
+# followed by two digits followed by a hyphen, followed by another two digits. 
+# This is a regular expression that can match dates formatted 
+# like “YYYY-MM-DD” (“%Y-%m-%d”). For example: 
+str_view("2018-01-11","\\d{4}-\\d{2}-\\d{2}")
+```
+```{r ex-rep-ex-2-hint-4}
+#4 "\\\\{4}" is \\{4}, which will match four backslashes. 
+# For example: 
+str_view("\\\\\\\\","\\\\{4}")
+```
+
+
+3. Create regular expressions to find all words that:
+
+```{r ex-rep-ex-3, exercise=TRUE}
+#  Start with three consonants.
+str_view(words, "", match=TRUE)
+#  Have three or more vowels in a row.
+str_view(words, "", match=TRUE)
+#  Have two or more vowel-consonant pairs in a row.
+str_view(words, "", match=TRUE)
+```
+```{r ex-rep-ex-3-hint-1}
+#  Start with three consonants.
+str_view(words, "^[^aeiou]{3}", match=TRUE)
+```
+```{r ex-rep-ex-3-hint-2}
+#  Have three or more vowels in a row.
+str_view(words, "[aeiou]{3,}", match=TRUE)
+```
+```{r ex-rep-ex-3-hint-3}
+#  Have two or more vowel-consonant pairs in a row.
+str_view(words, "([aeiou][^aeiou]){2,}", match=TRUE)
+```
+
+4. Solve the beginner regexp crosswords at [https://regexcrossword.com/challenges/beginner](https://regexcrossword.com/challenges/beginner).
+
+
+This tutorial ends at the end of chapter 14.3 of R4DS.
+So if you hit the section *14.4 Tools* you might want to take a break! ;)
+
+
+
+## Wrap-up
+
+But before we continue, think about the following questions, which can be answered with the current material.
+
+- How to incorporate "non-keyboard" letters into strings, e.g. for axis labels in plots?
+- Can you generate the `"1."`, `"2."`, ... etc. starting from the integer vector `1:9`?
+- How to get the length (number of characters) of a text string?
+- Why and where do we need `locale` specification when dealing with strings?
+- Can you name an example for each of the following regex elements, i.e. character class, anchor, repetition?
+- What is meant when saying that pattern matching is "greedy"?
+- Did you solve all regex crossword puzzles? :D
+
+
+```{r child = 'images/cheatsheet.Rmd'}
+```
