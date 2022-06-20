@@ -301,13 +301,14 @@ Beside the functions discussed within the R4DS section, you should also know the
 - `drop_na()` removes all rows that contain `NA` values (in the specified columns).
 - `replace_na()` provides replaces `NA` with the given value
 
-Check the effect of the following `mutate` call and try both functions with the `stocks` data on the result.
+Check the effect of the following `mutate()` call on the `stocks` data on the result.
+Subsequently, change the generated `stockNA` data set with both `drop_na()` and `replace_na()` (not necessarily in one pipe).
 
 ```{r na-drop, exercise=TRUE}
 stocksNA <- mutate(stocks, qtr = ifelse(qtr==3, NA, qtr))
 ```
 
-```{r na-drop, exercise=TRUE}
+```{r na-drop-solution}
 # 
 
 # removing the problematic row
