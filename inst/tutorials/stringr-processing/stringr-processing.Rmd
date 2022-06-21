@@ -1,0 +1,720 @@
+---
+title: "stringr::processing"
+tutorial:
+  id: "de.uni-tuebingen.dezfdk.tutorials.r-stringr-processing"
+  version: 2022.06.21
+  author: Martin Raden
+output:
+  learnr::tutorial :
+    progressive: true
+    allow_skip: true
+    theme: "sandstone"
+    language: "en"
+    css: "css/dez-style.css"
+    includes:
+      before_body: "../../resources/logo-header.html"
+      after_body: "../../resources/footer.html"
+runtime: shiny_prerendered
+---
+  
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+# disable warnings
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+# Link to static resources in Shiny's web server
+shiny::addResourcePath("css",
+                       system.file("resources","css",
+                       package = "deztutr"))
+
+```
+
+
+## The `stringr` package
+
+![](images/stringr-logo.png){width=10%}
+
+The [`stringr` package](https://stringr.tidyverse.org/) provides the central functions for string processing within the `tidyverse` universe.
+It is a compilation functions to tackle of standard tasks concerning strings like:
+
+- Compose strings from other strings.
+- Determine which strings match a pattern.
+- Find the positions of matches.
+- Extract the content of matches.
+- Replace matches with new values.
+- Split a string based on a match.
+
+The functions from the `stringr` package are simplified variants from the more powerful (but complex) [`stringi` package](https://stringi.gagolewski.com/).
+Thus, if you find `stringr` not sufficient, check the `stringi` package.
+
+Within this tutorial, we focus on the **string processing** capabilities of `stringr` often **using regular expressions**.
+Thus, you should be already familiar with the latter.
+
+
+The tutorial is based on parts of the [Strings](https://r4ds.had.co.nz/strings.html) chapter of the [R for Data Science](https://r4ds.had.co.nz/index.html) online tutorial of the book by Hadley Wickham and Garret Grolemund.
+
+Since the online book tutorial is not interactive, you are encouraged to use the following interactive R consoles to
+
+- repeat and follow the code examples of the tutorial
+- solve the exercises of the tutorial (which we recreated below)
+
+So let's start! 
+
+In the following, we link (via the section headlines) the specific chapters to be studied.
+For each chapter, you find within each tutorial section respective interactive consoles and additional information.
+
+## String processing
+
+### [Study 14.4 Tools @ R4DS](https://r4ds.had.co.nz/strings.html#tools)
+
+Note, the `tidyverse` package is already loaded and ready within this tutorial.
+
+#### 14.4.1 Detect matches
+
+Printing of special characters (escaping).
+```{r strdetect-examples, exercise=TRUE}
+# How many common words start with t?
+sum(str_detect(words, "^t"))
+
+# What proportion of common words end with a vowel?
+mean(str_detect(words, "[aeiou]$"))
+
+# subsetting (of a vector)
+words[str_detect(words, "x$")]
+str_subset(words, "x$")
+```
+
+
+**Exercise**: Why is the following not working?
+
+```{r filter-question, exercise=TRUE}
+words %>% 
+  filter( str_detect(words, "x$") )
+```
+
+```{r filter-question-solution}
+# "filter()" requires a data.frame as input
+# but "words" is just a vector
+
+# the following works
+as.tibble(words) %>% # creates a tibble with one column (named "value")
+  # note: we have to use the correct column name in str_detect()
+  filter( str_detect(value, "x$") )
+  
+```
+
+
+```{r count-example, exercise=TRUE}
+tibble(
+  word = words, 
+  i = seq_along(word)
+) %>% 
+  mutate(
+    vowels = str_count(word, "[aeiou]"),
+    consonants = str_count(word, "[^aeiou]")
+  )
+```
+
+
+**Exercises**:
+
+1. For each of the following challenges, try solving it by using both a single regular expression, and a combination of multiple `str_detect()` calls.
+
+```{r strdect-ex, exercise=TRUE}
+# (1) Find all words that start or end with x.
+
+# (2) Find all words that start with a vowel and end with a consonant.
+# restrict the output by piping it into "head()"
+
+# (3) Are there any words that contain at least one of each different vowel?
+
+```
+
+```{r strdect-ex-hint-1}
+# one regex
+words[str_detect(words, "^x|x$")]
+
+# split regex into parts
+start_with_x <- str_detect(words, "^x")
+end_with_x <- str_detect(words, "x$")
+words[start_with_x | end_with_x]
+```
+
+```{r strdect-ex-hint-2}
+# one regex
+str_subset(words, "^[aeiou].*[^aeiou]$") %>% head()
+
+# split calls
+start_with_vowel <- str_detect(words, "^[aeiou]")
+end_with_consonant <- str_detect(words, "[^aeiou]$")
+words[start_with_vowel & end_with_consonant] %>% head()
+```
+
+```{r strdect-ex-hint-3}
+# There is not a simple regular expression to match words that contain 
+# at least one of each vowel. The regular expression would need to consider 
+# all possible orders in which the vowels could occur.
+
+# solution from https://jrnold.github.io/r4ds-exercise-solutions/strings.html#detect-matches
+pattern <-
+  cross(rerun(5, c("a", "e", "i", "o", "u")),
+    .filter = function(...) {
+      x <- as.character(unlist(list(...)))
+      length(x) != length(unique(x))
+    }
+  ) %>%
+  map_chr(~str_c(unlist(.x), collapse = ".*")) %>%
+  str_c(collapse = "|")
+
+# solution using another package
+library(combinat)
+# generate all permutations
+pattern2 <- 
+  permn(c("a", "e", "i", "o", "u")) %>% 
+  # create tibble from list
+  as_tibble_col() %>% 
+  # decompose the list entries per row into columns
+  unnest_wider(value) %>% 
+  # aggregate all columns into one string per pattern
+  unite( pattern, sep=".*" ) %>% 
+  # extract single column vector
+  pull(pattern) %>% 
+  # collapse to one "OR" separated pattern
+  str_c(collapse="|")
+
+```
+
+
+
+2. What word has the highest number of vowels? What word has the highest proportion of vowels? (Hint for the latter: what is the denominator?)
+
+
+```{r ex-str_count, exercise=TRUE}
+# you can use dplyr when creating first a tibble from the words vector:
+tibble( words = words ) %>% 
+
+# If you want to work directly on the `words` vector, 
+# you might need the `which()` function. 
+
+```
+
+
+```{r ex-str_count-hint-1}
+# you might want to use str_count() in a respective mutate() call
+```
+
+```{r ex-str_count-hint-2}
+# The word with the highest number of vowels is
+
+# using dplyr ...
+tibble( words = words ) %>% 
+  mutate( vowels = str_count(words, "[aeiou]") ) %>% 
+  filter( vowels == max(vowels) )
+
+# or via subsetting of the words vector 
+vowels <- str_count(words, "[aeiou]")
+words[which(vowels == max(vowels))]
+#> [1] "appropriate" "associate"   "available"   "colleague"   "encourage"  
+#> [6] "experience"  "individual"  "television"
+```
+```{r ex-str_count-hint-3}
+# The word with the highest proportion of vowels is
+
+# using dplyr ...
+tibble( words = words ) %>% 
+  mutate( prop_vowels = str_count(words, "[aeiou]") / str_length(words) ) %>% 
+  filter( prop_vowels == max(prop_vowels) )
+
+# or again via subsetting
+prop_vowels <- str_count(words, "[aeiou]") / str_length(words)
+words[which(prop_vowels == max(prop_vowels))]
+```
+
+
+#### 14.4.2 Extract matches
+
+Extracting information from sentences...
+
+```{r example-extract, exercise=TRUE}
+# check data set
+head(sentences)
+# prepare regular expression pattern
+colours <- c("red", "orange", "yellow", "green", "blue", "purple")
+colour_match <- str_c(colours, collapse = "|")
+has_colour <- str_subset(sentences, colour_match)
+# extract all pattern matches (just the match, not the whole sentences!)
+matches <- str_extract(has_colour, colour_match)
+head(matches)
+```
+
+Extracting more than one hit per sentence...
+
+```{r example-extract-all, exercise=TRUE}
+# get all sentences with more than one color
+more <- sentences[str_count(sentences, colour_match) > 1]
+str_extract_all(more, colour_match)
+```
+
+The same information can also be extracted from the "simplified" matrix output
+from `str_extract_all()` in combination with some `dplyr` magic.
+
+Decompose and follow the individual steps from my little script below and try
+to understand what I did and why!
+
+```{r example-extract-all-martin, exercise=TRUE}
+# Can you follow my coding?
+str_extract_all(sentences, colour_match, simplify = T) %>% 
+  as_tibble(.name_repair = "minimal") %>% 
+  rename(A=1, B=2) %>% 
+  mutate( A = na_if(A,""), B = na_if(B,"")) %>% 
+  drop_na(A)
+```
+
+```{r example-extract-all-martin-solution}
+# provides a matrix output
+# - number of columns = maximal number of matches in one of the sentences
+# - number of rows = one row for each sentence
+# - empty values of no 
+str_extract_all(sentences, colour_match, simplify = T) %>% 
+  # convert matrix to tibble to enable dplyr processing
+  # deal with missing column name information
+  as_tibble(.name_repair = "minimal") %>% 
+  # rename auto-assigned column names (using column indices!)
+  rename(match1 = 1, match2 = 2) %>% 
+  # replace "" with NA
+  mutate(match1 = na_if(match1,""), match2 = na_if(match2,"")) %>% 
+  # drop all rows that have no match at all (check for first column sufficient)
+  drop_na(match1)
+```
+
+**Exercises**:
+
+
+
+1. In the previous example, you might have noticed that the regular expression matched “flickered”, which is not a colour. Modify the regex to fix the problem.
+
+```{r ex-regex-bound, exercise=TRUE}
+# change/extend the following regex to fix the problem that it matches also in "flickered"
+colour_match2 <- str_c(colours, collapse = "|")
+# you can test it with the following 
+str_view_all(sentences[str_count(sentences, colour_match) > 1], colour_match2, match = TRUE)
+```
+
+
+```{r ex-regex-bound-hint-1}
+# It matches “flickered” because it matches “red”. 
+# The problem is that the previous pattern will match any word 
+# with the name of a color inside it. 
+# We want to only match colors in which the entire word is the name of the color. 
+```
+
+```{r ex-regex-bound-hint-2}
+# We can do this by adding a \b (to indicate a word boundary) before and after the pattern:
+colour_match2 <- str_c("\\b(", str_c(colours, collapse = "|"), ")\\b")
+```
+
+
+
+2. From the Harvard `sentences` data, extract:
+
+```{r ex-extract, exercise=TRUE}
+# (1) The first word from each sentence.
+# (2) All words ending in "ing".
+# (3) All plurals.
+
+# create the pattern
+pattern = ""
+# test it
+str_view_all(sentences, pattern, match=T)
+# or extract all matches as a list
+str_extract_all(sentences, pattern) %>% 
+  # followed by some "list and vector magic" to get the list of words
+  unlist() %>% # decomposes the list into one vector of matches
+  unique() %>% # filters for unique hits
+  head() # show first only
+```
+
+```{r ex-extract-hint-1}
+# (1) The first word from each sentence.
+# relying on "first match" rule
+pattern <- "[A-ZAa-z]+"
+# or more explicitly using the character group
+pattern <- "^\\w+"
+# or to grep "first word combination" you might want to use
+pattern <- "^\\S+"
+```
+
+```{r ex-extract-hint-2}
+# (2) All words ending in "ing".
+pattern <- "\\b[A-Za-z]+ing\\b"
+```
+
+```{r ex-extract-hint-3}
+# (3) All plurals.
+
+# Finding all plurals cannot be correctly accomplished with regular expressions alone. 
+# Finding plural words would at least require morphological information about words in the language. 
+# See WordNet for a resource that would do that. 
+# However, identifying words that end in an “s” and with more than three characters, 
+# in order to remove “as”, “is”, “gas”, etc., is a reasonable heuristic.
+
+pattern <- "\\b[A-Za-z]{3,}s\\b"
+```
+
+
+
+
+
+#### 14.4.3 Grouped matches
+
+Using *groups*, one can not only *encode alternatives* but also *extract individual elements* from one pattern match!
+
+Can you extend the following regex to 
+
+- ensure word boundaries
+- to also cover the article "an"
+
+Check if it is necessary!
+
+```{r example-groups, exercise=TRUE}
+# heuristic to extract nouns
+noun <- "(a|the) ([^ ]+)"
+# get some sentences with matches
+has_noun <- sentences %>% str_subset(noun) %>% length()head(10)
+
+# get complete matches
+has_noun %>% str_extract(noun)
+# get overall match + partial match of each group
+has_noun %>% str_match(noun)
+
+``` 
+
+```{r example-groups-solution}
+# one possible alternative is
+noun <- "\\b(an?|the) ([^ ]+)\\b"
+
+# to check if necessary: I count sentences with at least one hit:
+
+# without both
+sentences %>% str_detect("(a|the) ([^ ]+)") %>% sum()
+# enable all articles
+sentences %>% str_detect("(an?|the) ([^ ]+)") %>% sum()
+# enable word bound
+sentences %>% str_detect("\\b(a|the) ([^ ]+)\\b") %>% sum()
+# enable both
+sentences %>% str_detect("\\b(an?|the) ([^ ]+)\\b") %>% sum()
+```
+
+
+The alternative to `str_extract()` is `extract()` from the `tidyr` package:
+
+```{r example-tidy-extract, exercise=TRUE}
+tibble(sentence = sentences) %>% 
+  tidyr::extract(
+    sentence, c("article", "noun"), "(a|the) ([^ ]+)", 
+    remove = FALSE
+  )
+```
+
+**Exercises**:
+
+
+
+1. Find all words that come after a “number” like “one”, “two”, “three” etc. Pull out both the number and the word.
+
+```{r ex-number-extraction, exercise=TRUE}
+# pull out both the number (up to ten is sufficient) and the word
+sentences %>% 
+```
+
+```{r ex-number-extraction-hint-1}
+# the regex to help
+numword <- "\\b(one|two|three|four|five|six|seven|eight|nine|ten) +(\\w+)"
+# question: do you know why don't we need a "word boundary" at the end of the regex?
+```
+
+```{r ex-number-extraction-hint-2}
+# we dont need the regex, since "\w" encodes only word characters and 
+# "+" ends if none can be extended
+
+# version 1
+sentences[str_detect(sentences, numword)] %>%
+  str_extract(numword)
+
+# version 2
+sentences %>% str_extract_all(numword) %>% unlist()
+```
+
+```{r ex-number-extraction-hint-3}
+# let's get more general
+# the "english" package provides us with the conversion to text representation
+# (needs to be installed separately before the code is running)
+library(english)
+
+# let's check
+english(1:5)
+
+# generate pattern for numbers 1-100
+numword2 <- str_c( "\\b(",
+                  str_c( english(1:100), collapse = "|" ), 
+                  ")\\s+(\\w+)", 
+                  collapse = "" )
+
+# let's check if needed:
+# 1-10
+sentences %>% str_extract_all(numword) %>% unlist() %>% length()
+# 1-100
+sentences %>% str_extract_all(numword2) %>% unlist() %>% length()
+
+```
+
+
+2. Find all contractions. Separate out the pieces before and after the apostrophe.
+
+```{r ex-contractions, exercise=TRUE}
+sentences %>% 
+  # TODO replace the regex ...
+  str_match_all("." ) %>% 
+  
+  # keep the following intact (and try to work out what is happening!)
+  
+  unlist() %>%
+  matrix(ncol=3, byrow = T) %>% 
+  head() 
+```
+
+```{r ex-contractions-hint-1}
+# This is what's happening:
+  
+  # decompose into one long list
+  unlist() %>%
+  # reformat as a "matrix", ie. in table form but all same data type (like vector)
+  matrix(ncol=3, byrow = T) %>% 
+  # reduce to first entries
+  head() 
+```
+
+```{r ex-contractions-hint-2}
+# a possible regex is
+
+"([A-Za-z]+)'([A-Za-z]+)"
+
+```
+
+
+####  14.4.4 Replacing matches
+
+Replacing matches with single strings:
+
+```{r example-replace, exercise=TRUE}
+x <- c("1 house", "2 cars", "3 people")
+# first match
+str_replace(x, "[aeiou]", "-")
+# all matches
+str_replace_all(x, "[aeiou]", "-")
+# multiple patterns to be replaced with individual strings
+str_replace_all(x, c("1" = "one", "2" = "two", "3" = "three"))
+```
+
+For replacement, back referencing is extremely powerful!
+
+```{r example-backref, exercise=TRUE}
+c("1 house", "2 cars", "3 people") %>% 
+  # e.g. reordering the words
+  str_replace("(\\S+)\\s+(\\S+)", "\\2 \\1")
+```
+
+**Exercises**:
+
+1. Replace all forward slashes in a string with backslashes.
+
+```{r ex-slashes, exercise=TRUE}
+toChange <- "/some//absolute/path/backslash\\alert" 
+```
+
+```{r ex-slashes-hint-1}
+toChange %>% 
+  str_replace_all("/","\\\\") 
+# and yes... the "double backslash" in the output is fine!
+# otherwise you need to use "writeLines()"
+``` 
+
+```{r ex-slashes-hint-2}
+toChange %>% 
+  str_replace_all("/","\\\\") %>% 
+# and yes... the "double backslash" in the output is fine!
+# otherwise you need to use "writeLines()"
+  writeLines()
+``` 
+
+2. Implement a simple version of `str_to_lower()` using `str_replace_all()`.
+
+
+```{r ex-toLower, exercise=TRUE}
+toChange <- "Change This or noTHIng!" 
+```
+
+```{r ex-toLower-solution}
+# explicit replacement encoding of all upper case characters
+replacements <- c("A" = "a", "B" = "b", "C" = "c", "D" = "d", "E" = "e",
+                  "F" = "f", "G" = "g", "H" = "h", "I" = "i", "J" = "j", 
+                  "K" = "k", "L" = "l", "M" = "m", "N" = "n", "O" = "o", 
+                  "P" = "p", "Q" = "q", "R" = "r", "S" = "s", "T" = "t", 
+                  "U" = "u", "V" = "v", "W" = "w", "X" = "x", "Y" = "y", 
+                  "Z" = "z")
+# let's try ...
+toChange  %>% 
+  str_replace_all(pattern = replacements)
+```
+
+
+3. Switch the first and last letters in `words`. Which of those strings are still words?
+
+
+```{r ex-swap, exercise=TRUE}
+words
+```
+
+```{r ex-swap-hint-1}
+# step 1 : do the swapping and store
+swappedWords <- str_replace(words, "^(.)(.*)(.)$","\\3\\2\\1")
+```
+
+```{r ex-swap-hint-2}
+# step 2 : check if these words are in the original list
+
+# version 1 : using intersect of both SETS of words
+intersect(swappedWords, words)
+
+# (complicated) version 2 : using str_detect() and compiling a regex of valid words
+# NOTE: we need to ensure the whole words are matched!
+inWords <- str_detect( swappedWords, 
+                       str_c( "^(", 
+                              str_c(words, collapse="|"), 
+                              ")$", 
+                              collapse="" ))
+# print only matching ones
+swappedWords[ inWords ]
+```
+
+#### 14.4.5 Splitting
+
+Often it is needed to decompose strings into substrings, e.g. sentences to words.
+
+```{r example-split, exercise=TRUE}
+# simple sentence splitting
+sentences %>%
+  head(5) %>% 
+  str_split(" ")
+
+# or via word boundary and producing a matrix output
+sentences %>%
+  head(5) %>% 
+  str_split(boundary("word"), simplify=TRUE)
+```
+
+**Exercises**
+
+1. Split up a string into individual components.
+
+```{r ex-split-string, exercise=TRUE}
+# split it up into the three fruit names
+str_split("apples, pears, and bananas", )
+```
+
+```{r ex-split-string-solution}
+str_split("apples, pears, and bananas", 
+          ", +(and +)?")
+```
+
+2. Why is it better to split up by `boundary("word")` than `" "`?
+
+```{r ex-boundary-string, exercise=TRUE}
+# check out the solution
+```
+
+```{r ex-boundary-string-solution}
+# Splitting by boundary("word") is a more sophisticated method to split a string into words.
+# It recognizes non-space punctuation that splits words, 
+# and also removes punctuation while retaining internal non-letter characters 
+# that are parts of the word, e.g., “can’t” 
+# See the ICU website for a description of the set of rules that are used to determine word boundaries.
+
+# Consider this sentence from the official Unicode Report on word boundaries,
+
+sentence <- "The quick (“brown”) fox can’t jump 32.3 feet, right?"
+
+# Splitting the string on spaces considers will group the punctuation with the words,
+
+str_split(sentence, " ")
+
+# However, splitting the string using boundary("word") correctly removes punctuation, 
+# while not separating “32.2” and “can’t”,
+
+str_split(sentence, boundary("word"))
+```
+
+
+3. What does splitting with an empty string (`""`) do? Experiment, and then read the documentation.
+
+```{r ex-empty, exercise=TRUE}
+str_split("ab. cd|agt", "")
+```
+
+```{r ex-empty-solution}
+# It splits the string into individual characters.
+```
+
+#### 14.4.6 Find matches
+
+Sometimes you need to know *where* the pattern matches ...
+
+```{r example-locate, exercise=TRUE}
+# get position of match
+"hey ho, here we go" %>% 
+  str_locate("here")
+```
+
+
+
+### [Study 14.4 Other types of pattern @ R4DS](https://r4ds.had.co.nz/strings.html#other-types-of-pattern)
+
+Make the following regex match the "Line" start of each line independently of its spelling.
+
+```{r example-regex, exercise=TRUE}
+"Line 1\nline 2\nLINE 3" %>% 
+  str_extract_all("Line")
+```
+
+```{r example-regex-hint-1}
+"Line 1\nline 2\nLINE 3" %>% 
+  # case insensitive
+  str_extract_all( regex("Line",
+                         ignore_case = T))
+```
+
+```{r example-regex-hint-2}
+"Line 1\nline 2\nLINE 3" %>% 
+  str_extract_all( regex("Line",
+                         # case insensitive
+                         ignore_case = T, 
+                         # and multiline aware
+                         multiline = T))
+```
+
+If interested, you can check out the [exercise solutions](https://r4ds.had.co.nz/strings.html#other-types-of-pattern).
+
+
+## Wrap-up
+
+But before we continue, think about the following questions, which can be answered with the current material.
+
+- Why is there not `_all` version of  `str_detect()`?
+- What's the difference between `str_detect()`, `str_count()` and `str_extract()`?
+- What's meant by "back referencing" and when is it useful?
+- What's the most promising way to decompose a text into sentences?
+- How do make your string search case insensitive?
+
+
+```{r child = 'images/cheatsheet.Rmd'}
+```

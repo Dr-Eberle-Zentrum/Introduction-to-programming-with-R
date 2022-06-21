@@ -1,0 +1,31 @@
+
+## Cheatsheet "stringr::processing"
+
+- `str_detect()` : *logical* `T|F` if a string contains a pattern
+- `str_subset()` : *all elements* that contain a pattern
+- `str_count()` : *number* of pattern occurrences per string
+- `str_extract()` : *only overall match* of the search pattern
+- `str_match()` : *overall match + each group match* of the search pattern
+- `str_replace()` : *replacement* of matches
+  - use back referencing to use groups of the match within the replacement
+  - e.g. `str_replace("A B", ".*(\\S+)$", "last word was '\\1'")`
+- `str_split()` : *decompose* into multiple strings
+  - `simplify=TRUE` returns a `matrix` rather than a `list`
+  - `n=..` number of final pieces, i.e. matches(+1) used for decomposition
+  - `boundary()` : *general regex* for matching of boundaries of words, sentences, ...
+- `str_locate()`: *position* of the match (start+end)
+- `.._all()` *variants* : returns *all matches* not only the first
+
+All regular expression strings are processed by
+
+- `regex()`, which can be further constraint if needed, e.g. using
+  - `ignore_case` : case insensitive matching
+  - `multiline` : treats `\n` like string ends (for `^` and `$` matching)
+  - `dotall` : will make `.` also match linebreaks `\n` and other stuff
+
+Also important:
+
+- `intersect()` provides the elements shared among two vectors
+- `unlist()` merges all elements of a `list` into a single `vector`
+- `unique()` provides the unique elements of a `list` or `vector`
+- `matrix` is like a table-version of a `vector` (all elements same data type)
