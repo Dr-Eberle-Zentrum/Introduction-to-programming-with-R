@@ -14,7 +14,7 @@
   - all subsequent operations or done *independently per group*
 - `ungroup()` explicitly undoes the previous `group_by()` and merges the subtables back into one
 - **aggregation functions**
-  - `mean()`, `median()`, `quantile()`, `Sd()`
+  - `mean()`, `median()`, `quantile()`, `sd()`
   - `min()`, `max()`, `first()`, `last()`, `nth()`
   - `n()`, `n_distinct()`
   - `sum()`
