@@ -196,8 +196,12 @@ Check out the [detailed solution discussion](https://jrnold.github.io/r4ds-exerc
 (2) Why does this code fail?
 
 ```{r pivot-ex2, exercise=TRUE}
-table4a %>% 
-  pivot_longer(c(1999, 2000), names_to = "year", values_to = "cases")
+
+# remove the comments from the following lines
+# and try to find out why the code is not running..
+
+# table4a %>% 
+#   pivot_longer(c(1999, 2000), names_to = "year", values_to = "cases")
 ```
 
 ```{r pivot-ex2-solution}
