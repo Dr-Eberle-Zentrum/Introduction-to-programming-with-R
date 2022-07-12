@@ -2,7 +2,7 @@
 title: "stringr::processing"
 tutorial:
   id: "de.uni-tuebingen.dezfdk.tutorials.r-stringr-processing"
-  version: 2022.06.21
+  version: 2022.07.12
   author: Martin Raden
 output:
   learnr::tutorial :
@@ -250,7 +250,11 @@ head(matches)
 Extracting more than one hit per sentence...
 
 ```{r example-extract-all, exercise=TRUE}
-# get all sentences with more than one color
+# prepare regular expression pattern
+colours <- c("red", "orange", "yellow", "green", "blue", "purple")
+colour_match <- str_c(colours, collapse = "|")
+
+# get all sentences with more than one color!
 more <- sentences[str_count(sentences, colour_match) > 1]
 str_extract_all(more, colour_match)
 ```
@@ -262,6 +266,10 @@ Decompose and follow the individual steps from my little script below and try
 to understand what I did and why!
 
 ```{r example-extract-all-martin, exercise=TRUE}
+# prepare regular expression pattern
+colours <- c("red", "orange", "yellow", "green", "blue", "purple")
+colour_match <- str_c(colours, collapse = "|")
+
 # Can you follow my coding?
 str_extract_all(sentences, colour_match, simplify = T) %>% 
   as_tibble(.name_repair = "minimal") %>% 
@@ -294,10 +302,16 @@ str_extract_all(sentences, colour_match, simplify = T) %>%
 1. In the previous example, you might have noticed that the regular expression matched “flickered”, which is not a colour. Modify the regex to fix the problem.
 
 ```{r ex-regex-bound, exercise=TRUE}
+# prepare regular expression pattern
+colours <- c("red", "orange", "yellow", "green", "blue", "purple")
+colour_match <- str_c(colours, collapse = "|")
+
 # change/extend the following regex to fix the problem that it matches also in "flickered"
 colour_match2 <- str_c(colours, collapse = "|")
 # you can test it with the following 
-str_view_all(sentences[str_count(sentences, colour_match) > 1], colour_match2, match = TRUE)
+str_view_all(sentences[str_count(sentences, colour_match) > 1], 
+             colour_match2, 
+             match = TRUE)
 ```
 
 
@@ -380,7 +394,7 @@ Check if it is necessary!
 # heuristic to extract nouns
 noun <- "(a|the) ([^ ]+)"
 # get some sentences with matches
-has_noun <- sentences %>% str_subset(noun) %>% length()head(10)
+has_noun <- sentences %>% str_subset(noun) %>% head(10)
 
 # get complete matches
 has_noun %>% str_extract(noun)
@@ -572,12 +586,18 @@ toChange  %>%
 
 
 ```{r ex-swap, exercise=TRUE}
-words
+# step 1 : do the swapping and store
+
+# step 2 : check if these words are in the original list
+
 ```
 
 ```{r ex-swap-hint-1}
 # step 1 : do the swapping and store
 swappedWords <- str_replace(words, "^(.)(.*)(.)$","\\3\\2\\1")
+# check how they look
+head( swappedWords, 20 )
+
 ```
 
 ```{r ex-swap-hint-2}
