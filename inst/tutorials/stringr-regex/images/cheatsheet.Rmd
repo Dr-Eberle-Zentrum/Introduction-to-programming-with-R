@@ -33,7 +33,10 @@ Regular expressions
     - `$` : end of the text
     - `\\b` : end of a word (left or right)
   - `|` alternative separator, e.g. `a|b` matches `a` or `b`
-  - `()` **grouping** to define blocks of a pattern, e.g. to specify alternatives
+  - `()` to **group** or **capture** blocks of a pattern, e.g. to 
+    - specify alternatives `go (left|right)`
+    - **backreference** to the submatch within the capture group
+      - e.g. `(['"])[^'"]\1` to match a text that is quoted by single OR double ticks but using the same tick at the beginning and end
   - **repetition** rules allow for compact the encoding of substrings
     - `?` : 0 or 1 times
     - `*` : 0 or multiple times
