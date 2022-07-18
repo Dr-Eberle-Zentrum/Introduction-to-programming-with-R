@@ -539,7 +539,7 @@ str_view(words, "[aeiou]{3,}", match=TRUE)
 str_view(words, "([aeiou][^aeiou]){2,}", match=TRUE)
 ```
 
-4. Solve the beginner regexp crosswords at [https://regexcrossword.com/challenges/beginner](https://regexcrossword.com/challenges/beginner).
+4. Solve the tutorial regexp crosswords at [https://regexcrossword.com/challenges/tutorial](https://regexcrossword.com/challenges/tutorial).
 
 
 This tutorial ends at the end of chapter 14.3 of R4DS.
