@@ -1,0 +1,22 @@
+
+## Cheatsheet "coding-basics"
+
+- important data structures
+  - `vector` = all elements are same data type
+  - `list` = most general, can contain anything, any size, ...
+  - `data.frame/tibble` = list of vectors (of same lengths) 
+    - ==> if tidy, resp. column values (in one row) are associated with one observation
+- *subsetting* can be done using
+  - `[]` = reduces the current object to the selected part(s) (same data container)
+  - `[[]]` = provides a *single element* (element-specific data container)
+  - `$` = shortcut for `[[]]` with name
+- programming of workflows often requires
+  - *iteration* of code blocks (`for` or `while` loops)
+  - *conditional* code execution (`if/else` statements)
+  - *generalization* of code blocks (`function` definition and usage)
+- redundant code w.r.t. **values** of a variable ==> `for` loop generalization
+- redundant code w.r.t. **variables** or **function** calls ==> `function` generalization
+- functions can provide a *single* return object via calling `return()` 
+  - multiple return values have to aggregated into a single list or vector before returning them
+- when a function calls itself it is called a *recursive call* or *recursion*
+- a function name (without brackets) can be stored in and used from variables/arguments to call the function

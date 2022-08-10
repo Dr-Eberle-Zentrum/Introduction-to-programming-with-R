@@ -85,6 +85,9 @@ summarizes the individual notes from the provided tutorials and additional infor
 ```{r child = 'inst/tutorials/stringr-processing/images/cheatsheet.Rmd'}
 ```
 
+```{r child = 'inst/tutorials/coding-basics/images/cheatsheet.Rmd'}
+```
+
 
 --------------------------------------------------------
 

@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="247.04568mm"
+   height="96.812401mm"
+   viewBox="0 0 247.04569 96.812398"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
+   sodipodi:docname="tibble.svg"
+   inkscape:export-filename="C:\Lehre\Introduction-to-programming-with-R\inst\tutorials\coding-basics\images\tibble.png"
+   inkscape:export-xdpi="52.130001"
+   inkscape:export-ydpi="52.130001">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="436.98631"
+     inkscape:cy="149.85272"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     showguides="false"
+     inkscape:snap-global="false"
+     inkscape:window-width="1801"
+     inkscape:window-height="1057"
+     inkscape:window-x="2031"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-25.458332,-57.948174)">
+    <rect
+       style="fill:none;stroke:#800080;stroke-width:2;stop-color:#000000"
+       id="rect833"
+       width="25.702383"
+       height="15.308029"
+       x="26.458332"
+       y="71.059525" />
+    <rect
+       style="fill:none;stroke:#ff6600;stroke-width:2;stop-color:#000000"
+       id="rect833-0"
+       width="25.702383"
+       height="15.308029"
+       x="55.562504"
+       y="71.059525" />
+    <rect
+       style="fill:none;stroke:#0000ff;stroke-width:2;stop-color:#000000"
+       id="rect833-3"
+       width="25.702383"
+       height="15.308029"
+       x="84.666664"
+       y="71.059525" />
+    <rect
+       style="fill:none;stroke:#800080;stroke-width:2;stop-color:#000000"
+       id="rect833-2"
+       width="25.702383"
+       height="15.308029"
+       x="26.458332"
+       y="90.10952" />
+    <rect
+       style="fill:none;stroke:#ff6600;stroke-width:2;stop-color:#000000"
+       id="rect833-0-1"
+       width="25.702383"
+       height="15.308029"
+       x="55.562504"
+       y="90.10952" />
+    <rect
+       style="fill:none;stroke:#0000ff;stroke-width:2;stop-color:#000000"
+       id="rect833-3-7"
+       width="25.702383"
+       height="15.308029"
+       x="84.666664"
+       y="90.10952" />
+    <rect
+       style="fill:none;stroke:#800080;stroke-width:2;stop-color:#000000"
+       id="rect833-33"
+       width="25.702383"
+       height="15.308029"
+       x="26.458332"
+       y="109.15951" />
+    <rect
+       style="fill:none;stroke:#ff6600;stroke-width:2;stop-color:#000000"
+       id="rect833-0-4"
+       width="25.702383"
+       height="15.308029"
+       x="55.562504"
+       y="109.15951" />
+    <rect
+       style="fill:none;stroke:#0000ff;stroke-width:2;stop-color:#000000"
+       id="rect833-3-2"
+       width="25.702383"
+       height="15.308029"
+       x="84.666664"
+       y="109.15951" />
+    <rect
+       style="fill:none;stroke:#800080;stroke-width:2;stop-color:#000000"
+       id="rect833-2-3"
+       width="25.702383"
+       height="15.308029"
+       x="26.458332"
+       y="128.20949" />
+    <rect
+       style="fill:none;stroke:#ff6600;stroke-width:2;stop-color:#000000"
+       id="rect833-0-1-0"
+       width="25.702383"
+       height="15.308029"
+       x="55.562504"
+       y="128.20949" />
+    <rect
+       style="fill:none;stroke:#0000ff;stroke-width:2;stop-color:#000000"
+       id="rect833-3-7-2"
+       width="25.702383"
+       height="15.308029"
+       x="84.666664"
+       y="128.20949" />
+    <text
+       xml:space="preserve"
+       style="font-size:7px;line-height:1.25;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style';stroke-width:0.264583"
+       x="62.767212"
+       y="81.372719"
+       id="text962"><tspan
+         sodipodi:role="line"
+         id="tspan960"
+         x="62.767212"
+         y="81.372719"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583">&quot;R&quot;</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:7px;line-height:1.25;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style';stroke-width:0.264583"
+       x="62.808228"
+       y="100.36974"
+       id="text962-3"><tspan
+         sodipodi:role="line"
+         id="tspan960-8"
+         x="62.808228"
+         y="100.36974"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583">&quot;a&quot;</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:7px;line-height:1.25;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style';stroke-width:0.264583"
+       x="63.727661"
+       y="119.4727"
+       id="text962-6"><tspan
+         sodipodi:role="line"
+         id="tspan960-6"
+         x="63.727661"
+         y="119.4727"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583">&quot;i&quot;</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:7px;line-height:1.25;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style';stroke-width:0.264583"
+       x="62.582642"
+       y="138.52267"
+       id="text962-62"><tspan
+         sodipodi:role="line"
+         id="tspan960-9"
+         x="62.582642"
+         y="138.52267"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583">&quot;n&quot;</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:7px;line-height:1.25;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style';stroke-width:0.264583"
+       x="34.878128"
+       y="81.258217"
+       id="text962-2"><tspan
+         sodipodi:role="line"
+         id="tspan960-92"
+         x="34.878128"
+         y="81.258217"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583">82</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:7px;line-height:1.25;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style';stroke-width:0.264583"
+       x="34.886673"
+       y="100.30992"
+       id="text962-3-1"><tspan
+         sodipodi:role="line"
+         id="tspan960-8-9"
+         x="34.886673"
+         y="100.30992"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583">97</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:7px;line-height:1.25;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style';stroke-width:0.264583"
+       x="32.406937"
+       y="119.35649"
+       id="text962-6-7"><tspan
+         sodipodi:role="line"
+         id="tspan960-6-0"
+         x="32.406937"
+         y="119.35649"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583">105</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:7px;line-height:1.25;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style';stroke-width:0.264583"
+       x="32.389847"
+       y="138.40646"
+       id="text962-62-7"><tspan
+         sodipodi:role="line"
+         id="tspan960-9-2"
+         x="32.389847"
+         y="138.40646"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583">110</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:7px;line-height:1.25;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style';stroke-width:0.264583"
+       x="86.583771"
+       y="81.258217"
+       id="text962-2-2"><tspan
+         sodipodi:role="line"
+         id="tspan960-92-0"
+         x="86.583771"
+         y="81.258217"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583">FALSE</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:7px;line-height:1.25;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style';stroke-width:0.264583"
+       x="88.347443"
+       y="100.25523"
+       id="text962-3-1-1"><tspan
+         sodipodi:role="line"
+         id="tspan960-8-9-6"
+         x="88.347443"
+         y="100.25523"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583">TRUE</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:7px;line-height:1.25;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style';stroke-width:0.264583"
+       x="88.347443"
+       y="119.30522"
+       id="text962-6-7-4"><tspan
+         sodipodi:role="line"
+         id="tspan960-6-0-0"
+         x="88.347443"
+         y="119.30522"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583">TRUE</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:7px;line-height:1.25;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style';stroke-width:0.264583"
+       x="86.583771"
+       y="138.40817"
+       id="text962-62-7-3"><tspan
+         sodipodi:role="line"
+         id="tspan960-9-2-7"
+         x="86.583771"
+         y="138.40817"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583">FALSE</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:7px;line-height:1.25;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style';stroke-width:0.264583"
+       x="59.69104"
+       y="63.381035"
+       id="text962-30"><tspan
+         sodipodi:role="line"
+         id="tspan960-0"
+         x="59.69104"
+         y="63.381035"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#ff6600;stroke-width:0.264583">char</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:7px;line-height:1.25;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style';stroke-width:0.264583"
+       x="27.920853"
+       y="63.266533"
+       id="text962-2-0"><tspan
+         sodipodi:role="line"
+         id="tspan960-92-09"
+         x="27.920853"
+         y="63.266533"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#800080;stroke-width:0.264583">ASCII</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:7px;line-height:1.25;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style';stroke-width:0.264583"
+       x="86.13089"
+       y="63.266533"
+       id="text962-2-2-5"><tspan
+         sodipodi:role="line"
+         id="tspan960-92-0-2"
+         x="86.13089"
+         y="63.266533"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#0000ff;stroke-width:0.264583">vowel</tspan></text>
+    <g
+       id="g1267"
+       transform="translate(2.6726953,-21.916101)">
+      <text
+         xml:space="preserve"
+         style="font-size:7px;line-height:1.25;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style';stroke-width:0.264583"
+         x="144.88405"
+         y="92.881775"
+         id="text962-2-2-2"><tspan
+           sodipodi:role="line"
+           id="tspan960-92-0-29"
+           x="144.88405"
+           y="92.881775"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583">tibble(</tspan><tspan
+           sodipodi:role="line"
+           x="144.88405"
+           y="101.81684"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583"
+           id="tspan1180" /><tspan
+           sodipodi:role="line"
+           x="144.88405"
+           y="110.75191"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583"
+           id="tspan1172">  <tspan
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#800080"
+   id="tspan1188">ASCII</tspan> =  c( 82, 97, 105, 110 )   ,</tspan><tspan
+           sodipodi:role="line"
+           x="144.88405"
+           y="119.68697"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583"
+           id="tspan1182" /><tspan
+           sodipodi:role="line"
+           x="144.88405"
+           y="128.62204"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583"
+           id="tspan1174">  <tspan
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#ff6600"
+   id="tspan1194">char</tspan> =  c( &quot;R&quot;, &quot;a&quot;, &quot;i&quot;, &quot;n&quot; )   ,</tspan><tspan
+           sodipodi:role="line"
+           x="144.88405"
+           y="137.55711"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583"
+           id="tspan1184" /><tspan
+           sodipodi:role="line"
+           x="144.88405"
+           y="146.49217"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583"
+           id="tspan1176">  <tspan
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#0000ff"
+   id="tspan1198">vowel</tspan> =  c( F, T, T, F )</tspan><tspan
+           sodipodi:role="line"
+           x="144.88405"
+           y="155.42725"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583"
+           id="tspan1186" /><tspan
+           sodipodi:role="line"
+           x="144.88405"
+           y="164.36232"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583"
+           id="tspan1178">)</tspan></text>
+      <rect
+         style="fill:none;stroke:#0000ff;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:6, 2;stroke-dashoffset:0;stop-color:#000000"
+         id="rect833-3-72"
+         width="49.489368"
+         height="13.437142"
+         x="183.58115"
+         y="137.75674"
+         inkscape:export-xdpi="52"
+         inkscape:export-ydpi="52" />
+      <rect
+         style="fill:none;stroke:#ff6600;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:6, 2;stroke-dashoffset:0;stop-color:#000000"
+         id="rect833-3-72-9"
+         width="75.949051"
+         height="13.437142"
+         x="178.01691"
+         y="119.79125" />
+      <rect
+         style="fill:none;stroke:#800080;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:6, 2;stroke-dashoffset:0;stop-color:#000000"
+         id="rect833-3-72-0"
+         width="80.225365"
+         height="13.437142"
+         x="183.32465"
+         y="102.06013" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:7px;line-height:1.25;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style';stroke-width:0.264583"
+       x="26.527411"
+       y="153.63066"
+       id="text1271"><tspan
+         sodipodi:role="line"
+         id="tspan1269"
+         x="26.527411"
+         y="153.63066"
+         style="stroke-width:0.264583" /></text>
+    <text
+       xml:space="preserve"
+       style="font-style:italic;font-variant:normal;font-weight:300;font-stretch:normal;font-size:6px;line-height:1.25;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style Light Italic';stroke-width:0.264583"
+       x="28.888626"
+       y="153.37776"
+       id="text962-62-7-2"><tspan
+         sodipodi:role="line"
+         id="tspan960-9-2-9"
+         x="28.888626"
+         y="153.37776"
+         style="font-style:italic;font-variant:normal;font-weight:300;font-stretch:normal;font-size:6px;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style Light Italic';stroke-width:0.264583">integer</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:italic;font-variant:normal;font-weight:300;font-stretch:normal;font-size:6px;line-height:1.25;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style Light Italic';stroke-width:0.264583"
+       x="54.36731"
+       y="153.37776"
+       id="text962-62-7-21"><tspan
+         sodipodi:role="line"
+         id="tspan960-9-2-6"
+         x="54.36731"
+         y="153.37776"
+         style="font-style:italic;font-variant:normal;font-weight:300;font-stretch:normal;font-size:6px;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style Light Italic';stroke-width:0.264583">character</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:italic;font-variant:normal;font-weight:300;font-stretch:normal;font-size:6px;line-height:1.25;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style Light Italic';stroke-width:0.264583"
+       x="87.904083"
+       y="153.37776"
+       id="text962-62-7-9"><tspan
+         sodipodi:role="line"
+         id="tspan960-9-2-8"
+         x="87.904083"
+         y="153.37776"
+         style="font-style:italic;font-variant:normal;font-weight:300;font-stretch:normal;font-size:6px;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style Light Italic';stroke-width:0.264583">logical</tspan></text>
+  </g>
+</svg>
