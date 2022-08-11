@@ -2,7 +2,7 @@
 title: "coding-basics"
 tutorial:
   id: "de.uni-tuebingen.dezfdk.tutorials.r-coding-basics"
-  version: 2022.08.10
+  version: 2022.08.11
   author: Martin Raden
 output:
   learnr::tutorial :
@@ -393,6 +393,88 @@ In case the *number of iterations depends on* computations within the *code bloc
 You can also manually stop iteration (in any loop) using the `break` statement, also [discussed here](https://www.w3schools.com/r/r_while_loop.asp).
 
 
+
+### Try to avoid ...
+
+For most data wrangling operations you **do not need a for loop** but can directly make use of the **vectorization** power of R, i.e. it typically directly operates on vectors without the need of explicit iteration.
+
+For example, to identify the positions within a vector that are NA, you better use
+
+```{r getNA-vec, class.source="bg-success"}
+myVec <- c("a","b",NA,"d")
+naPos <- seq_along(myVec)[ is.na(myVec) ]
+print(naPos)
+```
+
+rather than
+
+
+```{r getNA-for, class.source="bg-warning"}
+naPos <- c()
+for (i in seq_along(myVec) ) {
+  if ( is.na( myVec[i] ) ) {
+    naPos <- c( naPos, i )
+  }
+}
+print(naPos)
+```
+
+So whenever you write a `for` loop, double check whether you can do without.
+Using the vectorization power typically results in shorter and often faster code.
+
+
+### Exercises
+
+Let's assume we have good reasons to iterate the elements of a vector via its indices using a `for` loop.
+In the example from above, we used `seq_along()` to identify the vector of indices for a given data structure.
+In a first attempt, you might be tempted to write something like this instead:
+
+```{r ex-seq-along, exercise=TRUE}
+myVec <- c("a","b",NA,"d")
+# explicit index set
+for ( i in 1:4 ) { print( vec[i] ) }
+# more generic using length()
+for ( i in 1:length(vec) ) { print( vec[i] ) }
+# fully generic
+for ( i in seq_along(vec) ) { print( vec[i] ) }
+
+# QUESTION: What are problems with the first two variants? Why use seq_along()?
+
+```
+
+```{r ex-seq-along-hint-1}
+# explicit index set
+for ( i in 1:4 ) { print( vec[i] ) }
+
+# explicit setting of the upper bound (4) will cause issues as soon as we change
+# the data structure, i.e. we face a longer or shorter vector
+```
+
+```{r ex-seq-along-hint-2}
+# more generic using length()
+for ( i in 1:length(vec) ) { print( vec[i] ) }
+
+# using length() removes the problem of unknown vector lengths
+# BUT: what about an empty vector? check the call using the following ..
+vec <- c()
+# in that case, length() will return 0 and the loop will iterate on the sequence c(1,0)
+# Thus, it will try to access non-existing elements of vec...
+```
+
+```{r ex-seq-along-hint-3}
+# more generic using length()
+for ( i in seq_along(vec) ) { print( vec[i] ) }
+
+# seq_along() generates the index vector to access the elements of a given object
+# it can even deal with empty objects like this
+vec <- c()
+# where it will return also an empty vector of indices!
+# Test it yourself!
+```
+
+
+
+
 ## `if` statement (conditional)
 
 Another common scenario in programming is the need for *conditional* code execution. 
@@ -478,6 +560,7 @@ for (fruitName in fruitsOfInterest) {
 
 Note, I used the logical `&&` (double ampersand!) operator to connect both statements in the sense of "AND", i.e. only if both are `TRUE` the overall statement is `TRUE`.
 Alternatively, you can use `||` to combine them in an "OR" sense, i.e. if *at least* one of both is `TRUE` the OR combination is `TRUE` as well.
+Both operators take *single logical values* and return a single value!
 
 Finally, we want to take care of the "nut list problem".
 Eventually, we could check whether the current fruit object is a `list` using the `is.list()` function.
@@ -518,6 +601,82 @@ for (fruitName in names(fruitWeights)) {
 Note, we "chained" two conditional `if` statements after another to organize our three possible cases.
 
 Note further, the `else {}` part of an `if` statement is optional and can be omitted if not needed.
+
+
+### Exercises
+
+Write an if-statement that tests whether there is at least one `NA` element within a given vector and prints a respective message in case.
+Test the statement with the following two vectors.
+
+```{r ex-if-na, exercise=TRUE}
+# data for testing
+dataWithoutNA <- 1:6
+dataWithNA <- c(1,2,NA,4)
+# TODO your check(s) to test for NA elements within a vector
+```
+
+```{r ex-if-na-hint-1}
+# is.na() does an element-wise check and thus produces a vector of TRUE/FALSE
+# rather than a single TRUE/FALSE as needed for an if-statement
+is.na(dataWithNA)
+
+# we need to somehow aggregate that information ...
+```
+
+```{r ex-if-na-hint-2}
+# do you remember, what happens if you "sum up" TRUE/FALSE values?
+sum( is.na(dataWithNA) )
+# AHA! they are converted into 1/0 numbers via coercion!
+
+# Given this single number, we are now able to formulate our test!
+```
+
+```{r ex-if-na-hint-3}
+# full check for NA elements
+
+# ie. we check if there is at least one NA element in the vector
+if ( sum( is.na(dataWithNA) ) > 0 ) {
+  print("vector contains an NA!")
+}
+# check the other vector
+if ( sum( is.na(dataWithoutNA) ) > 0 ) {
+  print("vector contains an NA!")
+} else {
+  print("all good...")
+}
+
+# NOTE: summing T/F values to aggregate information is a common trick for testing!
+
+```
+
+
+Generalize the problem from above by ...
+
+```{r ex-for-if, exercise=TRUE}
+# (i) joining both test vectors into one list and 
+
+# (ii) write a for loop that does the NA testing on the list's elements.
+```
+
+```{r ex-for-if-hint-1}
+# (i) joining both test vectors into one list and 
+myData <- list(
+  dataWithoutNA <- 1:6,
+  dataWithNA <- c(1,2,NA,4)
+  )
+```
+
+```{r ex-for-if-hint-2}
+# (ii) write a for loop that does the NA testing on the list's elements.
+for( vec in myData ) {
+  if ( sum( is.na(vec) ) > 0 ) {
+    print("vector contains an NA!")
+  } else {
+    print("all good...")
+  }
+}
+```
+
 
 
 
@@ -751,6 +910,71 @@ That way, we can use the variable itself to subsequently call the function (see 
 When providing a value for an argument within the function definition (here done for the `propertyFunction` argument), the value can be omitted when calling the function. In that case, the provided default value is used for the argument.
 
 Note, if we would have not included/forwarded the `propertyFunction` argument to the recursive call in the above function, the default value (`max`) would have been used for all recursively processed sublists, regardless what the user set to `propertyFunction` in the initial call!
+
+
+### Exercises
+
+Write a small function `simpelSum()` that takes two numbers and returns their sum.
+
+```{r ex-sum, exercise=TRUE}
+# my first summation function
+
+# TODO
+
+# let's test it by uncommenting and running the following
+# simpleSum( 3, 2 )
+```
+
+```{r ex-sum-hint-1}
+# my first summation function
+# general layout is like this
+
+simpleSum <- function( a, b ) {
+  # TODO
+}
+
+```
+
+```{r ex-sum-hint-2}
+# my first summation function
+simpleSum <- function( a, b ) {
+  return( a + b )
+}
+
+```
+
+What happens if you copy your/the solution from the last exercise down here and run your function with vectors rather than single numbers?
+
+
+```{r ex-sum-vec, exercise=TRUE}
+# TODO copy or rewrite simpleSum function here
+
+# run and interpret what happened
+simpleSum( 1:4, 3 )
+simpleSum( 1:3, c(8,7,9) )
+```
+
+```{r ex-sum-vec-solution}
+# When defining a function, you are only naming the arguments 
+# but do not say what data type/structure they are.
+# Thus, you can pass any kind of object as argument.
+# If the operations you do within the function body are also working for
+# vectors or lists (like it is the case for the "+" operator), the function
+# will automatically work also for vector input.
+
+# If this is not intended, you have to check the argument's data type, length,
+# or structure with respective checks and throw warnings/errors if not suited.
+simpleSum <- function( a, b ) {
+  # input checks
+  stopifnot( is.numeric(a), is.numeric(b) )
+  stopifnot( length(a) == 1, length(b) == 1 )
+  # final computation
+  return( a + b )
+}
+
+```
+
+
 
 
 ## Wrap-up

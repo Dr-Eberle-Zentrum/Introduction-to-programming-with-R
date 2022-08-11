@@ -16,6 +16,10 @@
   - *generalization* of code blocks (`function` definition and usage)
 - redundant code w.r.t. **values** of a variable ==> `for` loop generalization
 - redundant code w.r.t. **variables** or **function** calls ==> `function` generalization
+- iteration tricks
+  - use `seq_along()` to generate the list of *valid indices* of a vector or list
+  - use `names()` to access the vector of *element names* of an object
+  - *best iterate directly on the elements*, if you don't need the element names or index!
 - functions can provide a *single* return object via calling `return()` 
   - multiple return values have to aggregated into a single list or vector before returning them
 - when a function calls itself it is called a *recursive call* or *recursion*
