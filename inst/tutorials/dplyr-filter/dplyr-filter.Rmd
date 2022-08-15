@@ -241,7 +241,7 @@ filter(flights, )
 
 ```{r hadley-filter-flights-NA-solution}
 filter(flights, is.na(dep_time), month==1, year==2013)
-# yields 512 rows
+# yields 521 rows
 ```
 
 
