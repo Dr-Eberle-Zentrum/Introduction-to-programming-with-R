@@ -36,7 +36,7 @@ shiny::addResourcePath("css",
 ![](images/dplyr-logo.png){width=10%}
 
 The [`dplyr` package](https://dplyr.tidyverse.org/) provides the central functions for data transformation within the `tidyverse` universe.
-Common tasks of data transformation are typically made of a serious of steps that can be implemented by the following *verbs* of dplyr: 
+Common tasks of data transformation are typically made of a series of steps that can be implemented by the following *verbs* of dplyr: 
 
 - *filter*, 
 - *mutate*, 
