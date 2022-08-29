@@ -11,7 +11,7 @@
   - i.e. decomposing the table into subtables that show the same value w.r.t. the grouping variable
   - multiple grouping variables can be given (comma-separated) to specific a grouping hierarchy
   - subsequent `group_by()` calls overwrite the grouping of the previous!
-  - all subsequent operations or done *independently per group*
+  - all subsequent operations are done *independently per group*
 - `ungroup()` explicitly undoes the previous `group_by()` and merges the subtables back into one
 - **aggregation functions**
   - `mean()`, `median()`, `quantile()`, `sd()`

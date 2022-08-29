@@ -293,7 +293,7 @@ Grouping the observations is often also useful to
 - find specific subgroups (top, tail, ..) of groups
 - ...
 
-**Exercise:** Compute for each destination the number of carriers that fly to it and filter for destinations operated by at least 2 carriers.
+**Exercise:** Compute for each destination the number of carriers that fly to it and filter for destinations operated by at least five carriers.
 
 
 ```{r hadlay-min-carriers, exercise=TRUE}
