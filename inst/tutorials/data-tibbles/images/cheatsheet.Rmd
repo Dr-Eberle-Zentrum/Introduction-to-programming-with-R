@@ -14,7 +14,7 @@
   - `[["colName"]]` = *double-squared + quoted* name as done for lists, e.g. `p2[["y"]]`
   - `[[2]]` = double-squared + index-based (try to avoid), e.g. `p2[[2]]`
     - *Beware*: you *get a tibble* (i.e. table data structure) when using `[]` = *single-squared + index*, *not a column vector*!
-- *quote* column/variable *names not meating standard* syntax requirements (e.g. with spaces etc.)
+- *quote* column/variable *names not meeting standard* syntax requirements (e.g. with spaces etc.)
   - `table[["strange name"]]` - quotes in double-bracket usage
   - ``table$`strange name` `` - back-ticks in direct name-based access
 - `glimpse(p2)` to check column names and resp. data types
