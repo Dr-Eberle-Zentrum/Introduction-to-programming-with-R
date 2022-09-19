@@ -192,6 +192,7 @@ str_sub( word2, mid2, mid2 )
 
 3.1 Can you write a vectorized version of the last exercise using a piping?
 Note: with `.` you can refer to the piped input of the current command!
+That is `.` us a placeholder for the data that was transferred via `%>%` from the last command to the current one.
 
 ```{r ex-3_1, exercise=TRUE}
 c("Hallo", "Anna")
@@ -252,7 +253,7 @@ str_view(x, ".a.")
 
 Exercises
 
-1. Explain why each of these strings don’t match a `\`: `"\"`, `"\\"`, `"\\\"`.
+1. Explain why each of the following regular expression encodings don’t match the single character (string) `\`: `"\"`, `"\\"`, `"\\\"`.
 
 ```{r ex-basic-1, exercise=TRUE}
 # AFTER thinking about the question, you can check out the solution... ;)
@@ -413,7 +414,8 @@ str_view( words, "i(ng|se)$", match=TRUE)
 ```
 
 
-2.  Empirically verify the rule `“i before e except after c”`, i.e. count the number of matches following or violating the rule.
+2.  Empirically verify the [spelling rule `“i before e except after c”`](https://en.wikipedia.org/wiki/I_before_E_except_after_C) for words of the English language.
+To this end, count the number of matches following or violating the rule.
 
 
 ```{r ex-class-ex-2, exercise=TRUE}

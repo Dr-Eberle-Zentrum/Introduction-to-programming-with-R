@@ -214,7 +214,7 @@ table4a %>%
   pivot_longer(c("1999", "2000"), names_to = "year", values_to = "cases")
 ```
 
-(3) You might look up [discussion of Exercise 3]().
+(3) You might look up [discussion of Exercise 3](https://jrnold.github.io/r4ds-exercise-solutions/tidy-data.html#exercise-12.3.3).
 
 (4) Tidy the simple tibble below. Do you need to make it wider or longer? What are the variables?
 

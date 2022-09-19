@@ -350,9 +350,9 @@ str_extract_all(sentences, pattern) %>%
 
 ```{r ex-extract-hint-1}
 # (1) The first word from each sentence.
-# relying on "first match" rule
+# relying on "first match" rule (without explicit anchoring)
 pattern <- "[A-ZAa-z]+"
-# or more explicitly using the character group
+# or more explicitly using the character group PLUS anchoring at sentence start
 pattern <- "^\\w+"
 # or to grep "first word combination" you might want to use
 pattern <- "^\\S+"
@@ -697,7 +697,7 @@ Sometimes you need to know *where* the pattern matches ...
 
 
 
-### [Study 14.4 Other types of pattern @ R4DS](https://r4ds.had.co.nz/strings.html#other-types-of-pattern)
+### [Study 14.5 Other types of pattern @ R4DS](https://r4ds.had.co.nz/strings.html#other-types-of-pattern)
 
 Make the following regex match the "Line" start of each line independently of its spelling.
 
