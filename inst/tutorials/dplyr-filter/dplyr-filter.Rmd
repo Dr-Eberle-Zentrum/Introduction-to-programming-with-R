@@ -284,7 +284,7 @@ For instance, to identify the mean value of the top-10 elements, we have to
 
 That is, each step operates on the result from the previous step and produces the starting point for the next.
 
-The "pipe" concept (intruced in the [`magrittr` package](https://magrittr.tidyverse.org/)) is a powerful tool to create readable and maintable data processing workflows as the one above.
+The "pipe" concept (introduced in the [`magrittr` package](https://magrittr.tidyverse.org/)) is a powerful tool to create readable and maintainable data processing workflows as the one above.
 
 To pick up the example from above, a respective workflow could look like this:
 
