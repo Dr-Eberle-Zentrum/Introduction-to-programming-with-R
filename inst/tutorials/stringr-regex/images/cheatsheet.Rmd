@@ -12,6 +12,8 @@ Strings
   - element wise processing with separator `sep` string
   - collapse/aggregation to one string via `collapse` string
   - empty strings (length == 0) are ignored
+- `str_sub()`: extracting a *sub*string, i.e. part, of a string
+  - `start` and `end` indices are *inclusive*
 - `str_to_lower()`, `str_to_upper()`, `str_to_title()` : capitalization conversion
   - use `locale` for language specifics
 _ `str_sort()` : lexicographic sorting

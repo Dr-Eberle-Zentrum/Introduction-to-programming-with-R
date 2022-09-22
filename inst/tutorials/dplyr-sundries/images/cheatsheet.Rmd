@@ -11,11 +11,12 @@
 - `slice` functions *extract specific rows* ([Summary page](https://dplyr.tidyverse.org/reference/slice.html))
   - `slice()` - columns specified by indices
   - `slice_min(), slice_max()` - best/worst rows w.r.t. values in a given variable
+    - be aware of ranking ties during min/max slicing 
+    - use `with_tie=F` to get only first min/max row
   - `slice_head(), slice_tail()` - top/tail rows w.r.t. current row order
   - `slice_sample()` - pick at random
   - set `n=..` argument for number of rows
   - set `prop=..` argument to specify a fraction of rows to keep
-  - be aware of ranking ties during min/max slicing 
 - `distinct()` reduces the table to *unique observations* ([Summary page](https://dplyr.tidyverse.org/reference/distinct.html))
   - if a (set of) variable  name(s) is given, *only first rows with a unique value combination* w.r.t. the named variables are kept
   - `.keep_all=TRUE` no columns are removed from the output
