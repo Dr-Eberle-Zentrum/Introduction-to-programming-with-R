@@ -8,7 +8,7 @@
   - `==`, `!=`, `>`, `<`, `<=`, `>=`
   - `&`, `|`, `xor()`
   - `!`
-  - `%in%` vector (or counterpart `%notin%`)
+  - `%in%` vector
   - `between()` (dplyr)
   - `near()` better for floating point number comparison than `==`
 - `filter()` prunes table to *rows of interest* ([Summary page](https://dplyr.tidyverse.org/reference/filter.html))
