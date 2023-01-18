@@ -69,6 +69,35 @@ Note, both the `nycflights13` and `tidyverse` package are already loaded and rea
 arrange(flights, year, month, day)
 ```
 
+Some additional notes on the term **tie breaking**, since it is only briefly named within the book.
+If you want to sort a table w.r.t. a single column, it might be that multiple rows show the same value within this column.
+Thus, you cannot decide on the order of these subsets of rows, i.e. we observe a *tie w.r.t. to the variable*.
+To still sort these subsets, i.e. *to break the tie*, we have to resort to the values of a *second* variable.
+Thus, the values of the second variable column are only considered for sorting of (the subsets of) rows that show equal values w.r.t. the first variable to sort on.
+
+Note, tie breaking, i.e. using a sorting hierarchy, is quite different from a "two-step sorting scheme", i.e. first sorting all by the first variable and than by the second, since in the latter sorting each column is done *independently*!
+
+Consider the following examples:
+
+```{r tie-break-example, exercise=TRUE}
+# some example table to sort
+dat <- tribble(
+  ~A, ~B,
+   1,  7,
+   2,  6,
+   1,  4,
+   2,  9
+)
+# Compare the output of the following calls!
+print("(1) without tie breaking")
+dat %>% arrange(A)
+print("(2) with tie breaking using B")
+dat %>% arrange(A, B)
+print("(3) independent 'two-step sorting'")
+dat %>% arrange(A) %>% arrange(B)
+```
+
+
 
 **Exercise:** Sort flights to find the most delayed flights. Find the flights that left earliest.
 
@@ -84,7 +113,7 @@ arrange(flights, dep_delay)
 ```
 
 
-**Exercise:** Which flights travelled the farthest? Which travelled the shortest? (in terms of miles)
+**Exercise:** Which flights traveled the farthest? Which traveled the shortest? (in terms of miles)
 
 ```{r hadley-arrange-farthest, exercise=TRUE}
 arrange(flights, )
