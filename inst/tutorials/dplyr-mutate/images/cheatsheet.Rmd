@@ -26,8 +26,8 @@
       - `min_rank()` or `dense_rank()` (typically one of both is what you are looking for)
       - or `percent_rank()`, `row_number()`, ...
     - offset, i.e. column is shifted up or down by `n` rows
-      - `lag()` = previous values, i.e. shifting the column down (`NA`s at the beginning)
-      - `lead()` = following values, i.e. shiting the column up (`NA`s at the end)
+      - `lag()` = previous values, i.e. shifting the column down (adding `NA`s at the beginning)
+      - `lead()` = following values, i.e. shifting the column up (adding `NA`s at the end)
     - aggregative functions like
       - `sum()` = sum of all values in the variable column (= single value)
       - `mean()`
