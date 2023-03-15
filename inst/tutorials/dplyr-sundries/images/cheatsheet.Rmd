@@ -30,7 +30,7 @@
   - `left_join()` keeps all rows from first table
   - `inner_join()` - only observations with values in both tables
   - `full_join()` - all vs. all combinations
-- `dplyr` package cover **even more verbs**, see 
+- `dplyr` package covers **even more verbs**, see 
   - [`dplyr` reference page](https://dplyr.tidyverse.org/reference/)
   - [Cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-transformation.pdf)
 
