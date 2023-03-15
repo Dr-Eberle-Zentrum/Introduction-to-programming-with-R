@@ -1,7 +1,7 @@
 
 ## Cheatsheet "stringr::basics+regex"
 
-Strings
+*Strings*
 
 - strings need to be quoted (single `'` or double `"` quotes)
 - **escaping** via `\` of special characters like line-break `\n`, tabulator `\t`, ...
@@ -20,7 +20,7 @@ _ `str_sort()` : lexicographic sorting
   - again `locale` specific
 - `str_trim()`/`str_pad()` : remove/add whitespaces at strings' ends
 
-Regular expressions
+*Regular expressions*
 
 - regular expressions (regex) are powerful tools to process text
   - "placeholders" to encode **character classes**
@@ -50,6 +50,17 @@ Regular expressions
 - `str_view()` shows pattern matches within the input strings (e.g. for regex testing)
   - `match=T` : show hits only (also useful to list not-matched strings)
 - `str_subset()` provides the subset of input elements (a vector of strings) that match the given regex, e.g. `str_subset(c("a","b","c"), "a|b")`
+
+*Raw character constants*
+
+- allow to **disable the translation of "string code"** to "list of encoded characters
+  - e.g. typically "A\nB" is encoding the character list "A", "line break", "B"
+- encoded via `r"()"` instead of `""`
+  - `()` can be replaced by `[]` or `{}`
+  - `"` can be replaced by `'`
+- well suited to **simplify regular expression encoding** to avoid "escaping" of character classes etc.
+  - e.g. `r"(\d*\b\s+)"` instead of `"\\d*\\b\\s+"`
+
 
 [![stringr cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/thumbnails/strings-cheatsheet-thumbs.png){width="50%"}](https://raw.githubusercontent.com/rstudio/cheatsheets/main/strings.pdf)
 

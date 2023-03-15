@@ -253,7 +253,7 @@ str_view(x, ".a.")
 
 Exercises
 
-1. Explain why each of the following regular expression encodings don’t match the single character (string) `\`: `"\"`, `"\\"`, `"\\\"`.
+1. Explain why each of the following regular expression encodings (`"\"`, `"\\"`, `"\\\"`) don’t match the single character (string) `\`!
 
 ```{r ex-basic-1, exercise=TRUE}
 # AFTER thinking about the question, you can check out the solution... ;)
@@ -547,6 +547,24 @@ str_view(words, "([aeiou][^aeiou]){2,}", match=TRUE)
 This tutorial ends at the end of chapter 14.3 of R4DS.
 So if you hit the section *14.4 Tools* you might want to take a break! ;)
 
+
+## Raw character constants
+
+When providing storing a string in a variable like `myDat <- "A\nB", the given sequence of characters is processed by R to generate the final list of characters stored within the variable.
+In detail, each occurrence of a `\` triggers the investigation of the subsequent letters.
+In our example, we find `\n`, which is the encoding for "line break".
+That is, eventually, we will store the character sequence "A", "line break", "B", i.e. three characters instead of the initial four!
+
+This "interpretation" of input strings from the source code complicates the encoding of regular expressions, since therein we want to  encode e.g. character classes like `\d`. 
+In order to bypass the normal string interpretation, we have to "escape" the `\` of the `\d` with another `\`, which brings us to the final encoding `"\\d"`.
+
+An alternative is to *disable string interpretation* using so call *raw character* constants.
+Here, the string is embedded into `r"()"` instead of simply `"".
+For instance for the regex above, we can write `r"(\d)"` and do not have to escape all character classes etc. within our regular expression.
+
+In detail, we can also use `[]` or `{}` instead of `()` or single ticks `'` instead of double ticks `"`.
+It is important that the encoded raw string does not contain the closing bracket-tick combination, thus the variability.
+For more details check the respective paragraph in the `?Quotes` help page.
 
 
 ## Wrap-up
