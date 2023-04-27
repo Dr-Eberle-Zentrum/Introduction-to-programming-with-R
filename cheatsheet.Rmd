@@ -16,8 +16,11 @@ summarizes the individual notes from the provided tutorials and additional infor
 
 ## R, RStudio, coding, packages
 
+- `<-` is used to store data in variables (arrow points to variable name)
+  - short key combination: `[ALT]+[-]`
+  - note: there is also the reverse version, i.e. `[VALUE] -> [VARIABLENAME]`
+- `=` is used for assignment of values to (function) arguments (don't use for variable assignment!)
 - `==` operator tests for equality of things; `!=` for inequality
-- `=` is used for assignment of values to arguments (don't use for object assignment!)
 - Boolean statements work on and result in `TRUE/FALSE` values 
   - can be combined using logical operators like `&` (AND), `|` (OR), and `!` (NOT)
 - *functions*, aka *commands*, are the workhorses in R and always come with a `()` after their name
