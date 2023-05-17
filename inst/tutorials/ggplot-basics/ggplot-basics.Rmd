@@ -44,7 +44,7 @@ The following video (*Get Help in R - Get Help Strategically | R-Tutorials.com* 
 
 ![Get Help in R - Get Help Strategically | R-Tutorials.com [18 min]](https://youtu.be/vySGuusQI3Y){width="50%"}
 
-Given the video, search for an open the vignette "Aesthetic specifications" from the `ggplot2` package within RStudio.
+Given the video, search for and open the vignette "Aesthetic specifications" from the `ggplot2` package within RStudio.
 To this end:
 
 - Open the "Packages" view
