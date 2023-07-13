@@ -53,8 +53,8 @@ _ `str_sort()` : lexicographic sorting
 
 *Raw character constants*
 
-- allow to **disable the translation of "string code"** to "list of encoded characters
-  - e.g. typically "A\nB" is encoding the character list "A", "line break", "B"
+- allow to **disable the translation of "string code"** to "list of encoded characters"
+  - e.g. typically `"A\nB"` is encoding the character list `"A"`, `"line break"`, `"B"`
 - encoded via `r"()"` instead of `""`
   - `()` can be replaced by `[]` or `{}`
   - `"` can be replaced by `'`
