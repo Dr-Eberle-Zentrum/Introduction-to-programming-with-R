@@ -9,7 +9,7 @@
     - the *old name* of the column to rename
 - `colnames()` give you the vector of a table's *column names* (base R)
 - `slice` functions *extract specific rows* ([Summary page](https://dplyr.tidyverse.org/reference/slice.html))
-  - `slice()` - columns specified by indices
+  - `slice()` - rows specified by row indices
   - `slice_min(), slice_max()` - best/worst rows w.r.t. values in a given variable
     - be aware of ranking ties during min/max slicing 
     - use `with_tie=F` to get only first min/max row
