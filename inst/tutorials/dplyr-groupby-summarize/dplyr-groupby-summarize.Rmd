@@ -88,7 +88,7 @@ summarise(by_day, delay = mean(dep_delay, na.rm = TRUE))
 ```
 
 ```{r hadley-group-summarize-solution}
-group_by(flights, day) %>%
+group_by(flights, month) %>%
   summarise(delay = mean(dep_delay))
 # the data contains unknown 'NA' values, such that the mean cannot be computed.
 # thus, the result of 'mean()' is unknown 'NA' too.
