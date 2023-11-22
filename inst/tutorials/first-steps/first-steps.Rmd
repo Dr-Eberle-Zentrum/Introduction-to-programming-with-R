@@ -38,9 +38,11 @@ An example of a tabular data set is given below.
 ![](images/data.frame.example.png){width=20%}
 
 In R, you can store such data sets in containers called
+
 - `data.frame` (the basic representation)
-- `tibble` (the tidyverse extension)
+- `tibble` (the tidyverse extension of a `data.frame`)
 - `data.table` (another variant for laaaarge data sets)
+
 which will be discussed in detail within the course.
 
 It is important to know that R and the above mentioned data structures require data to be organized such that
@@ -58,10 +60,12 @@ Before we can start with any data processing, we therefore have to ensure that t
 
 ```{r q-excel-sheet-vs-matrix, echo=FALSE}
 question("What representation is closest to a well formatted tabular data set described above?",
-  answer("a mathematical matrix", message="Since made of numbers only, better use a dedicated data structure suited for mathematical operations."),
+  answer("a mathematical matrix", message="Since a mathematical matrix is made of numbers only, better use a dedicated data structure suited for mathematical operations."),
   answer("an MS Excel sheet", correct =T ),
-  answer("an MS Word document", message="This covers more than the data table."),
-  answer("an HTML webpage table", message="While possible, an html table poses not all constraints from above.")
+  answer("an MS Word document", message="An MS Word document covers more than the data table."),
+  answer("an HTML webpage table", message="While possible, an HTML table poses not all constraints from above.")
+  ,
+  incorrect = "Eventually, from the listed options an MS Excel sheet would be closest."
 )
 ```
 
@@ -74,7 +78,8 @@ question("What file formats do you know that you think suited to store such data
   answer("HTML = an HTML webpage", message = "HTML: Better suited for any kind of information but not best for tabular data."),
   answer("TSV = tab-separated values", correct = T, message="TSV: Same as CSV."),
   answer("PDF = portable document format", message="PDF: This is for final presentation/printing, not data storage."),
-  answer("TXT = plain text file", message="TXT: Without formatting rules it will be hard to read the data again.")
+  answer("TXT = plain text file", message="TXT: Without formatting rules it will be hard to read the data again."),
+  incorrect = "Best suited are CSV, XLSX, and TSV."
 )
 ```
 
