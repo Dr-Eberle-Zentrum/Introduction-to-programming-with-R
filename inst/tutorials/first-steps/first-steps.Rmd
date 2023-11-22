@@ -78,7 +78,7 @@ question("What file formats do you know that you think suited to store such data
   answer("HTML = an HTML webpage", message = "HTML: Better suited for any kind of information but not best for tabular data."),
   answer("TSV = tab-separated values", correct = T, message="TSV: Same as CSV."),
   answer("PDF = portable document format", message="PDF: This is for final presentation/printing, not data storage."),
-  answer("TXT = plain text file", message="TXT: Without formatting rules it will be hard to read the data again."),
+  answer("TXT = unstructured plain text file", message="TXT: Without formatting rules it will be hard to read the data again."),
   incorrect = "Best suited are CSV, XLSX, and TSV."
 )
 ```
