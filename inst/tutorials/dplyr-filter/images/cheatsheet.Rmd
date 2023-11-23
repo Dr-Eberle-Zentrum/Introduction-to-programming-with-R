@@ -18,6 +18,7 @@
   - brackets in conditional statements are often important!
 - `%>%` piping for connection of data transformation steps
   - (first) input argument of subsequent function automatically set (with result of last)
+  - e.g. `mean(c(1,4)) %>% sqrt() %>% print()` is the same as `print(sqrt(mean(c(1,4))))`
 - `summary()` statistical overview of values in data structure; e.g. for each variable of a data frame
 
 
