@@ -99,19 +99,23 @@ df <- tibble(
 glimpse(df)
 
 # Extract by name
-df$y       # "dollar notation"
+df$y       # "dollar notation" - RECOMMENDED !!!
 df[["y"]]  # "double-bracket notation"
 
 # Extract by position
-df[[2]]    # not recommended
+df[[2]]    # not recommended (or only for ugly column names)
 ```
 
 **Check**: Compare the output of `df[2]` with the one from above!
 What can you infer/deduce from the result?
 
 ```{r tibble-column-solution}
-# When using single-bracket notation "df[2]", we get a table (with one column) as a result 
-# rather than a list of values!
+# When using SINGLE-bracket notation "df[2]", 
+# we get a REDUCED table (with one column) as a result 
+# rather than a VECTOR of values!
+# 
+# That is, the difference is in the resulting type of 
+# data structure, which can be a source of confusion and trouble.
 ```
 
 ### Exercises
@@ -155,18 +159,28 @@ str( df[, c("abc", "xyz")] )
 # convert data.frame to tibble and repeat:
 tbl <- as_tibble(df)
 
-# In a data.frame, the $ operator will match any column name that starts with the name following it. 
-# Since there is a column named "xyz", the expression "df$x" will be expanded to "df$xyz". 
-# This behavior of the $ operator saves a few keystrokes, but it can result in accidentally using 
+# In a data.frame, the $ operator will match ANY column 
+# name that starts with the name following it. 
+# Since there is a column named "xyz", the expression 
+# "df$x" will be expanded to "df$xyz". 
+#
+# This behavior of the $ operator saves a few keystrokes, 
+# but it can result in accidentally using 
 # a different column than you thought you were using.
+
 tbl$x
 # This is not supported for tibbles, to avoid unexpected behavior.
 
-# With data.frames, with [ the type of object that is returned differs on the number of columns. 
-# If it is one column, it won’t return a data.frame, but instead will return a vector. 
+# With data.frames, with [ the type of object that is 
+# returned differs on the number of columns. 
+# If it is one column, it won’t return a data.frame, 
+# but instead will return a vector. 
 # With more than one column, then it will return a data.frame. 
-# This is fine if you know what you are passing in, but suppose you did df[ , vars] where vars was a variable. 
-# Then what that code does depends on length(vars) and you’d have to write code to account for those situations or risk bugs.
+# This is fine if you know what you are passing in, 
+# but suppose you did df[ , vars] where vars was a variable. 
+# Then what that code does depends on length(vars) and 
+# you’d have to write code to account for those situations or risk bugs.
+
 str(tbl[, "xyz"])
 str(tbl[, c("abc", "xyz")])
 # both calls return a tibble
@@ -185,8 +199,9 @@ var <- "xyz"
 ```
 
 ```{r ex-3-solution}
-# name-based access not possible, because "df$var" would look for a column named "var". 
-# requires double-bracket notation:
+# Name-based access not possible, because "df$var" 
+# would look for a column named "var". 
+# Requires double-bracket notation:
 df[[var]]
 ```
 
@@ -244,7 +259,7 @@ annoying <- tibble( `1` = annoying$`1`,
 mutate(annoying, `3` = `2` / `1`)
 ```
 
-- Renaming the columns to `one` and `two`.
+- Create a new `tibble` and rename the columns to `one` and `two`.
 
 ```{r ex-annoy-4, exercise=TRUE}
 annoying <- tibble( `1` = 1:10, `2` = `1` * 2 + rnorm(length(`1`)) )
