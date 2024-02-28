@@ -71,7 +71,7 @@ question("What representation is closest to a well formatted tabular data set de
 
 
 ```{r q-data-formats, echo=FALSE}
-question("What file formats do you know that you think suited to store such data?",
+question("What file formats do you know that you think are suited to store such data?",
   answer("CSV = comma-separated values", correct = T, message="CSV: Well suited and compact format. Separator can also be a semicolon etc."),
   answer("XLSX = XML-based Excel sheet", correct =T, message="XLSX: Typically good for final data to show your supervisor but not as an intermediate data storage."),
   answer("DOC = an MS Word document", message = "DOC: This is made for formatted text."),
