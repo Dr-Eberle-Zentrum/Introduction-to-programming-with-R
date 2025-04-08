@@ -410,6 +410,7 @@ rather than
 
 
 ```{r getNA-for, class.source="bg-warning"}
+myVec <- c("a","b",NA,"d")
 naPos <- c()
 for (i in seq_along(myVec) ) {
   if ( is.na( myVec[i] ) ) {
@@ -432,11 +433,11 @@ In a first attempt, you might be tempted to write something like this instead:
 ```{r ex-seq-along, exercise=TRUE}
 myVec <- c("a","b",NA,"d")
 # explicit index set
-for ( i in 1:4 ) { print( vec[i] ) }
+for ( i in 1:4 ) { print( myVec[i] ) }
 # more generic using length()
-for ( i in 1:length(vec) ) { print( vec[i] ) }
+for ( i in 1:length(myVec) ) { print( myVec[i] ) }
 # fully generic
-for ( i in seq_along(vec) ) { print( vec[i] ) }
+for ( i in seq_along(myVec) ) { print( myVec[i] ) }
 
 # QUESTION: What are problems with the first two variants? Why use seq_along()?
 
@@ -444,7 +445,7 @@ for ( i in seq_along(vec) ) { print( vec[i] ) }
 
 ```{r ex-seq-along-hint-1}
 # explicit index set
-for ( i in 1:4 ) { print( vec[i] ) }
+for ( i in 1:4 ) { print( myVec[i] ) }
 
 # explicit setting of the upper bound (4) will cause issues as soon as we change
 # the data structure, i.e. we face a longer or shorter vector
@@ -452,22 +453,22 @@ for ( i in 1:4 ) { print( vec[i] ) }
 
 ```{r ex-seq-along-hint-2}
 # more generic using length()
-for ( i in 1:length(vec) ) { print( vec[i] ) }
+for ( i in 1:length(myVec) ) { print( myVec[i] ) }
 
 # using length() removes the problem of unknown vector lengths
 # BUT: what about an empty vector? check the call using the following ..
-vec <- c()
+myVec <- c()
 # in that case, length() will return 0 and the loop will iterate on the sequence c(1,0)
-# Thus, it will try to access non-existing elements of vec...
+# Thus, it will try to access non-existing elements of myVec...
 ```
 
 ```{r ex-seq-along-hint-3}
 # more generic using length()
-for ( i in seq_along(vec) ) { print( vec[i] ) }
+for ( i in seq_along(myVec) ) { print( myVec[i] ) }
 
 # seq_along() generates the index vector to access the elements of a given object
 # it can even deal with empty objects like this
-vec <- c()
+myVec <- c()
 # where it will return also an empty vector of indices!
 # Test it yourself!
 ```
