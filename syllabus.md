@@ -9,6 +9,7 @@
 
 - Autonomous handling of basic control structures and programming in R.
 - Understanding and applying basic data processing workflows including visualization using tidyverse in R.
+- Development of pipe-based data processing workflows.
 - Understanding and interpretation of external programming codes.
 - Independent planning and implementation of small programming tasks.
 
@@ -24,6 +25,7 @@
   - Usage of RStudio
 - Processing Tabular Data with dplyr
   - Tabular data structures
+  - Workflows with pipes
   - Filtering data
   - Boolean statements and logical operators (&, |, !)
   - Arranging and selecting data 
