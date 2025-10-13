@@ -45,7 +45,7 @@ and [run the tutorials](#running-the-tutorials).
 
 In order to run the tutorials you need to
 
-- install R (and RStudio) e.g. following this [Tutorial Setting Up R](https://learnr-examples.shinyapps.io/ex-setup-r/)
+- install R (and RStudio) e.g. following this [Tutorial Setting Up R](https://rstudio-education.github.io/hopr/starting.html)
 - within R, you need to install the following packages
   - `devtools` - for local tutorial installation of our package from github
   - `learnr` - to run the tutorials
@@ -113,3 +113,4 @@ This work by Martin Raden is licensed under a
 [cc-by-sa-shield]: https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg
 
 You are more than welcome to contribute and extend!
+
