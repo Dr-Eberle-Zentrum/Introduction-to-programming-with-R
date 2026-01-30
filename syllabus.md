@@ -5,7 +5,7 @@
 
 - Dr. Martin Raden, University Tübingen
 
-## Learning targets
+## Learning Targets
 
 - Autonomous handling of basic control structures and programming in R.
 - Understanding and applying basic data processing workflows including visualization using tidyverse in R.
@@ -16,6 +16,13 @@
 ## Workload
 
 - 3 ECTS
+
+## Course Style
+
+- Flipped classroom course, i.e.
+- Self-study material to prepare the sessions
+- Hands-on exercises and coding discussions within weekly sessions
+- Weekly tests and exercise submissions
 
 ## Topics
 
